@@ -63,6 +63,9 @@
  *
  */
 
+/*
+	Part of libSigComp project
+*/
 
 /*
  *  Define the SHA1 circular left shift macro
