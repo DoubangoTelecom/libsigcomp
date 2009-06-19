@@ -29,7 +29,7 @@
 #error No mutex type defined
 #endif
 
-Mutex::Mutex()
+libsigcomp::Mutex::Mutex()
 {
 #if defined(USE_WIN32_THREADS)
 	this->lphandle = new HANDLE();
@@ -45,7 +45,7 @@ else
 #endif
 }
 
-Mutex::~Mutex()
+libsigcomp::Mutex::~Mutex()
 {
 #if defined(USE_WIN32_THREADS)
 	// do nothing
@@ -61,7 +61,7 @@ Mutex::~Mutex()
 /**
 Lock section
 */
-void Mutex::lock()
+void libsigcomp::Mutex::lock()
 {
 #if defined(USE_WIN32_THREADS)
 	assert(WaitForSingleObject(*((HANDLE*)this->lphandle), INFINITE) != WAIT_FAILED);
@@ -75,7 +75,7 @@ void Mutex::lock()
 /**
 Unlock section
 */
-void Mutex::unlock()
+void libsigcomp::Mutex::unlock()
 {
 #if defined(USE_WIN32_THREADS)
 	assert(ReleaseMutex(*((HANDLE*)this->lphandle)));

@@ -24,6 +24,8 @@
 
 #include <libsigcomp/libsigcomp_config.h>
 
+namespace libsigcomp
+{
 class Mutex
 {
 public:
@@ -36,5 +38,6 @@ public:
 private:
 	void* lphandle;
 };
+}
 
 #endif // LIBSIGCOMP_MUTEX_H

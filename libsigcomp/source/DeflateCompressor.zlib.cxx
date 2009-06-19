@@ -44,7 +44,7 @@ bool DeflateCompressor::zUnInit()
 	if(this->initialized)
 	{
 		this->initialized = false;
-		return (deflateEnd(&this->zStream) == Z_OK);
+		return !(deflateEnd(&this->zStream) == Z_STREAM_ERROR);
 	}
 	return true;
 }

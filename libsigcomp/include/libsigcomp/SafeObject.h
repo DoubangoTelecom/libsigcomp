@@ -35,7 +35,7 @@ protected:
 	void unlock();
 
 private:
-	Mutex mutex;
+	libsigcomp::Mutex mutex;
 };
 
 #endif // LIBSIGCOMP_SAFEOBJ_H

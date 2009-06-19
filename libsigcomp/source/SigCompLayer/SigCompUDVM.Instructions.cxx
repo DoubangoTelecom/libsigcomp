@@ -1343,7 +1343,7 @@ step_5:
 	else if(ok)
 	{
 		UDVM_SET_2BYTES_VAL(destination, H);
-		this->maximum_UDVM_cycles += (bits_total * 16); // FIXME: change 16 per cyclespernits
+		this->maximum_UDVM_cycles += (bits_total * this->stateHandler->getSigCompParameters()->getCpbValue());
 	}
 end:
 	return ok; 
