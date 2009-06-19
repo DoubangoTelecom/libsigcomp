@@ -197,7 +197,7 @@ public:
 		{
 			this->isNack = isnack;
 		}
-		inline bool geIsNack()
+		inline bool getIsNack()
 		{
 			return this->isNack;
 		}
