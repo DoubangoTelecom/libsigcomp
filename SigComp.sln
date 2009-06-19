@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsigcomp", "libsigcomp\libsigcomp.vcproj", "{11D6B4E0-84D5-4EA8-81DD-D71AB40BD9CD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "demo", "demo\demo.vcproj", "{7D77B6A9-4004-4050-A93B-A186FF9E8F8C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{11D6B4E0-84D5-4EA8-81DD-D71AB40BD9CD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{11D6B4E0-84D5-4EA8-81DD-D71AB40BD9CD}.Debug|Win32.Build.0 = Debug|Win32
+		{11D6B4E0-84D5-4EA8-81DD-D71AB40BD9CD}.Release|Win32.ActiveCfg = Release|Win32
+		{11D6B4E0-84D5-4EA8-81DD-D71AB40BD9CD}.Release|Win32.Build.0 = Release|Win32
+		{7D77B6A9-4004-4050-A93B-A186FF9E8F8C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7D77B6A9-4004-4050-A93B-A186FF9E8F8C}.Debug|Win32.Build.0 = Debug|Win32
+		{7D77B6A9-4004-4050-A93B-A186FF9E8F8C}.Release|Win32.ActiveCfg = Release|Win32
+		{7D77B6A9-4004-4050-A93B-A186FF9E8F8C}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
