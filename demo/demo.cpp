@@ -20,7 +20,7 @@ For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.
 */
 
 /*
-This application demonstrate how to use libSigComp to perform some basic tasks:
+This application demonstrate how to use libSigComp to perform some basic tasks (both win32 an wince should work):
 --> compression
 --> decompression
 --> state creation by providing compartment id after decompression

@@ -26,7 +26,7 @@
 
 #include <libsigcomp/mytypes.h>
 
-#ifdef WIN32
+#if (defined(WIN32) || defined(_WIN32_WCE))
 	typedef __int16 int_least16_t;
 #else
 #	include <stdint.h>

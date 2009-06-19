@@ -28,14 +28,19 @@
 #endif
 
 
-#if defined(WIN32) && defined(LIBSIGCOMP_EXPORTS)
+#if (defined(WIN32) || defined(_WIN32_WCE)) && defined(LIBSIGCOMP_EXPORTS)
 # 	define LIBSIGCOMP_API __declspec(dllexport)
 #	define ZLIB_DLL
-#elif defined(WIN32) && defined(LIBSIGCOMP_IMPORTS)
+#elif (defined(WIN32) || defined(_WIN32_WCE)) && defined(LIBSIGCOMP_IMPORTS)
 # 	define LIBSIGCOMP_API __declspec(dllimport)
 #else
 # define LIBSIGCOMP
 #endif
+
+//
+//	Windows Mobile specific
+//
+//#define NO_ERRNO_H 1
 
 //
 //DEFLATE block type 01 (data compressed with fixed Huffman codes)*/

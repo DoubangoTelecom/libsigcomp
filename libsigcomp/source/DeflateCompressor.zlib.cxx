@@ -57,7 +57,8 @@ void DeflateCompressor::zSetWindowBits(int windowBits)
 	{
 		assert(windowBits>=8 && windowBits<=15); // FIXME
 		this->zWindowBits = windowBits;
-		assert(this->zReset());
+		bool ret = this->zReset();
+		assert(ret);
 	}
 }
 

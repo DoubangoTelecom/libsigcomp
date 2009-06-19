@@ -22,9 +22,6 @@
 #if !defined(LIBSIGCOMP_MYTYPES_H)
 #define LIBSIGCOMP_MYTYPES_H
 
-#if !defined(_MSC_VER) // !MS VS
-	#error It's up to you to add your types definition
-#else // Microsoft Visual Studio
 	#if !defined(LPVOID)
 	typedef void  *LPVOID;
 	#endif
@@ -68,6 +65,5 @@
 	#if !defined(t_uint64)
 	typedef unsigned __int64 t_uint64;	
 	#endif
-#endif // ifdef (_MSC_VER)
 
 #endif // LIBSIGCOMP_MYTYPES_H

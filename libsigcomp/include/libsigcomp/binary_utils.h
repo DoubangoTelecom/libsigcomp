@@ -24,7 +24,7 @@
 
 #include <libsigcomp/libsigcomp_config.h>
 
-#include <libsigcomp/mytypes.h>
+#include <libsigcomp/MYTYPES.h>
 #include <stdio.h>
 
 #define BINARY_REVERSE_2BYTE(value) ((BitReverseTable256[value & 0xff] << 8) | (BitReverseTable256[(value >> 8)]))
@@ -53,15 +53,15 @@ static inline t_uint16 LSB_2_MSB( void const * buffer )
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 
-/* RFC 3320 - 7.3.  Uploading UDVM bytecode*/
+//	RFC 3320 - 7.3.  Uploading UDVM bytecode
 static const t_uint16 sigcomp_encoding_destination[]
 = { 0, 128, 192, 256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024 };
 
-/* RFC 3320 - 7.2.  Accessing Stored State*/
+//	RFC 3320 - 7.2.  Accessing Stored State
 static const t_uint8 sigcomp_encoding_partial_id_length[]
 = { 0, 6, 9, 12 };
 
-/* RFC 3320 - 3.3.1.  Memory Size and UDVM Cycles*/
+//	RFC 3320 - 3.3.1.  Memory Size and UDVM Cycles
 static const t_uint8 sigcomp_encoding_cycles_per_bit[]
 = { 16, 32, 64, 128 };
 static const t_uint32 sigcomp_encoding_state_memory_size[]
@@ -69,8 +69,8 @@ static const t_uint32 sigcomp_encoding_state_memory_size[]
 static const t_uint32 sigcomp_encoding_decompression_memory_size[]
 = { 0, 2048, 4096, 8192, 16384, 32768, 65536, 131072 }; // the bit pattern 000 cannot be used.
 
-/*3.3.1.  Memory Size and UDVM Cycles
-3.3.  SigComp Parameters*/
+//	3.3.1.  Memory Size and UDVM Cycles
+//	3.3.  SigComp Parameters
 static const t_uint8 sigcomp_encoding_cpb[]
 = { 16, 32, 64, 128 };
 static const t_uint32 sigcomp_encoding_sms[]
@@ -79,7 +79,7 @@ static const t_uint32 sigcomp_encoding_dms[]
 = { 0, 2048, 4096, 8192, 16384, 32768, 65536, 131072 }; // the bit pattern 000 cannot be used.
 
 
-/* RFC 3320: Figure 10: Bytecode for a multitype (%) operand*/
+//	RFC 3320: Figure 10: Bytecode for a multitype (%) operand
 static const t_int8 operand_multitype_indexes [256] =
 {
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
@@ -95,7 +95,7 @@ static const t_int8 operand_multitype_indexes [256] =
 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5
 };
 
-/* Used LSB<->MSB bits reverse/swap*/
+//	Used LSB<->MSB bits reverse/swap
 static const unsigned char BitReverseTable256[] = 
 {
   0x00, 0x80, 0x40, 0xC0, 0x20, 0xA0, 0x60, 0xE0, 0x10, 0x90, 0x50, 0xD0, 0x30, 0xB0, 0x70, 0xF0, 
@@ -115,4 +115,5 @@ static const unsigned char BitReverseTable256[] =
   0x07, 0x87, 0x47, 0xC7, 0x27, 0xA7, 0x67, 0xE7, 0x17, 0x97, 0x57, 0xD7, 0x37, 0xB7, 0x77, 0xF7, 
   0x0F, 0x8F, 0x4F, 0xCF, 0x2F, 0xAF, 0x6F, 0xEF, 0x1F, 0x9F, 0x5F, 0xDF, 0x3F, 0xBF, 0x7F, 0xFF
 };
+
 #endif //LIBSIGCOMP_BINARYUTILS_H
