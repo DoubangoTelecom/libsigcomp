@@ -4,19 +4,19 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #include <global_config.h>
@@ -24,6 +24,8 @@
 #include <libsigcomp/NACK_CODES.h>
 
 using namespace std;
+
+__NS_DECLARATION_BEGIN__
 
 /**
 State handler constructor. Entity responsible for accessing and storing state information
@@ -67,11 +69,9 @@ SigCompCompartment* SigCompStateHandler::getCompartment(t_uint64 id)
 {
 	this->lock();
 
-	bool exit = (this->compartments.find(id)!=this->compartments.end());
-
 	SigCompCompartment* result = NULL;
 
-	if(exit){
+	if(this->compartmentExist(id)){
 		result = this->compartments[id];
 	}else{
 		result = new SigCompCompartment(id, this->getSigCompParameters()->getParameters());
@@ -93,7 +93,12 @@ Delete a compartement with the given identifier
 void SigCompStateHandler::deleteCompartment(t_uint64 id)
 {
 	this->lock();
-	this->compartments.erase(this->compartments.find(id));
+	if(this->compartmentExist(id)){
+		SigCompCompartment* lpCompartment = this->compartments[id];
+		this->compartments.erase(this->compartments.find(id));
+
+		SAFE_DELETE_PTR(lpCompartment);
+	}
 	this->unlock();
 }
 
@@ -107,8 +112,10 @@ Check for the existence of a compartment
 bool SigCompStateHandler::compartmentExist(t_uint64 id)
 {
 	this->lock();
-	return (this->compartments.find(id)!=this->compartments.end());
+	bool exist =  (this->compartments.find(id)!=this->compartments.end());
 	this->unlock();
+
+	return exist;
 }
 
 /*
@@ -179,7 +186,7 @@ void SigCompStateHandler::handleResult(lpDecompressionResult &lpResult)
 	SigCompCompartment* lpCompartment = this->getCompartment(lpResult->getCompartmentId());
 	t_uint16 compartment_total_size = lpCompartment->getTotalMemorySize();
 
-compartment_create_states:
+//compartment_create_states:
 	//
 	// Request state creation now we have the corresponding compartement
 	//
@@ -204,8 +211,8 @@ compartment_create_states:
 			if( GET_STATE_SIZE(lpState) > compartment_total_size )
 			{
 				lpCompartment->clearStates();
-				t_uint16 oldSize = lpState->getStateValue()->getSize();
-				t_uint16 newSize = (compartment_total_size-64);
+				size_t oldSize = lpState->getStateValue()->getSize();
+				size_t newSize = (compartment_total_size-64);
 				lpState->getStateValue()->removeBuff( newSize, (oldSize-newSize) );
 				lpState->setStateLength(newSize);
 
@@ -236,13 +243,13 @@ compartment_free_states:
 		lpCompartment->freeStates(lpResult->getTempStatesToFree(), lpResult->getTempStatesToFreeSize());
 	}
 
-compartment_remote_params:
+//compartment_remote_params:
 	//
 	//	Set remote -compressor- parameters
 	//
 	lpCompartment->setRemoteParams(lpResult->getRemoteParams());
 
-feedbacks:
+//feedbacks:
 	//
 	//	Set both Returned and Requested feedbacks
 	//
@@ -271,12 +278,15 @@ bool SigCompStateHandler::handleNack(const lpstruct_nack_info nack_info)
 			{
 			case STATE_NOT_FOUND:
 				{
-					SigCompState* lpState = NULL;
+					// Next commented because in this version remote state ids are never saved.
+					// Only the ghost has information on last partial state id to use --> reset the ghost
+					/*SigCompState* lpState = NULL;
 					lpCompartement->findState(&nack_info->details, &lpState);
 					if(lpState)
 					{
 						lpCompartement->freeState(lpState);
-					}
+					}*/
+					lpCompartement->freeGhostState();
 				}
 				break;
 
@@ -348,3 +358,5 @@ void SigCompStateHandler::removeSipSdpDictionary()
 
 	this->unlock();
 }
+
+__NS_DECLARATION_END__

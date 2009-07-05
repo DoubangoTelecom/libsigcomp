@@ -4,19 +4,19 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #include <global_config.h>
@@ -25,6 +25,7 @@
 
 #include <math.h>
 
+__NS_DECLARATION_BEGIN__
 ///////////////////////////////////////////////////
 //
 //
@@ -118,8 +119,6 @@ t_uint16 SigCompUDVM::opget_reference_param()
 
 	default:
 		{
-			// FIXME: SEGFAULT/INVALID_OPERAND
-			assert(0);
 			this->createNackInfo(INVALID_OPERAND);
 		}
 		break;
@@ -251,3 +250,6 @@ t_uint16 SigCompUDVM::opget_address_param(t_uint16 memory_address_of_instruction
 	// (2^16) => 65536;
 	return ( (memory_address_of_instruction + D)%65536 );
 }
+
+
+__NS_DECLARATION_END__

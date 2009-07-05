@@ -4,19 +4,19 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #if !defined(LIBSIGCOMP_SIGCOMP_MESSAGE_H)
@@ -29,6 +29,8 @@
 #include <libsigcomp/binary_utils.h>
 #include <libsigcomp/SigCompBuffer.h>
 #include <libsigcomp/structures/struct_nack_info.h>
+
+__NS_DECLARATION_BEGIN__
 
 class SigCompUDVM;
 
@@ -70,5 +72,7 @@ private:
 
 	struct_nack_info nack_info;
 };
+
+__NS_DECLARATION_END__
 
 #endif //LIBSIGCOMP_SIGCOMP_MESSAGE_H

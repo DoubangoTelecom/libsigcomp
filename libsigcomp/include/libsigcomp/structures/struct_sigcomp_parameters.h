@@ -4,19 +4,19 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #if !defined(LIBSIGCOMP_STRUCTSIGCOMP_PARAMETERS_H)
@@ -28,6 +28,8 @@
 
 #include <assert.h>
 #include <list>
+
+__NS_DECLARATION_BEGIN__
 
 /**3.3.  SigComp Parameters**/
 
@@ -57,6 +59,11 @@
 typedef struct struct_sigcomp_parameters
 {
 	struct_sigcomp_parameters()
+	{
+		reset();
+	}
+
+	~struct_sigcomp_parameters()
 	{
 		reset();
 	}
@@ -128,6 +135,9 @@ typedef struct struct_sigcomp_parameters
 	inline void setSigCompVersion(t_uint8 version) { SigComp_version = version; }
 	inline t_uint8 getSigCompVersion(){ return SigComp_version; }
 
+	//
+	//	SigComp parameters (cpb+dms+sms+version)
+	//
 	inline t_uint16 getParameters()
 	{
 	/*+---+---+---+---+---+---+---+---+
@@ -138,6 +148,14 @@ typedef struct struct_sigcomp_parameters
 		t_uint16 result = ((cpbCode<<6)|(dmsCode<<3)|smsCode); // cpb_dms_sms
 		result <<=8;
 		return (result|SigComp_version);
+	}
+	inline void setParameters(t_uint16 sigCompParameters)
+	{
+		// See above
+		this->setCpbCode( (sigCompParameters>>14) );
+		this->setDmsCode( ((sigCompParameters>>11) & 0x07) );
+		this->setSmsCode( ((sigCompParameters>>8) & 0x07) );
+		this->setSigCompVersion( (sigCompParameters & 0x00ff) );
 	}
 
 	inline std::list<SigCompBuffer*>* getReturnedStates() { return &returnedStates; }
@@ -154,5 +172,7 @@ private:
 	std::list<SigCompBuffer*> returnedStates;
 }
 struct_sigcomp_parameters, *lpstruct_sigcomp_parameters;
+
+__NS_DECLARATION_END__
 
 #endif // LIBSIGCOMP_STRUCTSIGCOMP_PARAMETERS_H

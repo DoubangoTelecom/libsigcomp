@@ -4,19 +4,19 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #include <global_config.h>
@@ -42,19 +42,12 @@
 //
 //	Consume cycles
 //
-/*#define CONSUME_CYCLES(cycles)									\
+#define CONSUME_CYCLES(cycles)									\
 	this->consumed_cycles+= (cycles);							\
 	if( this->consumed_cycles > this->maximum_UDVM_cycles )		\
 	{															\
 		this->createNackInfo(CYCLES_EXHAUSTED);					\
 		return false;											\
-	}*/
-// FIXME: use above definition
-#define CONSUME_CYCLES(cycles)									\
-	this->consumed_cycles+= (cycles);							\
-	if( this->consumed_cycles > this->maximum_UDVM_cycles )		\
-	{															\
-		return true;											\
 	}
 
 /**
@@ -87,6 +80,7 @@ struct SortDescendingPredicate
 	}
 };
 
+__NS_DECLARATION_BEGIN__
 ///////////////////////////////////////////////////
 //
 //
@@ -384,15 +378,16 @@ bool SigCompUDVM::EXEC_INST__SORT_ASCENDING(t_uint16 start, t_uint16 n, t_uint16
 			list_start[(list_el)] = list_temp[ list1_values[list_el].index ];
 		}
 	}
+
+	SAFE_DELETE_ARRAY(list_temp);
+	SAFE_DELETE_ARRAY(list1_values);
+
 __SEGFAULT:
 	if(segfault)
 	{
 		this->createNackInfo(SEGFAULT);
 		return false;
 	}
-
-	SAFE_DELETE_ARRAY(list_temp);
-	SAFE_DELETE_ARRAY(list1_values);
 
 	return true;
 }
@@ -446,15 +441,16 @@ bool SigCompUDVM::EXEC_INST__SORT_DESCENDING(t_uint16 start, t_uint16 n, t_uint1
 			list_start[(list_el)] = list_temp[ list1_values[list_el].index ];
 		}
 	}
+
+	SAFE_DELETE_ARRAY(list_temp);
+	SAFE_DELETE_ARRAY(list1_values);
+
 __SEGFAULT:
 	if(segfault)
 	{
 		this->createNackInfo(SEGFAULT);
 		return false;
 	}
-
-	SAFE_DELETE_ARRAY(list_temp);
-	SAFE_DELETE_ARRAY(list1_values);
 
 	return true;
 }
@@ -1291,7 +1287,7 @@ bool SigCompUDVM::EXEC_INST__INPUT_HUFFMAN(t_uint16 destination, t_uint16 addres
 
 		if(criterion_ok) continue;
 
-step_4:
+//step_4:
 		/*4.If data is requested that lies beyond the end of the SigComp
 		message, terminate the INPUT-HUFFMAN instruction and move program
 		execution to the memory address specified by the address operand.*/
@@ -1301,7 +1297,7 @@ step_4:
 			goto end;
 		}
 
-step_2:
+//step_2:
 		/*2. Request bits_j compressed bits.  Interpret the returned bits as an
 		integer k from 0 to 2^bits_j - 1, as explained in Section 8.2.*/
 		if(P_BIT==P_BIT_MSB_TO_LSB){
@@ -1312,11 +1308,11 @@ step_2:
 			k = this->sigCompMessage->remaining_sigcomp_buffer.readLsbToMsb(bits_j);
 			if(H_BIT==H_BIT_LSB_TO_MSB) k = (BINARY_REVERSE_2BYTE(k)>>(16-bits_j));
 		}
-step_3:
+//step_3:
 		// 3. Set H := H * 2^bits_j + k.
 		H = H * pow(2.0, bits_j) + k;
 
-step_5:
+//step_5:
 		/*5. If (H < lower_bound_j) or (H > upper_bound_j) then set j := j + 1.
 		Then go back to Step 2, unless j > n in which case decompression
 		failure occurs.*/
@@ -1519,7 +1515,7 @@ bool SigCompUDVM::EXEC_INST__OUTPUT(t_uint16 output_start, t_uint16 output_lengt
 { 
 	CONSUME_CYCLES(1+output_length);
 
-	t_uint64& outputbuffer_size = this->lpResult->getOutputBuffer()->getIndexBytes();
+	size_t& outputbuffer_size = this->lpResult->getOutputBuffer()->getIndexBytes();
 	if( (outputbuffer_size + output_length) > 65536 )
 	{
 		/*Decompression failure occurs if the cumulative number of bytes
@@ -1693,3 +1689,5 @@ bool SigCompUDVM::EXEC_INST__END_MESSAGE(t_uint16 requested_feedback_location, t
 
 	return true; 
 }
+
+__NS_DECLARATION_END__

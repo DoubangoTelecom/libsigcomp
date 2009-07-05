@@ -4,23 +4,25 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #include <global_config.h>
 #include <libsigcomp/SigCompManager.h>
+
+__NS_DECLARATION_BEGIN__
 
 /**
 	SigComp manager constructor 
@@ -91,11 +93,38 @@ size_t SigCompManager::decompress(LPCVOID input_ptr, size_t input_size, lpDecomp
 	return NULL;
 }
 
+size_t SigCompManager::getNextMessage(lpDecompressionResult lpResult)
+{
+	assert(lpResult->getOutputBuffer()->getSize());
+	assert(lpResult->getIsStreamBased());
+
+	lpResult->reset();
+	if(this->dispatcher_decompressor->getNextMessage(lpResult))
+	{
+		return lpResult->getOutputBuffer()->getIndexBytes();
+	}
+	return NULL;
+}
+
 /**
 */
 inline void SigCompManager::provideCompartmentId(lpDecompressionResult lpResult)
 {
 	this->stateHandler->handleResult(lpResult);
+}
+
+/**
+*/
+inline void SigCompManager::closeCompartment(t_uint64 compartmentId)
+{
+	this->stateHandler->deleteCompartment(compartmentId);
+}
+
+/**
+*/
+inline void SigCompManager::addCompressor(SigCompCompressor* compressor)
+{
+	this->dispatcher_compressor->addCompressor(compressor);
 }
 
 /**
@@ -111,3 +140,5 @@ inline void SigCompManager::removeSipSdpDictionary()
 {
 	this->stateHandler->removeSipSdpDictionary();
 }
+
+__NS_DECLARATION_END__

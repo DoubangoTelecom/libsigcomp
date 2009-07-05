@@ -4,25 +4,27 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #include <global_config.h>
 #include <libsigcomp/SigCompLayer/SigCompCompartment.h>
 
 using namespace std;
+
+__NS_DECLARATION_BEGIN__
 
 /*
 SigComp Compartment constructor. An application-specific grouping of messages that relate to a peer
@@ -33,6 +35,8 @@ SigCompCompartment::SigCompCompartment(t_uint64 id, t_uint16 sigCompParameters)
 {
 	this->lpReqFeedback = NULL;
 	this->lpRetFeedback = NULL;
+	this->ghostState = NULL;
+	this->ghost_copy_offset = 0;
 
 	/*+---+---+---+---+---+---+---+---+
       |  cpb  |    dms    |    sms    |
@@ -40,15 +44,13 @@ SigCompCompartment::SigCompCompartment(t_uint64 id, t_uint16 sigCompParameters)
       |        SigComp_version        |
       +---+---+---+---+---+---+---+---+
 	*/
+	// I always assume that remote params are equal to local params
 
 	// Remote parameters
-	this->remote_parameters.setCpbCode( (sigCompParameters>>14) );
-	this->remote_parameters.setDmsCode( ((sigCompParameters>>11) & 0x07) );
-	this->remote_parameters.setSmsCode( ((sigCompParameters>>8) & 0x07) );
-	this->remote_parameters.setSigCompVersion( (sigCompParameters & 0x00ff) );	
+	this->remote_parameters.setParameters( sigCompParameters );
 
 	// Local parameters
-	::memmove(&this->local_parameters, &this->remote_parameters, sizeof(struct_sigcomp_parameters));	
+	this->local_parameters.setParameters( sigCompParameters );
 
 	// Total size
 	this->total_memory_size = this->total_memory_left = this->local_parameters.getSmsValue();
@@ -61,7 +63,7 @@ SigCompCompartment::~SigCompCompartment()
 {
 	// Delete all states
 	list<SigCompState* >::iterator it_states;
-	SAFE_CLEAR_LIST(this->states, it_states);
+	SAFE_CLEAR_LIST(this->local_states, it_states);
 
 	// Delete feedbacks
 	SAFE_DELETE_PTR(this->lpReqFeedback);
@@ -70,6 +72,9 @@ SigCompCompartment::~SigCompCompartment()
 	// Delete Nacks
 	list<SigCompBuffer* >::iterator it_nacks;
 	SAFE_CLEAR_LIST(this->nacks, it_nacks);
+
+	// Delete Ghost state
+	SAFE_DELETE_PTR(this->ghostState);
 }
 
 /**
@@ -126,7 +131,7 @@ void SigCompCompartment::clearStates()
 	this->lock();
 
 	list<SigCompState* >::iterator it;
-	SAFE_CLEAR_LIST(this->states, it);
+	SAFE_CLEAR_LIST(this->local_states, it);
 
 	this->total_memory_left = this->total_memory_size;
 
@@ -140,7 +145,6 @@ void SigCompCompartment::freeStateByPriority()
 {
 	this->lock();
 
-	// FIXME: lock
 	SigCompState* lpState = NULL;
 
 	/*The order in which the existing state items are freed is
@@ -152,10 +156,10 @@ void SigCompCompartment::freeStateByPriority()
 	a tie, then the state item created first in the compartment is
 	also the first to be freed.*/
 	list<SigCompState* >::iterator it_states;
-	for ( it_states=this->states.begin(); it_states!=this->states.end(); it_states++ )
+	for ( it_states=this->local_states.begin(); it_states!=this->local_states.end(); it_states++ )
 	{
 		// First --> always ok
-		if(it_states==this->states.begin()){
+		if(it_states==this->local_states.begin()){
 			lpState = *it_states;
 			continue;
 		}
@@ -173,7 +177,7 @@ void SigCompCompartment::freeStateByPriority()
 
 	if(lpState){
 		this->total_memory_left+= GET_STATE_SIZE(lpState);
-		this->states.remove(lpState);
+		this->local_states.remove(lpState);
 		SAFE_DELETE_PTR(lpState);
 	}
 
@@ -187,7 +191,7 @@ void SigCompCompartment::freeState(SigCompState* &lpState)
 	this->lock();
 
 	this->total_memory_left+= GET_STATE_SIZE(lpState);
-	this->states.remove(lpState);
+	this->local_states.remove(lpState);
 	SAFE_DELETE_PTR(lpState);
 
 	this->unlock();
@@ -208,7 +212,7 @@ void SigCompCompartment::freeStates(lptempStateToFreeDesc *tempStates, t_uint8 s
 	list<SigCompState* >::iterator it_states;
 	for ( t_uint8 i=0; i<size; i++ )
 	{
-		for ( it_states=this->states.begin(); it_states!=this->states.end(); it_states++ )
+		for ( it_states=this->local_states.begin(); it_states!=this->local_states.end(); it_states++ )
 		{
 			// Compare current state with provided partial state
 			if((*it_states)->getStateIdentifier()->startsWith(&tempStates[i]->identifier))
@@ -246,7 +250,7 @@ t_uint16 SigCompCompartment::findState(const SigCompBuffer* partial_identifier, 
 	this->lock();
 
 	list<SigCompState* >::iterator it_states;
-	for ( it_states=this->states.begin(); it_states!=this->states.end(); it_states++ ){
+	for ( it_states=this->local_states.begin(); it_states!=this->local_states.end(); it_states++ ){
 		if((*it_states)->getStateIdentifier()->startsWith(partial_identifier)){
 			*lpState = *it_states; // override
 			count++;
@@ -265,9 +269,14 @@ void SigCompCompartment::addState(SigCompState* &lpState)
 	this->lock();
 
 	lpState->makeValid();
-	this->states.push_back(lpState);
+	this->local_states.push_back(lpState);
 	this->total_memory_left-= GET_STATE_SIZE(lpState);
 	
+	// TEST
+	/*printf("STATE_VALUE\n");
+	lpState->getStateValue()->print();
+	const_cast<SigCompBuffer*>(lpState->getStateIdentifier())->print();*/
+
 	lpState = NULL;
 
 	this->unlock();
@@ -343,3 +352,5 @@ bool SigCompCompartment::hasNack(const SigCompBuffer* nackId)
 	this->unlock();
 	return ret;
 }
+
+__NS_DECLARATION_END__

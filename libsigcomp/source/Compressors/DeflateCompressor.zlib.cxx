@@ -4,23 +4,28 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #include <global_config.h>
-#include <libsigcomp/DeflateCompressor.h>
+#include <libsigcomp/Compressors/DeflateCompressor.h>
+#if 0
+#	include <libsigcomp/rfc3485_dictionary_sip.h>
+#endif
+
+__NS_DECLARATION_BEGIN__
 
 /**
 */
@@ -31,10 +36,21 @@ bool DeflateCompressor::zInit()
     this->zStream.zfree = Z_NULL;
     this->zStream.opaque = Z_NULL;
 	this->zStream.data_type = Z_TEXT;
-	
-    //this->initialized  =  (deflateInit(&this->zStream, this->zLevel) == Z_OK);
-	this->initialized = ( deflateInit2(&this->zStream, this->zLevel, Z_DEFLATED, -this->zWindowBits, MAX_MEM_LEVEL, Z_DEFAULT_STRATEGY, ZLIB_VERSION, sizeof(this->zStream)) == Z_OK );
-	return this->initialized;
+
+    //bool ret  =  (deflateInit(&this->zStream, this->zLevel) == Z_OK);
+	if( deflateInit2(&this->zStream, this->zLevel, Z_DEFLATED, -this->zWindowBits, MAX_MEM_LEVEL, Z_DEFAULT_STRATEGY) != Z_OK )
+	{
+		return false;
+	}
+#if 0
+	if( deflateSetDictionary(&this->zStream, (const Bytef*)RFC3485_DICTIONARY_SIP_VALUE, RFC3485_DICTIONARY_SIP_VALUE_LENGTH) != Z_OK )
+	{
+		return false;
+	}
+#endif
+
+	this->initialized = true;
+	return true;
 }
 
 /**
@@ -47,19 +63,6 @@ bool DeflateCompressor::zUnInit()
 		return !(deflateEnd(&this->zStream) == Z_STREAM_ERROR);
 	}
 	return true;
-}
-
-/**
-*/
-void DeflateCompressor::zSetWindowBits(int windowBits)
-{
-	if(this->zWindowBits != windowBits)
-	{
-		assert(windowBits>=8 && windowBits<=15); // FIXME
-		this->zWindowBits = windowBits;
-		bool ret = this->zReset();
-		assert(ret);
-	}
 }
 
 /**
@@ -82,8 +85,7 @@ bool DeflateCompressor::zCompress(const void* in, size_t inLen, void* out, size_
 	// OUT
 	this->zStream.next_out = (Bytef*)out;
     this->zStream.avail_out = (uInt)*outLen;
-	if ((uLong)this->zStream.avail_out != *outLen) return outLen;
-	
+		
 #if STATE_LESS
 	int ret = deflate(&this->zStream, Z_FINISH);
 
@@ -99,3 +101,5 @@ bool DeflateCompressor::zCompress(const void* in, size_t inLen, void* out, size_
 #endif
 
 }
+
+__NS_DECLARATION_END__

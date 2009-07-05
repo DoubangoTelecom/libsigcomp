@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="libsigcomp"
 	ProjectGUID="{11D6B4E0-84D5-4EA8-81DD-D71AB40BD9CD}"
 	RootNamespace="libsigcomp"
@@ -342,10 +342,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\libsigcomp\DeflateCompressor.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\libsigcomp\libsigcomp_config.h"
 					>
 				</File>
@@ -406,10 +402,14 @@
 					>
 				</File>
 				<Filter
-					Name="headers"
+					Name="Compressors"
 					>
 					<File
-						RelativePath=".\include\libsigcomp\headers\header_nack.h"
+						RelativePath=".\include\libsigcomp\Compressors\DeflateCompressor.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\libsigcomp\Compressors\DummyCompressor.h"
 						>
 					</File>
 				</Filter>
@@ -504,14 +504,6 @@
 			>
 			<File
 				RelativePath=".\source\binary_utils.cxx"
-				>
-			</File>
-			<File
-				RelativePath=".\source\DeflateCompressor.cxx"
-				>
-			</File>
-			<File
-				RelativePath=".\source\DeflateCompressor.zlib.cxx"
 				>
 			</File>
 			<File
@@ -622,12 +614,36 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Compressors"
+				>
+				<File
+					RelativePath=".\source\Compressors\DeflateCompressor.cxx"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Compressors\DeflateCompressor.ghost.cxx"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Compressors\DeflateCompressor.zlib.cxx"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Compressors\DummyCompressor.cxx"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="asm"
 			>
 			<File
 				RelativePath=".\asm\deflate.asm"
+				>
+			</File>
+			<File
+				RelativePath=".\asm\dummy.asm"
 				>
 			</File>
 		</Filter>

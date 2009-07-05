@@ -28,6 +28,7 @@ at (64)
 :state_len_loc                  pad (2)
 :ret_params_loc                 pad (1)
 :sigcomp_version                pad (1)
+:dicts                          pad (2)
 
 align (64)
 
@@ -66,12 +67,24 @@ circular_buffer,
 12,      12289,   13,      16385,   13,      24577)
 
 ; -- hash_len, state_len, params, version, dicts
-INPUT-BYTES (6, hash_len_loc, !)
+INPUT-BYTES (8, hash_len_loc, !)
 LOAD (66, $state_len_loc)
 ADD(66, 64)
 
 
 :decompress_sigcomp_msg
+
+; -- DICTIONARIES
+SWITCH (4, $dicts, sip, pres, sip_pres, start_decomp)
+
+:sip
+MULTILOAD (dicts, 4, 1787, 58631, 57317, 58880)
+JUMP (start_decomp)
+:pres
+MULTILOAD (dicts, 4, 1753, 16937, 32011, 45824)
+JUMP (start_decomp)
+:sip_pres
+MULTILOAD (dicts, 7, 1787, 58631, 57317, 58886, 55618, 10621, 2995)
 
 :start_decomp
 

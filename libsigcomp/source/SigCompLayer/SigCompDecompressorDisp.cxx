@@ -4,19 +4,19 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #include <global_config.h>
@@ -26,6 +26,8 @@
 
 #define MAX_STREAM_BUFFER_SIZE 65535
 #define NACK_SUPPORTED (const_cast<SigCompStateHandler*>(this->stateHandler)->getSigCompParameters()->getSigCompVersion() >= 0x02)
+
+__NS_DECLARATION_BEGIN__
 
 /**
 	SigCompDecompressorDisp
@@ -84,7 +86,7 @@ bool SigCompDecompressorDisp::decompress(LPCVOID input_ptr, size_t input_size, l
 		t_uint16 discard_count=0;
 		SigCompBuffer* lpBuffer = this->streamBuffers[streamId];
 
-		while(ret && this->getNextStreamMsg(streamId, discard_count, size))
+		if(ret && this->getNextStreamMsg(streamId, discard_count, size))
 		{
 			ret&= this->internalDecompress(lpBuffer->getBuffer(), size, &lpResult);
 			// remove buffer and discard
@@ -95,7 +97,7 @@ bool SigCompDecompressorDisp::decompress(LPCVOID input_ptr, size_t input_size, l
 			lpBuffer->discardLastBytes(discard_count);
 		}
 		if(size){
-			ret&= lpBuffer->removeBuff(0, (size));
+			//ret&= lpBuffer->removeBuff(0, (size));
 		}
 	}
 	else
@@ -103,6 +105,32 @@ bool SigCompDecompressorDisp::decompress(LPCVOID input_ptr, size_t input_size, l
 		ret &= this->internalDecompress(input_ptr, input_size, &lpResult);
 	}
 
+	return ret;
+}
+
+/**
+*/
+bool SigCompDecompressorDisp::getNextMessage(lpDecompressionResult lpResult)
+{
+	bool ret = true;
+	t_uint64 size=0;
+	t_uint16 discard_count=0;
+	t_uint64 streamId = lpResult->getStreamId();
+
+	assert(this->streamBuffers.find(streamId)!=this->streamBuffers.end());
+	
+	SigCompBuffer* lpBuffer = this->streamBuffers[streamId];
+
+	if(ret && this->getNextStreamMsg(streamId, discard_count, size))
+	{
+		ret&= this->internalDecompress(lpBuffer->getBuffer(), size, &lpResult);
+		// remove buffer and discard
+		lpBuffer->discardLastBytes(discard_count);
+		ret&= lpBuffer->removeBuff(0, (size));
+	}
+	if(discard_count){
+		lpBuffer->discardLastBytes(discard_count);
+	}
 	return ret;
 }
 
@@ -241,3 +269,5 @@ bool handleNack(const lpstruct_nack_info)
 {
 	return false;
 }
+
+__NS_DECLARATION_END__

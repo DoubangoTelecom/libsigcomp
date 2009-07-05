@@ -4,19 +4,19 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #include <global_config.h>
@@ -29,6 +29,8 @@
 
 #define HEADER_GET_DEST_VALUE(destination) ( sigcomp_encoding_destination[destination] )
 #define HEADER_GET_STATE_LENGTH(length) ( sigcomp_encoding_partial_id_length[length] )
+
+__NS_DECLARATION_BEGIN__
 
 /**
 	SigCompMessage
@@ -304,3 +306,5 @@ void SigCompMessage::initNack(t_uint8* &start_ptr, t_uint8* end_ptr)
 		nack_info.details.appendBuff(dummy_ptr, (end_ptr-dummy_ptr));
 	}
 }
+
+__NS_DECLARATION_END__

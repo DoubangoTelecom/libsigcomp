@@ -15,20 +15,32 @@
 	
     You should have received a copy of the GNU Lesser General Public License
     along with libSigComp.  
-
-	
 */
 
-#ifndef _RFC1662_FCS_PPP_H_
-#define _RFC1662_FCS_PPP_H_
+#if !defined(LIBSIGCOMP_DUMMYCOMPRESSOR_H)
+#define LIBSIGCOMP_DUMMYCOMPRESSOR_H
 
 #include <libsigcomp/libsigcomp_config.h>
 
 #include <libsigcomp/mytypes.h>
 
-#define PPPINITFCS16    0xffff  /* Initial FCS value */
-#define PPPGOODFCS16    0xf0b8  /* Good final FCS value */
+#include <libsigcomp/SigCompLayer/SigCompCompressor.h>
 
-t_uint16 pppfcs16(register t_uint16 fcs, register const t_uint8* cp, register t_int32 len);
+__NS_DECLARATION_BEGIN__
 
-#endif //_RFC1662_FCS_PPP_H_
+class LIBSIGCOMP_API DummyCompressor : public SigCompCompressor
+{
+public:
+	DummyCompressor();
+	~DummyCompressor();
+
+	virtual bool compress(SigCompCompartment* lpCompartment, LPCVOID input_ptr, size_t input_size, LPVOID output_ptr, size_t &output_size, bool stream);
+
+private:
+	//
+	static const char* uncompressed_bytecode;
+};
+
+__NS_DECLARATION_END__
+
+#endif // LIBSIGCOMP_DUMMYCOMPRESSOR_H

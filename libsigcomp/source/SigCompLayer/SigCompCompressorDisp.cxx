@@ -4,25 +4,27 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #include <global_config.h>
 #include <libsigcomp/SigCompLayer/SigCompCompressorDisp.h>
 
 #define NACK_SUPPORTED (this->stateHandler->getSigCompParameters()->getSigCompVersion() >= 0x02)
+
+__NS_DECLARATION_BEGIN__
 
 /**
 	SigCompCompressorDisp
@@ -32,7 +34,8 @@ SigCompCompressorDisp::SigCompCompressorDisp(const SigCompStateHandler* _stateHa
 :SafeObject()
 {
 	this->stateHandler = const_cast<SigCompStateHandler*>(_stateHadler);
-	this->compressor = new DeflateCompressor();
+	//this->addCompressor( new DummyCompressor() ); // RFC 4896 [11. Uncompressed Bytecode]
+	this->addCompressor( new DeflateCompressor() ); // If you don't want deflate compressor then remove this line
 }
 
 /**
@@ -41,13 +44,17 @@ SigCompCompressorDisp::SigCompCompressorDisp(const SigCompStateHandler* _stateHa
 */
 SigCompCompressorDisp::~SigCompCompressorDisp()
 {
-	SAFE_DELETE_PTR(this->compressor);
+	// Clear compressors
+	std::list<SigCompCompressor* >::iterator it_compressors;
+	SAFE_CLEAR_LIST(this->compressors, it_compressors);
 }
 
 /**
 */
 bool SigCompCompressorDisp::compress(t_uint64 compartmentId, LPCVOID input_ptr, size_t input_size, LPVOID output_ptr, size_t &output_size, bool stream)
 {
+	bool ret = true;
+
 	// For each compartment id create/retrieve one compressor instance
 	SigCompCompartment* lpCompartment = this->stateHandler->getCompartment(compartmentId);
 	
@@ -56,8 +63,46 @@ bool SigCompCompressorDisp::compress(t_uint64 compartmentId, LPCVOID input_ptr, 
 		return false;
 	}
 
-	// FIXME: loop for compressor
-	bool ret = this->compressor->compress(lpCompartment, input_ptr, input_size, output_ptr, output_size, stream);
+	// FIXME: buffer overflow
+
+	std::list<SigCompCompressor*>::iterator it_compressor;
+	for( it_compressor=this->compressors.begin(); it_compressor!=this->compressors.end(); it_compressor++  )
+	{
+		ret = (*it_compressor)->compress(lpCompartment, input_ptr, input_size, output_ptr, output_size, stream);
+		if(ret) break;
+	}
+
+	//
+	//	STREAM case. FIXME:Because I'm a lazy man I only support 0xFF00 case
+	//
+	//
+	if(stream)
+	{
+		size_t escapedBufferSize = (output_size + 2); // 2 = strlen(0xffff)
+		for(register int i=0;i<output_size;i++) escapedBufferSize += ((t_uint8*)output_ptr)[i]==0xff?1:0;
+		t_uint8* escapedBuffer = (t_uint8*)malloc(escapedBufferSize);
+		assert(escapedBuffer);
+
+		for(register int i=0, j=0; i<output_size; i++, j++)
+		{
+			escapedBuffer[j] = ((t_uint8*)output_ptr)[i];
+			if(escapedBuffer[j] == 0xff) 
+			{
+				escapedBuffer[++j] = 0x00;
+			}
+		}
+		
+		// End stream
+		escapedBuffer[escapedBufferSize-1] = escapedBuffer[escapedBufferSize-2] = 0xff;
+		::memmove(output_ptr, escapedBuffer, escapedBufferSize);
+		
+		output_size = escapedBufferSize; // Update size
+		free(escapedBuffer); // free
+	}
+
+	//
+	// NACK
+	//
 	if(ret && NACK_SUPPORTED)
 	{
 		// store nack for later retrieval in case of errors
@@ -72,3 +117,11 @@ bool SigCompCompressorDisp::compress(t_uint64 compartmentId, LPCVOID input_ptr, 
 
 	return ret;
 }
+/**
+*/
+void SigCompCompressorDisp::addCompressor(SigCompCompressor* compressor)
+{
+	this->compressors.push_front(compressor);
+}
+
+__NS_DECLARATION_END__

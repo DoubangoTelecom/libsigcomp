@@ -4,19 +4,19 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #include <global_config.h>
@@ -29,7 +29,9 @@
 #error No mutex type defined
 #endif
 
-libsigcomp::Mutex::Mutex()
+__NS_DECLARATION_BEGIN__
+
+Mutex::Mutex()
 {
 #if defined(USE_WIN32_THREADS)
 	this->lphandle = new HANDLE();
@@ -45,7 +47,7 @@ else
 #endif
 }
 
-libsigcomp::Mutex::~Mutex()
+Mutex::~Mutex()
 {
 #if defined(USE_WIN32_THREADS)
 	// do nothing
@@ -61,7 +63,7 @@ libsigcomp::Mutex::~Mutex()
 /**
 Lock section
 */
-void libsigcomp::Mutex::lock()
+void Mutex::lock()
 {
 #if defined(USE_WIN32_THREADS)
 	assert(WaitForSingleObject(*((HANDLE*)this->lphandle), INFINITE) != WAIT_FAILED);
@@ -75,7 +77,7 @@ void libsigcomp::Mutex::lock()
 /**
 Unlock section
 */
-void libsigcomp::Mutex::unlock()
+void Mutex::unlock()
 {
 #if defined(USE_WIN32_THREADS)
 	assert(ReleaseMutex(*((HANDLE*)this->lphandle)));
@@ -85,3 +87,5 @@ void libsigcomp::Mutex::unlock()
 #error Not implemented
 #endif
 }
+
+__NS_DECLARATION_END__

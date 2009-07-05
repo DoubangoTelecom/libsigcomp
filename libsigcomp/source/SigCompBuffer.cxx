@@ -4,19 +4,19 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #include <global_config.h>
@@ -25,6 +25,8 @@
 
 #include <iostream>
 #include <math.h>
+
+__NS_DECLARATION_BEGIN__
 
 // From: 
 //
@@ -65,7 +67,7 @@ inline bool SigCompBuffer::operator == (const SigCompBuffer &buffer) const
 
 inline bool SigCompBuffer::startsWith(const SigCompBuffer* buff)const
 {
-	for(t_uint64 i=0; i<buff->getSize(); i++)
+	for(size_t i=0; i<buff->getSize(); i++)
 	{
 		if(*getReadOnlyBuffer(i)!=*buff->getReadOnlyBuffer(i)){
 			return false;
@@ -74,41 +76,41 @@ inline bool SigCompBuffer::startsWith(const SigCompBuffer* buff)const
 	return true;
 }
 
-inline const t_uint64 SigCompBuffer::getSize() const
+inline const size_t SigCompBuffer::getSize() const
 {
 	return this->size;
 }
 
-inline const t_uint64 SigCompBuffer::getRemainingBits()const
+inline const size_t SigCompBuffer::getRemainingBits()const
 {
 	t_int64 result = ((this->size*8)-((this->index_bytes*8)+this->index_bits));
 	return (result<0)?0:result;
 }
 
-inline const t_uint8* SigCompBuffer::getReadOnlyBuffer(t_uint64 position/*=0*/)const
+inline const t_uint8* SigCompBuffer::getReadOnlyBuffer(size_t position/*=0*/)const
 {
 	return (this->lpbuffer + position);
 }
 
-inline t_uint8* SigCompBuffer::getBuffer(t_uint64 position/*=0*/)
+inline t_uint8* SigCompBuffer::getBuffer(size_t position/*=0*/)
 {
 	return (this->lpbuffer + position);
 }
 
-inline t_uint8* SigCompBuffer::readBytes(t_uint64 length)
+inline t_uint8* SigCompBuffer::readBytes(size_t length)
 {
 	if((this->index_bytes+length)>(this->size)) {
 		return NULL;
 	}
 
-	t_uint64 old_index = this->index_bytes;
+	size_t old_index = this->index_bytes;
 	this->index_bytes+=length;
 
 	return this->getBuffer(old_index);
 }
 
 // FIXME: use mask instead of strtol
-t_uint16 SigCompBuffer::readMsbToLsb(t_uint64 length)
+t_uint16 SigCompBuffer::readMsbToLsb(size_t length)
 {
 	// UDV Memory is always MSB first
 	// MSB  --> LSB
@@ -134,7 +136,7 @@ t_uint16 SigCompBuffer::readMsbToLsb(t_uint64 length)
 }
 
 // FIXME: use mask instead of strtol
-t_uint16 SigCompBuffer::readLsbToMsb(t_uint64 length)
+t_uint16 SigCompBuffer::readLsbToMsb(size_t length)
 {
 	// UDV Memory is always MSB first
 	// MSB  <-- LSB
@@ -183,14 +185,16 @@ inline void SigCompBuffer::discardLastBytes(t_uint16 count)
 
 	@param Size
 */
-void SigCompBuffer::allocBuff(t_uint64 _size)
+void SigCompBuffer::allocBuff(size_t _size)
 {
 	assert(this->owner);
-	assert(!this->size && !this->lpbuffer);
+	assert(_size);
+	//assert(!this->size && !this->lpbuffer);
+	if(this->lpbuffer) ::free(this->lpbuffer);
 
 	this->index_bits = this->index_bytes = 0;
-	this->lpbuffer = (t_uint8*) malloc( _size );
-	memset( this->lpbuffer, NULL, _size);
+	this->lpbuffer = (t_uint8*) ::malloc( _size );
+	::memset( this->lpbuffer, NULL, _size);
 	this->size = _size;
 }
 
@@ -201,7 +205,7 @@ void SigCompBuffer::allocBuff(t_uint64 _size)
 
 	@returns
 */
-void SigCompBuffer::referenceBuff(t_uint8* externalBuff, t_uint64 _size)
+void SigCompBuffer::referenceBuff(t_uint8* externalBuff, size_t _size)
 {
 	if(this->size && this->owner)
 	{
@@ -223,12 +227,10 @@ void SigCompBuffer::referenceBuff(t_uint8* externalBuff, t_uint64 _size)
 
 	@returns
 */
-bool SigCompBuffer::appendBuff(const void* data, t_uint64 _size)
+bool SigCompBuffer::appendBuff(const void* data, size_t _size)
 {
-	if(!data) return false;
-
-	t_uint64 oldSize = this->size;
-	t_uint64 newSize = (oldSize+_size);
+	size_t oldSize = this->size;
+	size_t newSize = (oldSize+_size);
 	{
 		// realloc buffer
 		if(!this->size){
@@ -240,8 +242,17 @@ bool SigCompBuffer::appendBuff(const void* data, t_uint64 _size)
 	}
 	if(!this->lpbuffer) return false;
 
-	::memmove(this->lpbuffer+oldSize, data, _size);
+	if( data )
+	{
+		::memmove(this->lpbuffer+oldSize, data, _size);
+	}
+	else
+	{
+		::memset(this->lpbuffer+oldSize, NULL, _size);
+	}
+
 	this->size = newSize;
+	return true;
 }
 
 /**
@@ -252,13 +263,13 @@ bool SigCompBuffer::appendBuff(const void* data, t_uint64 _size)
 
 	@returns
 */
-bool SigCompBuffer::removeBuff(t_uint64 pos, t_uint64 _size)
+bool SigCompBuffer::removeBuff(size_t pos, size_t _size)
 {
 	if(((pos+_size)>this->size)) _size=this->size-pos;
 	::memmove((this->lpbuffer+pos), (this->lpbuffer+pos+_size), (this->size-(pos+_size)));
 	
-	t_uint64 oldSize = this->size;
-	t_uint64 newSize = (oldSize-_size);
+	size_t oldSize = this->size;
+	size_t newSize = (oldSize-_size);
 	{
 		// realloc
 		if(!this->size){
@@ -296,7 +307,7 @@ void SigCompBuffer::print(t_int64 size/*=-1*/)
 	assert(0);
 #endif
 
-	t_uint64 size_to_print = (size<0)?this->size:size;
+	size_t size_to_print = (size<0)?this->size:size;
 	if( !size_to_print ) return;
 
 	for(int i=0; i<size_to_print; i+=2)
@@ -308,14 +319,24 @@ void SigCompBuffer::print(t_int64 size/*=-1*/)
 		{
 			// last 2-byte lay in 1byte
 			value = *this->getBuffer(i);
+#ifdef WIN32
+			sprintf_s(s, 10, i?"%0.2x":"0x%0.2x", value);
+#else
 			sprintf(s, i?"%0.2x":"0x%0.2x", value);
+#endif
 		}
 		else
 		{
 			value = BINARY_GET_2BYTES(this->getBuffer(i));
+#ifdef WIN32
+			sprintf_s(s, 10, i?"%0.4x":"0x%0.4x", value);
+#else
 			sprintf(s, i?"%0.4x":"0x%0.4x", value);
+#endif
 		}
 		std::cout << s << " ";
 	}
 	std::cout << std::endl << std::endl;
 }
+
+__NS_DECLARATION_END__

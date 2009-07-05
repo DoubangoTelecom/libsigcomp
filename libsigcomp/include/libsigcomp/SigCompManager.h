@@ -4,19 +4,19 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #if !defined(LIBSIGCOMP_SIGCOMP_MANAGER_H)
@@ -36,6 +36,8 @@
 #define MAX_SMS	131072
 #define MAX_CPB	128
 
+__NS_DECLARATION_BEGIN__
+
 class LIBSIGCOMP_API SigCompManager
 {
 public:
@@ -43,9 +45,18 @@ public:
 	~SigCompManager();
 
 public:
+	//
+	//	Compression / Decompression
+	//
 	size_t compress(t_uint64 compartmentId, LPCVOID input_ptr, size_t input_size, LPVOID output_ptr, size_t output_size, bool stream);
 	size_t decompress(LPCVOID input_ptr, size_t input_size, lpDecompressionResult lpResult);
+	size_t getNextMessage(lpDecompressionResult lpResult);
+
+	//
+	//	Compartment management
+	//
 	inline void provideCompartmentId(lpDecompressionResult lpResult);
+	inline void closeCompartment(t_uint64 compartmentId);
 
 	//
 	//	SigComp Parameters
@@ -57,7 +68,12 @@ public:
 	inline void setSigComp_Version(t_uint8 version) { this->stateHandler->getSigCompParameters()->setSigCompVersion(version); }
 
 	//
-	// Dictionnaries
+	//	Compressors
+	//
+	inline void addCompressor(SigCompCompressor* compressor);
+	
+	//
+	//	Dictionnaries
 	//
 	inline void addSipSdpDictionary();
 	inline void removeSipSdpDictionary();
@@ -67,5 +83,7 @@ private:
 	SigCompDecompressorDisp* dispatcher_decompressor;
 	SigCompStateHandler* stateHandler;
 };
+
+__NS_DECLARATION_END__
 
 #endif // LIBSIGCOMP_SIGCOMP_MANAGER_H

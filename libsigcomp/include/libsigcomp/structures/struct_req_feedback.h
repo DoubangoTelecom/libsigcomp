@@ -4,25 +4,27 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #if !defined(LIBSIGCOMP_STRUCTREQ_FEEDBACK_H)
 #define LIBSIGCOMP_STRUCTREQ_FEEDBACK_H
 
 #include <libsigcomp/mytypes.h>
+
+__NS_DECLARATION_BEGIN__
 
 // DON'T USE bit fields: http://en.wikipedia.org/wiki/Bit_field
 
@@ -75,5 +77,6 @@ private:
 }
 struct_req_feedback, *lpstruct_req_feedback;
 
+__NS_DECLARATION_END__
 
 #endif //LIBSIGCOMP_STRUCTREQ_FEEDBACK_H

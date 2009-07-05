@@ -4,19 +4,19 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #if !defined(LIBSIGCOMP_LAYER_STATE_H)
@@ -31,9 +31,15 @@
 #include <libsigcomp/rfc3485_dictionary_sip.h>
 #include <libsigcomp/SafeObject.h>
 
+// FIXME:
+#define PARTIAL_ID_LEN_CODE		0x01
+#define PARTIAL_ID_LEN_VALUE	0x06
+
 /*For the purpose of calculation, each state item
    is considered to cost (state_length + 64) bytes.*/
-#define GET_STATE_SIZE(lpState) (lpState->getStateLength()+64)
+#define GET_STATE_SIZE(lpState) ( lpState->getStateLength() + 64 )
+
+__NS_DECLARATION_BEGIN__
 
 class LIBSIGCOMP_API SigCompState : public SafeObject
 {
@@ -75,5 +81,7 @@ class LIBSIGCOMP_API SigCompSipDictionary : public SigCompState
 public:
 	SigCompSipDictionary();
 };
+
+__NS_DECLARATION_END__
 
 #endif // LIBSIGCOMP_LAYER_STATE_H

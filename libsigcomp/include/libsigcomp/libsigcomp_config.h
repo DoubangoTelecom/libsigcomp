@@ -4,19 +4,19 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #ifndef LIBSIGCOMP_CONFIG_H
@@ -30,11 +30,35 @@
 
 #if (defined(WIN32) || defined(_WIN32_WCE)) && defined(LIBSIGCOMP_EXPORTS)
 # 	define LIBSIGCOMP_API __declspec(dllexport)
-#	define ZLIB_DLL
+//#	define ZLIB_DLL
 #elif (defined(WIN32) || defined(_WIN32_WCE)) && defined(LIBSIGCOMP_IMPORTS)
 # 	define LIBSIGCOMP_API __declspec(dllimport)
 #else
 # define LIBSIGCOMP
+#endif
+
+//
+//	Using Namespace or not?
+//
+#define USE_NS			1
+#define MY_FAVORITE_NS	sigcomp	// change this if you have conflict
+
+#if USE_NS
+#	define __NS_DECLARATION_BEGIN__	namespace MY_FAVORITE_NS {
+#	define __NS_DECLARATION_END__	}
+#else
+#	define __NS_DECLARATION_BEGIN__
+#	define __NS_DECLARATION_END__
+#endif
+
+//
+// Disable some well-known warnings
+//
+#ifdef _MSC_VER
+#	pragma warning ( disable : 4267 )
+#	pragma warning ( disable : 4275 )
+#	pragma warning ( disable : 4244 )
+#	pragma warning ( disable : 4018 )
 #endif
 
 //
@@ -53,6 +77,9 @@
 #define NACK_VERSION			0x01
 #define NACK_MAX_HISTORY_SIZE	0x0a
 
+//
+//	SAFE DELETE
+//
 #define SAFE_DELETE_PTR(ptr) {if(ptr){delete ptr; ptr=NULL;}}
 #define SAFE_DELETE_ARRAY(ptr) {if(ptr){delete []ptr; ptr=NULL;}}
 #define SAFE_CLEAR_LIST(list, it)											\

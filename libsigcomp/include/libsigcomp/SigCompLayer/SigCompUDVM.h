@@ -4,19 +4,19 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #if !defined(LIBSIGCOMP_LAYER_UDVM_H)
@@ -33,6 +33,8 @@
 
 #define UDVM_SET_2BYTES_VAL(position, value) BINARY_SET_2BYTES(this->memory.getBuffer(position), value)
 #define UDVM_GET_2BYTES_VAL(position) BINARY_GET_2BYTES(this->memory.getBuffer(position))
+
+__NS_DECLARATION_BEGIN__
 
 class SigCompDecompressorDisp;
 
@@ -89,7 +91,7 @@ private:
 	//
 	// Nack creation
 	//
-	void createNackInfo(t_uint8 reasonCode, SigCompBuffer* lpDetails=NULL);
+	void createNackInfo(t_uint8 reasonCode, SigCompBuffer* lpDetails=NULL, t_int16 memory_address_of_instruction = -1);
 
 	//
 	// Instructions
@@ -132,5 +134,6 @@ private:
 	bool EXEC_INST__END_MESSAGE(t_uint16 requested_feedback_location, t_uint16 returned_parameters_location, t_uint16 state_length, t_uint16 state_address, t_uint16 state_instruction, t_uint16 minimum_access_length, t_uint16 state_retention_priority);
 };
 
+__NS_DECLARATION_END__
 
 #endif // LIBSIGCOMP_LAYER_UDVM_H

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="demo"
 	ProjectGUID="{7D77B6A9-4004-4050-A93B-A186FF9E8F8C}"
 	RootNamespace="demo"
@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;$(OutDir)\libsigcomp.lib&quot;"
+				AdditionalDependencies="&quot;$(OutDir)\libsigcomp.lib&quot; Ws2_32.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="1"

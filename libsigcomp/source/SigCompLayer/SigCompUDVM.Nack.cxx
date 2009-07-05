@@ -4,28 +4,30 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Lesser General Public License for more details.
 	
-    You should have received a copy of the GNU General Public License
-    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp.  
 
-	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+	
 */
 
 #include <global_config.h>
 
 #include <libsigcomp/SigCompLayer/SigCompUDVM.h>
 
+__NS_DECLARATION_BEGIN__
+
 /**
 */
-void SigCompUDVM::createNackInfo(t_uint8 reasonCode, SigCompBuffer* lpDetails)
+void SigCompUDVM::createNackInfo(t_uint8 reasonCode, SigCompBuffer* lpDetails, t_int16 memory_address_of_instruction /*= -1*/)
 {
 #define NACK_HEADER_INDEX		0
 #define NACK_VERSION_INDEX		(NACK_HEADER_INDEX+2)
@@ -63,13 +65,15 @@ void SigCompUDVM::createNackInfo(t_uint8 reasonCode, SigCompBuffer* lpDetails)
         +---+---+---+---+---+---+---+---+
 	*/
 
+	t_uint16 mem_add_instruction = (memory_address_of_instruction >=0) ? memory_address_of_instruction : this->last_memory_address_of_instruction;
+
 	this->lpResult->getNackInfo()->allocBuff( (NACK_SHA1_INDEX + SHA1HashSize) );
 	*this->lpResult->getNackInfo()->getBuffer(NACK_HEADER_INDEX) = 0xf8;
 	*this->lpResult->getNackInfo()->getBuffer(NACK_VERSION_INDEX) = NACK_VERSION;
 	*this->lpResult->getNackInfo()->getBuffer(NACK_REASON_CODE_INDEX) = reasonCode;
-	*this->lpResult->getNackInfo()->getBuffer(NACK_OPCODE_INDEX) = *this->memory.getBuffer(this->last_memory_address_of_instruction);
-	*this->lpResult->getNackInfo()->getBuffer(NACK_PC_INDEX) = (this->last_memory_address_of_instruction>>8);
-	*this->lpResult->getNackInfo()->getBuffer(NACK_PC_INDEX+1) = (this->last_memory_address_of_instruction&0x00ff);
+	*this->lpResult->getNackInfo()->getBuffer(NACK_OPCODE_INDEX) = *this->memory.getBuffer(mem_add_instruction);
+	*this->lpResult->getNackInfo()->getBuffer(NACK_PC_INDEX) = (mem_add_instruction >> 8);
+	*this->lpResult->getNackInfo()->getBuffer(NACK_PC_INDEX+1) = (mem_add_instruction & 0x00ff);
 	
 	//
 	// SHA-1 computation
@@ -99,3 +103,5 @@ void SigCompUDVM::createNackInfo(t_uint8 reasonCode, SigCompBuffer* lpDetails)
 
 	lpResult->setIsNack(true);
 }
+
+__NS_DECLARATION_END__

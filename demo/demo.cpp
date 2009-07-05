@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
 
-For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
+
 */
 
 /*
@@ -47,9 +47,11 @@ Don't worry for tcp case --> complexity is hidden
 #define IS_STREAM				false	// Using reliable transport
 #define STREAM_ID			678		// stream identifier
 
-#define MAX_BUFFER_SIZE		65535
+#define MAX_BUFFER_SIZE		0xffff
 
 #define LOOP_COUNT			100
+
+#define DECOMP_NACK_4_TEST	1
 
 // messages to use for tests
 const char* messages[] =
@@ -221,17 +223,17 @@ int _tmain(int argc, _TCHAR* argv[])
 	char buff2[MAX_BUFFER_SIZE]; 	memset(buff2, NULL, MAX_BUFFER_SIZE);
 
 	// Managers
-	SigCompManager* manager1 = new SigCompManager();
-	SigCompManager* manager2 = new SigCompManager();
+	sigcomp::SigCompManager* manager1 = new sigcomp::SigCompManager();
+	sigcomp::SigCompManager* manager2 = new sigcomp::SigCompManager();
 
 	// Results --> it is recomanded to use one result struct for each manager
-	DecompressionResult result1; result1.setCompartmentId(COMPARTMENT_ID1);
-	DecompressionResult result2; result2.setCompartmentId(COMPARTMENT_ID2);
+	sigcomp::DecompressionResult result1; result1.setCompartmentId(COMPARTMENT_ID1);
+	sigcomp::DecompressionResult result2; result2.setCompartmentId(COMPARTMENT_ID2);
 
 	// Set DMS and SMS
 	manager1->setDecompression_Memory_Size(8192);
 	manager2->setDecompression_Memory_Size(8192);
-	manager1->setState_Memory_Size(4096);
+	manager1->setState_Memory_Size(8192);
 	manager2->setState_Memory_Size(4096);
 
 	for(int i = 0; i< (8*LOOP_COUNT); i++)
@@ -253,14 +255,16 @@ int _tmain(int argc, _TCHAR* argv[])
 			if(outLen) // OK
 			{
 				// buff2 contains the result and outLen is result length
-				//* TODO: sendto(SendSocket, buff2, outLen, 0, (SOCKADDR *) &SenderAddr, sizeof(SenderAddr));
-				std::cout<< buff2 << std::endl<<std::endl;
+				std::cout<< std::string(buff2,outLen).c_str()  << std::endl<<std::endl;
 				// provide the compartment id --> save temp states
 				manager2->provideCompartmentId(&result2);
 			}
 			else // NOK
 			{
 				assert(result2.getIsNack());
+#if DECOMP_NACK_4_TEST
+				manager1->decompress(result2.getNackInfo()->getBuffer(), result2.getNackInfo()->getSize(), &result1);
+#endif
 				// Decompression failed --> handle NACK (done by remote party)
 				// NACK will be retourned only if SigCompVersion >= 2
 				// NACK must be sent to the remote party (SIP/IMS use-case) over the network
@@ -283,12 +287,15 @@ int _tmain(int argc, _TCHAR* argv[])
 			outLen = manager1->decompress(buff2, outLen, &result1);
 			if(outLen)
 			{
-				std::cout<< buff1 << std::endl<<std::endl;
+				std::cout<< std::string(buff1,outLen).c_str() << std::endl<<std::endl;
 				manager1->provideCompartmentId(&result1);
 			}
 			else
 			{
 				assert(result2.getIsNack());
+#if DECOMP_NACK_4_TEST
+				manager2->decompress(result1.getNackInfo()->getBuffer(), result1.getNackInfo()->getSize(), &result2);
+#endif
 			}
 		}
 		else
