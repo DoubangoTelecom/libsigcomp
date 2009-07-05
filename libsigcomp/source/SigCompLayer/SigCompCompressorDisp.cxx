@@ -64,13 +64,14 @@ bool SigCompCompressorDisp::compress(uint64_t compartmentId, LPCVOID input_ptr, 
 	}
 
 	// FIXME: buffer overflow
-
+	this->lock();
 	std::list<SigCompCompressor*>::iterator it_compressor;
 	for( it_compressor=this->compressors.begin(); it_compressor!=this->compressors.end(); it_compressor++  )
 	{
 		ret = (*it_compressor)->compress(lpCompartment, input_ptr, input_size, output_ptr, output_size, stream);
 		if(ret) break;
 	}
+	this->unlock();
 
 	//
 	//	STREAM case. FIXME:Because I'm a lazy man I only support 0xFF00 case
@@ -121,7 +122,9 @@ bool SigCompCompressorDisp::compress(uint64_t compartmentId, LPCVOID input_ptr, 
 */
 void SigCompCompressorDisp::addCompressor(SigCompCompressor* compressor)
 {
+	this->lock();
 	this->compressors.push_front(compressor);
+	this->unlock();
 }
 
 __NS_DECLARATION_END__
