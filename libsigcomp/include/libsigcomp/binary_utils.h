@@ -29,22 +29,22 @@
 
 #define BINARY_REVERSE_2BYTE(value) ((BitReverseTable256[value & 0xff] << 8) | (BitReverseTable256[(value >> 8)]))
 
-#define TO_U8(buffer) ((t_uint8*)buffer)
+#define TO_U8(buffer) ((uint8_t*)buffer)
 #define BINARY_GET_1BYTE(buffer) *TO_U8(buffer)// 1-byte
 
-static inline t_uint16 LSB_2_MSB( void const * buffer )
+static inline uint16_t LSB_2_MSB( void const * buffer )
 {
-    const t_uint8* dummy = (const t_uint8*)buffer;
-    return ( ((t_uint16)dummy[0] << 8) | dummy[1] );
+    const uint8_t* dummy = (const uint8_t*)buffer;
+    return ( ((uint16_t)dummy[0] << 8) | dummy[1] );
 } 
 
 #ifdef BIG_ENDIAN
-#	define	BINARY_GET_2BYTES(buffer) *((t_uint16*)buffer)
-#	define  BINARY_SET_2BYTES(buffer, value) *((t_uint16*)buffer)=value
+#	define	BINARY_GET_2BYTES(buffer) *((uint16_t*)buffer)
+#	define  BINARY_SET_2BYTES(buffer, value) *((uint16_t*)buffer)=value
 #else
 #	define	BINARY_GET_2BYTES(buffer) LSB_2_MSB(buffer)
 #	define  BINARY_SET_2BYTES(buffer, value)							\
-				{t_uint16 __value__ = value;							\
+				{uint16_t __value__ = value;							\
 				(TO_U8(buffer)[0]) = (__value__ >> 8);					\
 				(TO_U8(buffer)[1]) = (__value__ & 0xff);}
 #endif
@@ -54,33 +54,33 @@ static inline t_uint16 LSB_2_MSB( void const * buffer )
 /////////////////////////////////////////////////////////
 
 //	RFC 3320 - 7.3.  Uploading UDVM bytecode
-static const t_uint16 sigcomp_encoding_destination[]
+static const uint16_t sigcomp_encoding_destination[]
 = { 0, 128, 192, 256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024 };
 
 //	RFC 3320 - 7.2.  Accessing Stored State
-static const t_uint8 sigcomp_encoding_partial_id_length[]
+static const uint8_t sigcomp_encoding_partial_id_length[]
 = { 0, 6, 9, 12 };
 
 //	RFC 3320 - 3.3.1.  Memory Size and UDVM Cycles
-static const t_uint8 sigcomp_encoding_cycles_per_bit[]
+static const uint8_t sigcomp_encoding_cycles_per_bit[]
 = { 16, 32, 64, 128 };
-static const t_uint32 sigcomp_encoding_state_memory_size[]
+static const uint32_t sigcomp_encoding_state_memory_size[]
 = { 0, 2048, 4096, 8192, 16384, 32768, 65536, 131072 };
-static const t_uint32 sigcomp_encoding_decompression_memory_size[]
+static const uint32_t sigcomp_encoding_decompression_memory_size[]
 = { 0, 2048, 4096, 8192, 16384, 32768, 65536, 131072 }; // the bit pattern 000 cannot be used.
 
 //	3.3.1.  Memory Size and UDVM Cycles
 //	3.3.  SigComp Parameters
-static const t_uint8 sigcomp_encoding_cpb[]
+static const uint8_t sigcomp_encoding_cpb[]
 = { 16, 32, 64, 128 };
-static const t_uint32 sigcomp_encoding_sms[]
+static const uint32_t sigcomp_encoding_sms[]
 = { 0, 2048, 4096, 8192, 16384, 32768, 65536, 131072 };
-static const t_uint32 sigcomp_encoding_dms[]
+static const uint32_t sigcomp_encoding_dms[]
 = { 0, 2048, 4096, 8192, 16384, 32768, 65536, 131072 }; // the bit pattern 000 cannot be used.
 
 
 //	RFC 3320: Figure 10: Bytecode for a multitype (%) operand
-static const t_int8 operand_multitype_indexes [256] =
+static const int8_t operand_multitype_indexes [256] =
 {
 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 

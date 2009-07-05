@@ -39,10 +39,10 @@ public:
 	SigCompStateHandler();
 	~SigCompStateHandler();
 
-	SigCompCompartment* getCompartment(t_uint64 id);
-	void deleteCompartment(t_uint64 id);
-	bool compartmentExist(t_uint64 id);
-	t_uint16 findState(const SigCompBuffer* partial_identifier, SigCompState** lpState);
+	SigCompCompartment* getCompartment(uint64_t id);
+	void deleteCompartment(uint64_t id);
+	bool compartmentExist(uint64_t id);
+	uint16_t findState(const SigCompBuffer* partial_identifier, SigCompState** lpState);
 
 	void handleResult(lpDecompressionResult &lpResult);
 	bool handleNack(const lpstruct_nack_info);
@@ -62,7 +62,7 @@ public:
 	
 
 private:
-	std::map<t_uint64, SigCompCompartment*> compartments;
+	std::map<uint64_t, SigCompCompartment*> compartments;
 	struct_sigcomp_parameters sigcomp_parameters;
 
 	std::map<SigCompBuffer*, SigCompState*> dictionaries;

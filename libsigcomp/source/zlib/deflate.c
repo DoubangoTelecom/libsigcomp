@@ -1,3 +1,4 @@
+#if !HAS_ZLIB
 /* deflate.c -- compress data using the deflation algorithm
  * Copyright (C) 1995-2005 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -1734,3 +1735,5 @@ local block_state deflate_rle(s, flush)
     return flush == Z_FINISH ? finish_done : block_done;
 }
 #endif
+
+#endif // HAS_ZLIB

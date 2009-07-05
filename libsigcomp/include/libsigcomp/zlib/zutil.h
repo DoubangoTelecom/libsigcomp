@@ -1,3 +1,4 @@
+#if !HAS_ZLIB
 /* zutil.h -- internal interface and configuration of the compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -267,3 +268,4 @@ void   zcfree  OF((voidpf opaque, voidpf ptr));
 #define TRY_FREE(s, p) {if (p) ZFREE(s, p);}
 
 #endif /* ZUTIL_H */
+#endif // HAS_ZLIB

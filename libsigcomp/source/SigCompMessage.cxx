@@ -43,7 +43,7 @@ __NS_DECLARATION_BEGIN__
 	@returns
 */
 SigCompMessage::SigCompMessage(LPCVOID input_ptr, size_t input_size, bool stream)
-:startPtr((const t_uint8*)input_ptr)
+:startPtr((const uint8_t*)input_ptr)
 {
 	if(input_size<MIN_LEN)
 	{
@@ -54,8 +54,8 @@ SigCompMessage::SigCompMessage(LPCVOID input_ptr, size_t input_size, bool stream
 	}
 	
 	this->isNack = false;
-	t_uint8* dummy_ptr = ((t_uint8*)input_ptr);
-	t_uint8* end_ptr = (dummy_ptr + input_size);
+	uint8_t* dummy_ptr = ((uint8_t*)input_ptr);
+	uint8_t* end_ptr = (dummy_ptr + input_size);
 
 	// 
 	this->totalSize = input_size;
@@ -81,7 +81,7 @@ SigCompMessage::SigCompMessage(LPCVOID input_ptr, size_t input_size, bool stream
 
 	/*If the len field is non-zero, then the SigComp message contains a state identifier 
 	to access a state item at the receiving endpoint.*/
-	t_uint8 state_len = HEADER_GET_STATE_LENGTH( HEADER_GET_LEN() );
+	uint8_t state_len = HEADER_GET_STATE_LENGTH( HEADER_GET_LEN() );
 	if(state_len)
 	{
 		this->initStateId(dummy_ptr, state_len);
@@ -123,7 +123,7 @@ SigCompMessage::~SigCompMessage()
 
 	@returns
 */
-void SigCompMessage::initFeedbackItem(t_uint8* &start_ptr)
+void SigCompMessage::initFeedbackItem(uint8_t* &start_ptr)
 {
 /*
      0   1   2   3   4   5   6   7       0   1   2   3   4   5   6   7
@@ -149,7 +149,7 @@ void SigCompMessage::initFeedbackItem(t_uint8* &start_ptr)
 
 /**
 */
-void SigCompMessage::initStateId(t_uint8* &start_ptr, t_uint8 state_len)
+void SigCompMessage::initStateId(uint8_t* &start_ptr, uint8_t state_len)
 {
 	this->stateId.referenceBuff(start_ptr, state_len);
 	start_ptr+=state_len;
@@ -162,7 +162,7 @@ void SigCompMessage::initStateId(t_uint8* &start_ptr, t_uint8 state_len)
 	
 	@returns
 */
-void SigCompMessage::initStateful(t_uint8* &start_ptr, t_uint8* end_ptr)
+void SigCompMessage::initStateful(uint8_t* &start_ptr, uint8_t* end_ptr)
 {
 	/*
    +---+---+---+---+---+---+---+---+
@@ -188,7 +188,7 @@ void SigCompMessage::initStateful(t_uint8* &start_ptr, t_uint8* end_ptr)
 	
 	@returns
 */
-void SigCompMessage::initStateless(t_uint8* &start_ptr, t_uint8* end_ptr)
+void SigCompMessage::initStateless(uint8_t* &start_ptr, uint8_t* end_ptr)
 {
 	bool has_bytecode = (HEADER_GET_LEN() ==0); // No state ==> message contains udvm bytecode
 	this->isOK &= has_bytecode;
@@ -209,16 +209,16 @@ void SigCompMessage::initStateless(t_uint8* &start_ptr, t_uint8* end_ptr)
   |                               |
   +---+---+---+---+---+---+---+---+
   */
-	t_uint8* dummy_ptr = ((t_uint8*)start_ptr);
+	uint8_t* dummy_ptr = ((uint8_t*)start_ptr);
 
 	// Code_len --> 12bits [8+4]
-	t_uint16 code_len1 = *dummy_ptr; dummy_ptr++; // skip first code_len 8bits
-	t_uint8 code_len2 = (*dummy_ptr) & 0xf0; // code_len 4 remaining bits
-	t_uint8 destination = (*dummy_ptr) & 0x0f; // 4bits after code_len
+	uint16_t code_len1 = *dummy_ptr; dummy_ptr++; // skip first code_len 8bits
+	uint8_t code_len2 = (*dummy_ptr) & 0xf0; // code_len 4 remaining bits
+	uint8_t destination = (*dummy_ptr) & 0x0f; // 4bits after code_len
 	dummy_ptr++; // skip code_len 4bits + destination 4bits ==> 1-byte
 
 	// Get bytecodes length (12bits)
-	t_uint16 bytecodes_len = ( (code_len1<<4)|(code_len2>>4) );
+	uint16_t bytecodes_len = ( (code_len1<<4)|(code_len2>>4) );
 	
 	// Starting memory address (code destination address). In UDVM.
 	this->bytecodes_destination = HEADER_GET_DEST_VALUE(destination); 
@@ -231,13 +231,13 @@ void SigCompMessage::initStateless(t_uint8* &start_ptr, t_uint8* end_ptr)
 	}
 
 	// Uploaded UDVM pointer
-	 t_uint8* bytecodes_uploaded_udvm = dummy_ptr; // SigComp header, feedback_item, code_len and destination have been skipped
+	 uint8_t* bytecodes_uploaded_udvm = dummy_ptr; // SigComp header, feedback_item, code_len and destination have been skipped
 	
 	 // Skip uploaded udvm
 	dummy_ptr+=bytecodes_len;
 	
 	// remaining SigComp message
-	t_uint8* remaining_SigComp_message = dummy_ptr;
+	uint8_t* remaining_SigComp_message = dummy_ptr;
 
 	// check that remaining sigcomp message is valide
 	if( !(this->isOK &= ( remaining_SigComp_message<=end_ptr )) )
@@ -258,7 +258,7 @@ void SigCompMessage::initStateless(t_uint8* &start_ptr, t_uint8* end_ptr)
 
 /**
 */
-void SigCompMessage::initNack(t_uint8* &start_ptr, t_uint8* end_ptr)
+void SigCompMessage::initNack(uint8_t* &start_ptr, uint8_t* end_ptr)
 {
 /*
 +---+---+---+---+---+---+---+---+
@@ -289,7 +289,7 @@ void SigCompMessage::initNack(t_uint8* &start_ptr, t_uint8* end_ptr)
 		return;
 	}
 
-	t_uint8* dummy_ptr = ((t_uint8*)start_ptr);
+	uint8_t* dummy_ptr = ((uint8_t*)start_ptr);
 	dummy_ptr++; // skip first code_len byte
 	if(!(this->isOK = (*dummy_ptr++ == NACK_VERSION))) 
 	{

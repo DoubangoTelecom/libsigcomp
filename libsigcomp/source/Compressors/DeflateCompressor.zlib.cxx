@@ -35,7 +35,9 @@ bool DeflateCompressor::zInit()
     this->zStream.zalloc = Z_NULL;
     this->zStream.zfree = Z_NULL;
     this->zStream.opaque = Z_NULL;
+#ifndef __SYMBIAN32__
 	this->zStream.data_type = Z_TEXT;
+#endif
 
     //bool ret  =  (deflateInit(&this->zStream, this->zLevel) == Z_OK);
 	if( deflateInit2(&this->zStream, this->zLevel, Z_DEFLATED, -this->zWindowBits, MAX_MEM_LEVEL, Z_DEFAULT_STRATEGY) != Z_OK )

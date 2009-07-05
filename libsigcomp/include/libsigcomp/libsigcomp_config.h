@@ -23,15 +23,15 @@
 #define LIBSIGCOMP_CONFIG_H
 
 
-#if defined(_MSC_VER) && !defined(LIBSIGCOMP_EXPORTS)
+#if !defined(LIBSIGCOMP_EXPORTS)
 #	define LIBSIGCOMP_IMPORTS
 #endif
 
 
-#if (defined(WIN32) || defined(_WIN32_WCE)) && defined(LIBSIGCOMP_EXPORTS)
+#if defined(LIBSIGCOMP_EXPORTS)
 # 	define LIBSIGCOMP_API __declspec(dllexport)
 //#	define ZLIB_DLL
-#elif (defined(WIN32) || defined(_WIN32_WCE)) && defined(LIBSIGCOMP_IMPORTS)
+#elif defined(LIBSIGCOMP_IMPORTS)
 # 	define LIBSIGCOMP_API __declspec(dllimport)
 #else
 # define LIBSIGCOMP
@@ -70,6 +70,15 @@
 //DEFLATE block type 01 (data compressed with fixed Huffman codes)*/
 //
 #define FORCE_STATIC /*zlib*/
+
+//
+//	Your System already has zlib?
+//
+#if defined(__SYMBIAN32__) || defined(TOTO)
+#	define HAS_ZLIB		1
+#else
+#	define HAS_ZLIB		0
+#endif
 
 //
 //	Nack - RFC 4077

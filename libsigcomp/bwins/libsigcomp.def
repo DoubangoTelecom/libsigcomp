@@ -1,0 +1,74 @@
+EXPORTS
+	??0DeflateCompressor@sigcomp@@QAE@HH@Z @ 1 NONAME ; sigcomp::DeflateCompressor::DeflateCompressor(int, int)
+	??0DummyCompressor@sigcomp@@QAE@XZ @ 2 NONAME ; sigcomp::DummyCompressor::DummyCompressor(void)
+	??0SigCompBuffer@sigcomp@@QAE@XZ @ 3 NONAME ; sigcomp::SigCompBuffer::SigCompBuffer(void)
+	??0SigCompManager@sigcomp@@QAE@XZ @ 4 NONAME ; sigcomp::SigCompManager::SigCompManager(void)
+	??0SigCompSipDictionary@sigcomp@@QAE@XZ @ 5 NONAME ; sigcomp::SigCompSipDictionary::SigCompSipDictionary(void)
+	??0SigCompState@sigcomp@@QAE@GGGGG@Z @ 6 NONAME ; sigcomp::SigCompState::SigCompState(unsigned short, unsigned short, unsigned short, unsigned short, unsigned short)
+	??1DeflateCompressor@sigcomp@@QAE@XZ @ 7 NONAME ; sigcomp::DeflateCompressor::~DeflateCompressor(void)
+	??1DummyCompressor@sigcomp@@QAE@XZ @ 8 NONAME ; sigcomp::DummyCompressor::~DummyCompressor(void)
+	??1SigCompBuffer@sigcomp@@QAE@XZ @ 9 NONAME ; sigcomp::SigCompBuffer::~SigCompBuffer(void)
+	??1SigCompManager@sigcomp@@QAE@XZ @ 10 NONAME ; sigcomp::SigCompManager::~SigCompManager(void)
+	??1SigCompState@sigcomp@@QAE@XZ @ 11 NONAME ; sigcomp::SigCompState::~SigCompState(void)
+	??8SigCompBuffer@sigcomp@@QBE_NABV01@@Z @ 12 NONAME ; bool sigcomp::SigCompBuffer::operator==(class sigcomp::SigCompBuffer const &) const
+	??8SigCompState@sigcomp@@QBE_NABV01@@Z @ 13 NONAME ; bool sigcomp::SigCompState::operator==(class sigcomp::SigCompState const &) const
+	??BSigCompBuffer@sigcomp@@QAEIXZ @ 14 NONAME ; sigcomp::SigCompBuffer::operator unsigned int(void)
+	??BSigCompBuffer@sigcomp@@QAEPAEXZ @ 15 NONAME ; sigcomp::SigCompBuffer::operator unsigned char *(void)
+	??BSigCompBuffer@sigcomp@@QAEPAXXZ @ 16 NONAME ; sigcomp::SigCompBuffer::operator void *(void)
+	??_ESigCompBuffer@sigcomp@@QAE@I@Z @ 17 NONAME ; sigcomp::SigCompBuffer::~SigCompBuffer(unsigned int)
+	??_ESigCompState@sigcomp@@QAE@I@Z @ 18 NONAME ; sigcomp::SigCompState::~SigCompState(unsigned int)
+	?addCompressor@SigCompManager@sigcomp@@QAEXPAVSigCompCompressor@2@@Z @ 19 NONAME ; void sigcomp::SigCompManager::addCompressor(class sigcomp::SigCompCompressor *)
+	?addSipSdpDictionary@SigCompManager@sigcomp@@QAEXXZ @ 20 NONAME ; void sigcomp::SigCompManager::addSipSdpDictionary(void)
+	?allocBuff@SigCompBuffer@sigcomp@@QAEXI@Z @ 21 NONAME ; void sigcomp::SigCompBuffer::allocBuff(unsigned int)
+	?appendBuff@SigCompBuffer@sigcomp@@QAE_NPBXI@Z @ 22 NONAME ; bool sigcomp::SigCompBuffer::appendBuff(void const *, unsigned int)
+	?closeCompartment@SigCompManager@sigcomp@@QAEX_K@Z @ 23 NONAME ; void sigcomp::SigCompManager::closeCompartment(unsigned long long)
+	?compress@DeflateCompressor@sigcomp@@UAE_NPAVSigCompCompartment@2@PBXIPAXAAI_N@Z @ 24 NONAME ; bool sigcomp::DeflateCompressor::compress(class sigcomp::SigCompCompartment *, void const *, unsigned int, void *, unsigned int &, bool)
+	?compress@DummyCompressor@sigcomp@@UAE_NPAVSigCompCompartment@2@PBXIPAXAAI_N@Z @ 25 NONAME ; bool sigcomp::DummyCompressor::compress(class sigcomp::SigCompCompartment *, void const *, unsigned int, void *, unsigned int &, bool)
+	?compress@SigCompManager@sigcomp@@QAEI_KPBXIPAXI_N@Z @ 26 NONAME ; unsigned int sigcomp::SigCompManager::compress(unsigned long long, void const *, unsigned int, void *, unsigned int, bool)
+	?createGhost@DeflateCompressor@sigcomp@@AAEXPAVSigCompCompartment@2@GPAUstruct_sigcomp_parameters@2@@Z @ 27 NONAME ; void sigcomp::DeflateCompressor::createGhost(class sigcomp::SigCompCompartment *, unsigned short, struct sigcomp::struct_sigcomp_parameters *)
+	?decompress@SigCompManager@sigcomp@@QAEIPBXIPAUstruct_decompResult@2@@Z @ 28 NONAME ; unsigned int sigcomp::SigCompManager::decompress(void const *, unsigned int, struct sigcomp::struct_decompResult *)
+	?discardBits@SigCompBuffer@sigcomp@@QAEXXZ @ 29 NONAME ; void sigcomp::SigCompBuffer::discardBits(void)
+	?discardLastBytes@SigCompBuffer@sigcomp@@QAEXG@Z @ 30 NONAME ; void sigcomp::SigCompBuffer::discardLastBytes(unsigned short)
+	?freeBuff@SigCompBuffer@sigcomp@@QAEXXZ @ 31 NONAME ; void sigcomp::SigCompBuffer::freeBuff(void)
+	?getBuffer@SigCompBuffer@sigcomp@@QAEPAEI@Z @ 32 NONAME ; unsigned char * sigcomp::SigCompBuffer::getBuffer(unsigned int)
+	?getIndexBits@SigCompBuffer@sigcomp@@QAEAAIXZ @ 33 NONAME ; unsigned int & sigcomp::SigCompBuffer::getIndexBits(void)
+	?getIndexBytes@SigCompBuffer@sigcomp@@QAEAAIXZ @ 34 NONAME ; unsigned int & sigcomp::SigCompBuffer::getIndexBytes(void)
+	?getMinimumAccessLength@SigCompState@sigcomp@@QBE?BGXZ @ 35 NONAME ; unsigned short const sigcomp::SigCompState::getMinimumAccessLength(void) const
+	?getNextMessage@SigCompManager@sigcomp@@QAEIPAUstruct_decompResult@2@@Z @ 36 NONAME ; unsigned int sigcomp::SigCompManager::getNextMessage(struct sigcomp::struct_decompResult *)
+	?getP_BIT@SigCompBuffer@sigcomp@@QAEAAEXZ @ 37 NONAME ; unsigned char & sigcomp::SigCompBuffer::getP_BIT(void)
+	?getReadOnlyBuffer@SigCompBuffer@sigcomp@@QBEPBEI@Z @ 38 NONAME ; unsigned char const * sigcomp::SigCompBuffer::getReadOnlyBuffer(unsigned int) const
+	?getRemainingBits@SigCompBuffer@sigcomp@@QBE?BIXZ @ 39 NONAME ; unsigned int const sigcomp::SigCompBuffer::getRemainingBits(void) const
+	?getSize@SigCompBuffer@sigcomp@@QBE?BIXZ @ 40 NONAME ; unsigned int const sigcomp::SigCompBuffer::getSize(void) const
+	?getStateAddress@SigCompState@sigcomp@@QBE?BGXZ @ 41 NONAME ; unsigned short const sigcomp::SigCompState::getStateAddress(void) const
+	?getStateIdentifier@SigCompState@sigcomp@@QBEPBVSigCompBuffer@2@XZ @ 42 NONAME ; class sigcomp::SigCompBuffer const * sigcomp::SigCompState::getStateIdentifier(void) const
+	?getStateInstruction@SigCompState@sigcomp@@QBE?BGXZ @ 43 NONAME ; unsigned short const sigcomp::SigCompState::getStateInstruction(void) const
+	?getStateLength@SigCompState@sigcomp@@QBE?BGXZ @ 44 NONAME ; unsigned short const sigcomp::SigCompState::getStateLength(void) const
+	?getStateRetentionPriority@SigCompState@sigcomp@@QBE?BGXZ @ 45 NONAME ; unsigned short const sigcomp::SigCompState::getStateRetentionPriority(void) const
+	?getStateValue@SigCompState@sigcomp@@QAEPAVSigCompBuffer@2@XZ @ 46 NONAME ; class sigcomp::SigCompBuffer * sigcomp::SigCompState::getStateValue(void)
+	?getloc@ios_base@std@@QBE?AVlocale@2@XZ @ 47 NONAME ; class std::locale std::ios_base::getloc(void) const
+	?makeValid@SigCompState@sigcomp@@QAEXXZ @ 48 NONAME ; void sigcomp::SigCompState::makeValid(void)
+	?print@SigCompBuffer@sigcomp@@QAEX_J@Z @ 49 NONAME ; void sigcomp::SigCompBuffer::print(long long)
+	?provideCompartmentId@SigCompManager@sigcomp@@QAEXPAUstruct_decompResult@2@@Z @ 50 NONAME ; void sigcomp::SigCompManager::provideCompartmentId(struct sigcomp::struct_decompResult *)
+	?put@?$basic_ostream@DV?$char_traits@D@std@@@std@@QAEAAV12@D@Z @ 51 NONAME ; class std::basic_ostream<char, class std::char_traits<char> > & std::basic_ostream<char, class std::char_traits<char> >::put(char)
+	?readBytes@SigCompBuffer@sigcomp@@QAEPAEI@Z @ 52 NONAME ; unsigned char * sigcomp::SigCompBuffer::readBytes(unsigned int)
+	?readLsbToMsb@SigCompBuffer@sigcomp@@QAEGI@Z @ 53 NONAME ; unsigned short sigcomp::SigCompBuffer::readLsbToMsb(unsigned int)
+	?readMsbToLsb@SigCompBuffer@sigcomp@@QAEGI@Z @ 54 NONAME ; unsigned short sigcomp::SigCompBuffer::readMsbToLsb(unsigned int)
+	?referenceBuff@SigCompBuffer@sigcomp@@QAEXPAEI@Z @ 55 NONAME ; void sigcomp::SigCompBuffer::referenceBuff(unsigned char *, unsigned int)
+	?removeBuff@SigCompBuffer@sigcomp@@QAE_NII@Z @ 56 NONAME ; bool sigcomp::SigCompBuffer::removeBuff(unsigned int, unsigned int)
+	?removeSipSdpDictionary@SigCompManager@sigcomp@@QAEXXZ @ 57 NONAME ; void sigcomp::SigCompManager::removeSipSdpDictionary(void)
+	?reset@SigCompBuffer@sigcomp@@QAEXXZ @ 58 NONAME ; void sigcomp::SigCompBuffer::reset(void)
+	?setCycles_Per_Bit@SigCompManager@sigcomp@@QAEXE@Z @ 59 NONAME ; void sigcomp::SigCompManager::setCycles_Per_Bit(unsigned char)
+	?setDecompression_Memory_Size@SigCompManager@sigcomp@@QAEXI@Z @ 60 NONAME ; void sigcomp::SigCompManager::setDecompression_Memory_Size(unsigned int)
+	?setSigComp_Version@SigCompManager@sigcomp@@QAEXE@Z @ 61 NONAME ; void sigcomp::SigCompManager::setSigComp_Version(unsigned char)
+	?setStateLength@SigCompState@sigcomp@@QAE?BXG@Z @ 62 NONAME ; void const sigcomp::SigCompState::setStateLength(unsigned short)
+	?setState_Memory_Size@SigCompManager@sigcomp@@QAEXI@Z @ 63 NONAME ; void sigcomp::SigCompManager::setState_Memory_Size(unsigned int)
+	?startsWith@SigCompBuffer@sigcomp@@QBE_NPBV12@@Z @ 64 NONAME ; bool sigcomp::SigCompBuffer::startsWith(class sigcomp::SigCompBuffer const *) const
+	?updateGhost@DeflateCompressor@sigcomp@@AAEXPAVSigCompCompartment@2@PBEI@Z @ 65 NONAME ; void sigcomp::DeflateCompressor::updateGhost(class sigcomp::SigCompCompartment *, unsigned char const *, unsigned int)
+	?zCompress@DeflateCompressor@sigcomp@@AAE_NPBXIPAXPAI@Z @ 66 NONAME ; bool sigcomp::DeflateCompressor::zCompress(void const *, unsigned int, void *, unsigned int *)
+	?zInit@DeflateCompressor@sigcomp@@AAE_NXZ @ 67 NONAME ; bool sigcomp::DeflateCompressor::zInit(void)
+	?zReset@DeflateCompressor@sigcomp@@AAE_NXZ @ 68 NONAME ; bool sigcomp::DeflateCompressor::zReset(void)
+	?zUnInit@DeflateCompressor@sigcomp@@AAE_NXZ @ 69 NONAME ; bool sigcomp::DeflateCompressor::zUnInit(void)
+	?uncompressed_bytecode@DummyCompressor@sigcomp@@0PBDB @ 70 NONAME ; char const * const sigcomp::DummyCompressor::uncompressed_bytecode
+	?deflate_bytecode@DeflateCompressor@sigcomp@@0PBDB @ 71 NONAME ; char const * const sigcomp::DeflateCompressor::deflate_bytecode
+	?deflate_bytecode1_ghost@DeflateCompressor@sigcomp@@0PBDB @ 72 NONAME ; char const * const sigcomp::DeflateCompressor::deflate_bytecode1_ghost
+

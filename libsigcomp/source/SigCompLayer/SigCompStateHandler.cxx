@@ -49,7 +49,7 @@ State handler destructor
 SigCompStateHandler::~SigCompStateHandler()
 {
 	// Delete all compartments
-	map<t_uint64, SigCompCompartment*>::iterator it;
+	map<uint64_t, SigCompCompartment*>::iterator it;
 	SAFE_CLEAR_MAP(this->compartments, it);
 
 	// Delete all dictionaries
@@ -65,7 +65,7 @@ created
 
 @returns the compartment
 */
-SigCompCompartment* SigCompStateHandler::getCompartment(t_uint64 id)
+SigCompCompartment* SigCompStateHandler::getCompartment(uint64_t id)
 {
 	this->lock();
 
@@ -90,7 +90,7 @@ Delete a compartement with the given identifier
 
 @returns void
 */
-void SigCompStateHandler::deleteCompartment(t_uint64 id)
+void SigCompStateHandler::deleteCompartment(uint64_t id)
 {
 	this->lock();
 	if(this->compartmentExist(id)){
@@ -109,7 +109,7 @@ Check for the existence of a compartment
 
 @returns true if the the compartment exist, otherwise return false
 */
-bool SigCompStateHandler::compartmentExist(t_uint64 id)
+bool SigCompStateHandler::compartmentExist(uint64_t id)
 {
 	this->lock();
 	bool exist =  (this->compartments.find(id)!=this->compartments.end());
@@ -126,11 +126,11 @@ Find a state by partial identifier
 
 @returns the number of states that match
 */
-t_uint16 SigCompStateHandler::findState(const SigCompBuffer* partial_identifier, SigCompState** lpState)
+uint16_t SigCompStateHandler::findState(const SigCompBuffer* partial_identifier, SigCompState** lpState)
 {
-	t_uint16 count = 0;
+	uint16_t count = 0;
 
-	map<t_uint64, SigCompCompartment*>::iterator it1;
+	map<uint64_t, SigCompCompartment*>::iterator it1;
 	map<SigCompBuffer*, SigCompState*>::iterator it2;
 	
 	this->lock();
@@ -184,7 +184,7 @@ void SigCompStateHandler::handleResult(lpDecompressionResult &lpResult)
 	// Find corresponding compartment (only if !S)
 	//
 	SigCompCompartment* lpCompartment = this->getCompartment(lpResult->getCompartmentId());
-	t_uint16 compartment_total_size = lpCompartment->getTotalMemorySize();
+	uint16_t compartment_total_size = lpCompartment->getTotalMemorySize();
 
 //compartment_create_states:
 	//
@@ -199,7 +199,7 @@ void SigCompStateHandler::handleResult(lpDecompressionResult &lpResult)
 		}
 
 		// FIXME: lock
-		for ( t_uint8 i=0; i<lpResult->getTempStatesToCreateSize(); i++ )
+		for ( uint8_t i=0; i<lpResult->getTempStatesToCreateSize(); i++ )
 		{
 			SigCompState* &lpState = lpResult->getTempStatesToCreate()[i];
 			if(!lpState) continue;
@@ -267,7 +267,7 @@ bool SigCompStateHandler::handleNack(const lpstruct_nack_info nack_info)
 {
 	SigCompBuffer sha_id;
 	sha_id.referenceBuff(nack_info->sha1, SHA1HashSize);
-	std::map<t_uint64, SigCompCompartment*>::iterator it;
+	std::map<uint64_t, SigCompCompartment*>::iterator it;
 	for ( it = this->compartments.begin() ; it != this->compartments.end(); it++ )
 	{
 		SigCompCompartment* lpCompartement = (*it).second;
@@ -313,7 +313,7 @@ void SigCompStateHandler::addSipSdpDictionary()
 	if(!this->hasSipSdpDictionary)
 	{
 		SigCompBuffer sipdict_id;
-		sipdict_id.referenceBuff((t_uint8*)RFC3485_DICTIONARY_SIP_IDENTIFIER, RFC3485_DICTIONARY_SIP_IDENTIFIER_LENGTH);
+		sipdict_id.referenceBuff((uint8_t*)RFC3485_DICTIONARY_SIP_IDENTIFIER, RFC3485_DICTIONARY_SIP_IDENTIFIER_LENGTH);
 		if( this->dictionaries.find(&sipdict_id)==this->dictionaries.end() )
 		{
 			SigCompState* lpSipState = new SigCompSipDictionary();
@@ -339,7 +339,7 @@ void SigCompStateHandler::removeSipSdpDictionary()
 	{
 		SigCompState* lpSipState = NULL;
 		SigCompBuffer sipdict_id;
-		sipdict_id.referenceBuff((t_uint8*)RFC3485_DICTIONARY_SIP_IDENTIFIER, RFC3485_DICTIONARY_SIP_IDENTIFIER_LENGTH);
+		sipdict_id.referenceBuff((uint8_t*)RFC3485_DICTIONARY_SIP_IDENTIFIER, RFC3485_DICTIONARY_SIP_IDENTIFIER_LENGTH);
 		map<SigCompBuffer*, SigCompState*>::iterator it;
 		for ( it=this->dictionaries.begin() ; it != this->dictionaries.end(); it++ ){
 			if( *((*it).first) == sipdict_id){

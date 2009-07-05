@@ -29,6 +29,6 @@
 #define PPPINITFCS16    0xffff  /* Initial FCS value */
 #define PPPGOODFCS16    0xf0b8  /* Good final FCS value */
 
-t_uint16 pppfcs16(register t_uint16 fcs, register const t_uint8* cp, register t_int32 len);
+uint16_t pppfcs16(register uint16_t fcs, register const uint8_t* cp, register int32_t len);
 
 #endif //_RFC1662_FCS_PPP_H_

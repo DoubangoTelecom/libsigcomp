@@ -26,7 +26,7 @@
 // RFC 1662: PPP in HDLC-like Framing
 //
 
-static t_uint16 fcstab[256] = {
+static uint16_t fcstab[256] = {
   0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,
   0x8c48, 0x9dc1, 0xaf5a, 0xbed3, 0xca6c, 0xdbe5, 0xe97e, 0xf8f7,
   0x1081, 0x0108, 0x3393, 0x221a, 0x56a5, 0x472c, 0x75b7, 0x643e,
@@ -64,7 +64,7 @@ static t_uint16 fcstab[256] = {
 /*
 * Calculate a new fcs given the current fcs and the new data.
 */
-t_uint16 pppfcs16(register t_uint16 fcs, register const t_uint8* cp, register t_int32 len)
+uint16_t pppfcs16(register uint16_t fcs, register const uint8_t* cp, register int32_t len)
 {
    while (len--)
    {

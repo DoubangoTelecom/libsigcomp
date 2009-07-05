@@ -58,7 +58,7 @@ compress
 @returns
 */
 
-size_t SigCompManager::compress(t_uint64 compartmentId, LPCVOID input_ptr, size_t input_size, LPVOID output_ptr, size_t output_size, bool stream)
+size_t SigCompManager::compress(uint64_t compartmentId, LPCVOID input_ptr, size_t input_size, LPVOID output_ptr, size_t output_size, bool stream)
 {
 	assert(input_size);
 	assert(output_size);
@@ -115,7 +115,7 @@ inline void SigCompManager::provideCompartmentId(lpDecompressionResult lpResult)
 
 /**
 */
-inline void SigCompManager::closeCompartment(t_uint64 compartmentId)
+inline void SigCompManager::closeCompartment(uint64_t compartmentId)
 {
 	this->stateHandler->deleteCompartment(compartmentId);
 }

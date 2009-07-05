@@ -55,8 +55,8 @@
 */
 typedef struct tag_IndexValuePair
 {
-	t_uint16 index;
-	t_uint16 value;
+	uint16_t index;
+	uint16_t value;
 }IndexValuePair;
 
 /**
@@ -115,7 +115,7 @@ Formula: [operand_1 := operand_1 & operand_2]
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__AND(t_uint16 operand_1, t_uint16 operand_2)
+bool SigCompUDVM::EXEC_INST__AND(uint16_t operand_1, uint16_t operand_2)
 {
 	CONSUME_CYCLES(1);
 
@@ -137,7 +137,7 @@ Formula: [operand_1 := operand_1 | operand_2]
 @returns true if succeed, otherwise return false
 */
 
-bool SigCompUDVM::EXEC_INST__OR(t_uint16 operand_1, t_uint16 operand_2)
+bool SigCompUDVM::EXEC_INST__OR(uint16_t operand_1, uint16_t operand_2)
 { 
 	CONSUME_CYCLES(1);
 
@@ -157,7 +157,7 @@ Formula: [operand_1 := ~operand_1]
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__NOT(t_uint16 operand_1)
+bool SigCompUDVM::EXEC_INST__NOT(uint16_t operand_1)
 { 
 	CONSUME_CYCLES(1);
 
@@ -178,7 +178,7 @@ Formula: [LSHIFT (m, n) := m * 2^n (modulo 2^16)]
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__LSHIFT(t_uint16 operand_1, t_uint16 operand_2)
+bool SigCompUDVM::EXEC_INST__LSHIFT(uint16_t operand_1, uint16_t operand_2)
 { 
 	CONSUME_CYCLES(1);
 
@@ -201,7 +201,7 @@ Formula: [RSHIFT (m, n) := floor(m / 2^n)]
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__RSHIFT(t_uint16 operand_1, t_uint16 operand_2)
+bool SigCompUDVM::EXEC_INST__RSHIFT(uint16_t operand_1, uint16_t operand_2)
 { 
 	CONSUME_CYCLES(1);
 	
@@ -223,7 +223,7 @@ Formula: [ADD (m, n) := m + n (modulo 2^16)]
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__ADD(t_uint16 operand_1, t_uint16 operand_2)
+bool SigCompUDVM::EXEC_INST__ADD(uint16_t operand_1, uint16_t operand_2)
 { 
 	CONSUME_CYCLES(1);
 
@@ -244,7 +244,7 @@ Formula: [SUBTRACT (m, n)  := m - n (modulo 2^16)]
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__SUBTRACT(t_uint16 operand_1, t_uint16 operand_2)
+bool SigCompUDVM::EXEC_INST__SUBTRACT(uint16_t operand_1, uint16_t operand_2)
 { 
 	CONSUME_CYCLES(1);
 
@@ -265,7 +265,7 @@ Formula: [MULTIPLY (m, n)  := m * n (modulo 2^16)]
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__MULTIPLY(t_uint16 operand_1, t_uint16 operand_2)
+bool SigCompUDVM::EXEC_INST__MULTIPLY(uint16_t operand_1, uint16_t operand_2)
 { 
 	CONSUME_CYCLES(1);
 
@@ -286,7 +286,7 @@ Formula: [DIVIDE (m, n) := floor(m / n)]
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__DIVIDE(t_uint16 operand_1, t_uint16 operand_2)
+bool SigCompUDVM::EXEC_INST__DIVIDE(uint16_t operand_1, uint16_t operand_2)
 { 
 	CONSUME_CYCLES(1);
 
@@ -313,7 +313,7 @@ Formula: [REMAINDER (m, n) := m - n * floor(m / n)]
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__REMAINDER(t_uint16 operand_1, t_uint16 operand_2)
+bool SigCompUDVM::EXEC_INST__REMAINDER(uint16_t operand_1, uint16_t operand_2)
 { 
 	CONSUME_CYCLES(1);
 
@@ -341,7 +341,7 @@ This instruction sort lists of 2-byte words in ascending order.
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__SORT_ASCENDING(t_uint16 start, t_uint16 n, t_uint16 k)
+bool SigCompUDVM::EXEC_INST__SORT_ASCENDING(uint16_t start, uint16_t n, uint16_t k)
 { 
 	CONSUME_CYCLES(( 1 + k *(CEILLINGLOG2(k) + n) )); // 1 + k * (ceiling(log2(k)) + n)
 
@@ -357,7 +357,7 @@ bool SigCompUDVM::EXEC_INST__SORT_ASCENDING(t_uint16 start, t_uint16 n, t_uint16
 	for(int j=0, pos=0; pos<k; j+=2,pos++)
 	{
 		list1_values[pos].index = pos;
-		list1_values[pos].value = *((t_uint16*)this->memory.getBuffer(start+j));
+		list1_values[pos].value = *((uint16_t*)this->memory.getBuffer(start+j));
 	}
 
 	//
@@ -367,13 +367,13 @@ bool SigCompUDVM::EXEC_INST__SORT_ASCENDING(t_uint16 start, t_uint16 n, t_uint16
 
 
 	// Sort all lists
-	t_uint16* list_temp = new t_uint16[k];
+	uint16_t* list_temp = new uint16_t[k];
 	if(!list1_values) goto __SEGFAULT;
-	for( t_uint16 list_index=0; list_index<n; list_index++ )
+	for( uint16_t list_index=0; list_index<n; list_index++ )
 	{
-		t_uint16* list_start = (t_uint16*)this->memory.getBuffer( start + (list_index*k*2) );
+		uint16_t* list_start = (uint16_t*)this->memory.getBuffer( start + (list_index*k*2) );
 		::memmove(list_temp, list_start, k*2);
-		for( t_uint16 list_el=0; list_el<k; list_el++ )
+		for( uint16_t list_el=0; list_el<k; list_el++ )
 		{
 			list_start[(list_el)] = list_temp[ list1_values[list_el].index ];
 		}
@@ -404,7 +404,7 @@ This instruction sort lists of 2-byte words in descending order.
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__SORT_DESCENDING(t_uint16 start, t_uint16 n, t_uint16 k)
+bool SigCompUDVM::EXEC_INST__SORT_DESCENDING(uint16_t start, uint16_t n, uint16_t k)
 { 
 	CONSUME_CYCLES(( 1 + k *(CEILLINGLOG2(k) + n) )); // 1 + k * (ceiling(log2(k)) + n)
 
@@ -420,7 +420,7 @@ bool SigCompUDVM::EXEC_INST__SORT_DESCENDING(t_uint16 start, t_uint16 n, t_uint1
 	for(int j=0, pos=0; pos<k; j+=2,pos++)
 	{
 		list1_values[pos].index = pos;
-		list1_values[pos].value = *((t_uint16*)this->memory.getBuffer(start+j));
+		list1_values[pos].value = *((uint16_t*)this->memory.getBuffer(start+j));
 	}
 
 	//
@@ -430,13 +430,13 @@ bool SigCompUDVM::EXEC_INST__SORT_DESCENDING(t_uint16 start, t_uint16 n, t_uint1
 
 
 	// Sort all lists
-	t_uint16* list_temp = new t_uint16[k];
+	uint16_t* list_temp = new uint16_t[k];
 	if(!list1_values) goto __SEGFAULT;
-	for( t_uint16 list_index=0; list_index<n; list_index++ )
+	for( uint16_t list_index=0; list_index<n; list_index++ )
 	{
-		t_uint16* list_start = (t_uint16*)this->memory.getBuffer( start + (list_index*k*2) );
+		uint16_t* list_start = (uint16_t*)this->memory.getBuffer( start + (list_index*k*2) );
 		::memmove(list_temp, list_start, k*2);
-		for( t_uint16 list_el=0; list_el<k; list_el++ )
+		for( uint16_t list_el=0; list_el<k; list_el++ )
 		{
 			list_start[(list_el)] = list_temp[ list1_values[list_el].index ];
 		}
@@ -467,12 +467,12 @@ This instruction calculates a 20-byte SHA-1 hash [RFC-3174] over the specified a
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__SHA_1(t_uint16 position, t_uint16 length, t_uint16 destination)
+bool SigCompUDVM::EXEC_INST__SHA_1(uint16_t position, uint16_t length, uint16_t destination)
 { 
 	CONSUME_CYCLES(1+length);
 
 	bool ok = true;
-	t_uint8* data = NULL;
+	uint8_t* data = NULL;
 
 	if(!length || ((destination+length)>this->memory.getSize()))
 	{
@@ -481,15 +481,15 @@ bool SigCompUDVM::EXEC_INST__SHA_1(t_uint16 position, t_uint16 length, t_uint16 
 		goto bail;
 	}
 	
-	data = new t_uint8[length]; memset(data, 0, length);
+	data = new uint8_t[length]; memset(data, 0, length);
 	ok &= this->bytecopy_from(data, position, length);
 
 	//
 	// Compute SHA-1
 	//
 	SHA1Context sha;
-	t_int32 err;
-	t_uint8 Message_Digest[SHA1HashSize];
+	int32_t err;
+	uint8_t Message_Digest[SHA1HashSize];
 	if( (err = ::SHA1Reset(&sha)) )
 	{
 		this->createNackInfo(INTERNAL_ERROR);
@@ -533,7 +533,7 @@ As usual, MSBs are stored before LSBs in the UDVM memory.
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__LOAD(t_uint16 address, t_uint16 value)
+bool SigCompUDVM::EXEC_INST__LOAD(uint16_t address, uint16_t value)
 { 
 	CONSUME_CYCLES(1);
 
@@ -561,7 +561,7 @@ value_0 through to value_n-1 specify the values to load into these words (in the
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__MULTILOAD(t_uint16 address, t_uint16 n)
+bool SigCompUDVM::EXEC_INST__MULTILOAD(uint16_t address, uint16_t n)
 { 
 	CONSUME_CYCLES(1+n);
 
@@ -572,9 +572,9 @@ bool SigCompUDVM::EXEC_INST__MULTILOAD(t_uint16 address, t_uint16 n)
 	}
 
 	// FIXME: check for overwritten
-	for(t_uint16 index=0,_address=address; index<n; index++,_address+=2)
+	for(uint16_t index=0,_address=address; index<n; index++,_address+=2)
 	{
-		t_uint16 value_n = this->opget_multitype_param();
+		uint16_t value_n = this->opget_multitype_param();
 		UDVM_SET_2BYTES_VAL( _address, value_n );
 	}
 
@@ -591,7 +591,7 @@ This instruction pushes the value specified by its operand on the stack.
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__PUSH(t_int16 value /*= -1*/)
+bool SigCompUDVM::EXEC_INST__PUSH(int16_t value /*= -1*/)
 { 
 	bool callback = (value>=0);
 	if(!callback)
@@ -601,8 +601,8 @@ bool SigCompUDVM::EXEC_INST__PUSH(t_int16 value /*= -1*/)
 
 	CONSUME_CYCLES(callback?0:1);
 
-	t_uint16 stack_location = UDVM_GET_2BYTES_VAL(UDVM_HEADER_STACK_LOCATION_INDEX);
-	t_uint16 stack_fill = UDVM_GET_2BYTES_VAL(stack_location);
+	uint16_t stack_location = UDVM_GET_2BYTES_VAL(UDVM_HEADER_STACK_LOCATION_INDEX);
+	uint16_t stack_fill = UDVM_GET_2BYTES_VAL(stack_location);
 
 	// copying the value to stack[stack_fill]
 	// stack[n] = stack_location+2*n+2
@@ -624,17 +624,17 @@ This instruction pops a value from the stack and then copies the value to the sp
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__POP(t_uint16* value /*= NULL*/)
+bool SigCompUDVM::EXEC_INST__POP(uint16_t* value /*= NULL*/)
 { 
 	bool callback = (value != NULL);
 
 	CONSUME_CYCLES(callback?0:1);
 
-	t_uint16 address = callback?0:this->opget_multitype_param();
+	uint16_t address = callback?0:this->opget_multitype_param();
 
-	t_uint16 stack_location = UDVM_GET_2BYTES_VAL(UDVM_HEADER_STACK_LOCATION_INDEX);
-	t_uint16 stack_fill = UDVM_GET_2BYTES_VAL(stack_location);
-	t_uint16 _value = 0;
+	uint16_t stack_location = UDVM_GET_2BYTES_VAL(UDVM_HEADER_STACK_LOCATION_INDEX);
+	uint16_t stack_fill = UDVM_GET_2BYTES_VAL(stack_location);
+	uint16_t _value = 0;
 
 	/*Decompression failure occurs if stack_fill is
 	zero at the commencement of a popping operation.  POP and RETURN pop
@@ -675,7 +675,7 @@ This instruction is used to copy a string of bytes from one part of the UDVM mem
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__COPY(t_uint16 position, t_uint16 length, t_uint16 destination)
+bool SigCompUDVM::EXEC_INST__COPY(uint16_t position, uint16_t length, uint16_t destination)
 { 
 	bool ok = true;
 
@@ -709,11 +709,11 @@ The COPY-LITERAL instruction behaves as a COPY instruction except
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__COPY_LITERAL(t_uint16 position, t_uint16 length, t_uint16 destination)
+bool SigCompUDVM::EXEC_INST__COPY_LITERAL(uint16_t position, uint16_t length, uint16_t destination)
 { 
 	CONSUME_CYCLES(1+length);
 
-	t_uint16 destination_index = UDVM_GET_2BYTES_VAL(destination);
+	uint16_t destination_index = UDVM_GET_2BYTES_VAL(destination);
 	bool ok = this->bytecopy_self(destination_index, position, length);
 	if(ok){ // set next byte
 		UDVM_SET_2BYTES_VAL(destination, destination_index);
@@ -735,14 +735,14 @@ This instruction behaves as a COPY-LITERAL instruction
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__COPY_OFFSET(t_uint16 offset, t_uint16 length, t_uint16 destination)
+bool SigCompUDVM::EXEC_INST__COPY_OFFSET(uint16_t offset, uint16_t length, uint16_t destination)
 { 
 	CONSUME_CYCLES(1+length);
 
-	t_uint16 DEST = UDVM_GET_2BYTES_VAL(destination);
-	t_uint16 LEFT = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_LEFT_INDEX);
-	t_uint16 RIGTH = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_RIGHT_INDEX);
-	t_int32 position = -1;
+	uint16_t DEST = UDVM_GET_2BYTES_VAL(destination);
+	uint16_t LEFT = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_LEFT_INDEX);
+	uint16_t RIGTH = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_RIGHT_INDEX);
+	int32_t position = -1;
 
 	/*
 	DEST: ses
@@ -769,9 +769,9 @@ bool SigCompUDVM::EXEC_INST__COPY_OFFSET(t_uint16 offset, t_uint16 length, t_uin
 	-------DEST-----LEFT-------------RIGTH----
 	****]
 	*/
-	t_int16 D = (DEST - LEFT);
-	t_int16 T = (RIGTH - LEFT);
-	t_uint16 O = offset;
+	int16_t D = (DEST - LEFT);
+	int16_t T = (RIGTH - LEFT);
+	uint16_t O = offset;
 
 	if( D>=0 && O<=D )
 	{
@@ -798,7 +798,7 @@ bool SigCompUDVM::EXEC_INST__COPY_OFFSET(t_uint16 offset, t_uint16 length, t_uin
 	}
 
 	// EXEC_INST__COPY_LITERAL
-	t_uint16 destination_index = UDVM_GET_2BYTES_VAL(destination);
+	uint16_t destination_index = UDVM_GET_2BYTES_VAL(destination);
 	bool ok = this->bytecopy_self(destination_index, position, length);
 	if(ok){
 		UDVM_SET_2BYTES_VAL(destination, destination_index);
@@ -821,7 +821,7 @@ This instruction initializes an area of UDVM memory to a specified sequence of v
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__MEMSET(t_uint16 address, t_uint16 length, t_uint16 start_value, t_uint16 offset)
+bool SigCompUDVM::EXEC_INST__MEMSET(uint16_t address, uint16_t length, uint16_t start_value, uint16_t offset)
 { 
 	CONSUME_CYCLES(1+length);
 
@@ -829,9 +829,9 @@ bool SigCompUDVM::EXEC_INST__MEMSET(t_uint16 address, t_uint16 length, t_uint16 
 	as a single byte, and then concatenated to form a byte string where
 	the first byte has value Seq[0], the second byte has value Seq[1] and
 	so on up to the last byte which has value Seq[length - 1].*/
-	t_uint8* seqs_temp = new t_uint8[length];
+	uint8_t* seqs_temp = new uint8_t[length];
 	if(!seqs_temp) return false;
-	for(t_uint16 n=0; n<length; n++)
+	for(uint16_t n=0; n<length; n++)
 	{
 		seqs_temp[n] = (start_value + n * offset)%256;
 	}
@@ -858,7 +858,7 @@ Decompression failure occurs if the value of the address operand lies
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__JUMP(t_int16 address/*=-1*/)
+bool SigCompUDVM::EXEC_INST__JUMP(int16_t address/*=-1*/)
 {
 	bool callback = (address>=0);
 	CONSUME_CYCLES(callback?0:1);
@@ -895,7 +895,7 @@ elif(value_1 > value_2) --> address_3
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__COMPARE(t_uint16 value_1, t_uint16 value_2, t_uint16 address_1, t_uint16 address_2, t_uint16 address_3)
+bool SigCompUDVM::EXEC_INST__COMPARE(uint16_t value_1, uint16_t value_2, uint16_t address_1, uint16_t address_2, uint16_t address_3)
 { 
 	CONSUME_CYCLES(1);
 
@@ -932,7 +932,7 @@ It then continues instruction execution at the memory address specified by the a
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__CALL(t_uint16 address)
+bool SigCompUDVM::EXEC_INST__CALL(uint16_t address)
 { 
 	CONSUME_CYCLES(1);
 	
@@ -955,7 +955,7 @@ bool SigCompUDVM::EXEC_INST__RETURN()
 { 
 	CONSUME_CYCLES(1);
 
-	t_uint16 value = 0;
+	uint16_t value = 0;
 	bool ok = true;
 	if( (ok = this->EXEC_INST__POP(&value)) )
 	{
@@ -978,9 +978,9 @@ Decompression failure occurs if j specifies a value of n or more, or
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__SWITCH(t_uint16 n, t_uint16 j)
+bool SigCompUDVM::EXEC_INST__SWITCH(uint16_t n, uint16_t j)
 { 
-	t_uint16 next = 0;
+	uint16_t next = 0;
 	bool ok = true;
 
 	CONSUME_CYCLES(1+n);
@@ -1022,13 +1022,13 @@ The CRC value is computed exactly as defined for the 16-bit FCS calculation in [
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__CRC(t_uint16 value, t_uint16 position, t_uint16 length, t_uint16 address)
+bool SigCompUDVM::EXEC_INST__CRC(uint16_t value, uint16_t position, uint16_t length, uint16_t address)
 { 
 	bool ok = true;
 
 	CONSUME_CYCLES(1+length);
 
-	t_uint8* data = new t_uint8[length];
+	uint8_t* data = new uint8_t[length];
 	if(!data)
 	{
 		this->createNackInfo(INTERNAL_ERROR);
@@ -1040,7 +1040,7 @@ bool SigCompUDVM::EXEC_INST__CRC(t_uint16 value, t_uint16 position, t_uint16 len
 
 	/*The CRC value is computed exactly as defined for the 16-bit FCS
 	calculation in [RFC-1662]*/
-	t_uint16 crc_value = ::pppfcs16(PPPINITFCS16, data, length);
+	uint16_t crc_value = ::pppfcs16(PPPINITFCS16, data, length);
 
 	// delete data
 	SAFE_DELETE_ARRAY(data);
@@ -1069,7 +1069,7 @@ This instruction requests a certain number of bytes of compressed data from the 
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__INPUT_BYTES(t_uint16 length, t_uint16 destination, t_uint16 address)
+bool SigCompUDVM::EXEC_INST__INPUT_BYTES(uint16_t length, uint16_t destination, uint16_t address)
 { 
 	bool ok = true;
 
@@ -1082,8 +1082,8 @@ bool SigCompUDVM::EXEC_INST__INPUT_BYTES(t_uint16 length, t_uint16 destination, 
 	immediately following the discarded data.*/
 	this->sigCompMessage->remaining_sigcomp_buffer.discardBits();
 
-	const t_uint8* compressedDataAddress = this->sigCompMessage->remaining_sigcomp_buffer.readBytes(length);
-	t_uint8* destinationAddress  = this->memory.getBuffer(destination);
+	const uint8_t* compressedDataAddress = this->sigCompMessage->remaining_sigcomp_buffer.readBytes(length);
+	uint8_t* destinationAddress  = this->memory.getBuffer(destination);
 	if(compressedDataAddress)
 	{
 		ok &= this->bytecopy_to(destination, compressedDataAddress, length);
@@ -1116,7 +1116,7 @@ This instruction requests a certain number of bits of compressed data from the d
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__INPUT_BITS(t_uint16 length, t_uint16 destination, t_uint16 address)
+bool SigCompUDVM::EXEC_INST__INPUT_BITS(uint16_t length, uint16_t destination, uint16_t address)
 { 
 	/* The input_bit_order register contains the following three flags:
 	0             7 8            15
@@ -1129,8 +1129,8 @@ bool SigCompUDVM::EXEC_INST__INPUT_BITS(t_uint16 length, t_uint16 destination, t
 
 	bool ok = true;
 
-	const t_uint16 input_bit_order = UDVM_GET_2BYTES_VAL(UDVM_HEADER_INPUT_BIT_ORDER_INDEX);
-	const t_uint16 reserved = (input_bit_order & 0xf8);
+	const uint16_t input_bit_order = UDVM_GET_2BYTES_VAL(UDVM_HEADER_INPUT_BIT_ORDER_INDEX);
+	const uint16_t reserved = (input_bit_order & 0xf8);
 	/*Decompression failure occurs if an INPUT-BITS or an INPUT-HUFFMAN
 	instruction is encountered and the input_bit_order register does not
 	lie between 0 and 7 inclusive.*/
@@ -1141,8 +1141,8 @@ bool SigCompUDVM::EXEC_INST__INPUT_BITS(t_uint16 length, t_uint16 destination, t
 	}
 
 	// F and P BITS
-	const t_uint8 F_BIT = (input_bit_order & 0x0004)?1:0;
-	const t_uint8 P_BIT = (input_bit_order & 0x0001);
+	const uint8_t F_BIT = (input_bit_order & 0x0004)?1:0;
+	const uint8_t P_BIT = (input_bit_order & 0x0001);
 
 	/*Decompression failure occurs if this operand (length) does not lie between 0
 	and 16 inclusive.*/
@@ -1156,7 +1156,7 @@ bool SigCompUDVM::EXEC_INST__INPUT_BITS(t_uint16 length, t_uint16 destination, t
 	dispatcher to the INPUT instructions
 	P=0 --> MSB_TO_LSB
 	P=1 --> LSB_TO_MSB*/
-	t_uint8& old_P_BIT = this->sigCompMessage->remaining_sigcomp_buffer.getP_BIT();
+	uint8_t& old_P_BIT = this->sigCompMessage->remaining_sigcomp_buffer.getP_BIT();
 	if( old_P_BIT != P_BIT )
 	{
 		/*If the P-bit has changed since the last INPUT instruction, any fraction of a
@@ -1182,13 +1182,13 @@ bool SigCompUDVM::EXEC_INST__INPUT_BITS(t_uint16 length, t_uint16 destination, t
 	F=1 --> LSB_TO_MSB*/
 	if(P_BIT==P_BIT_MSB_TO_LSB){
 		// MSB_TO_LSB
-		t_uint16 value = this->sigCompMessage->remaining_sigcomp_buffer.readMsbToLsb(length);
+		uint16_t value = this->sigCompMessage->remaining_sigcomp_buffer.readMsbToLsb(length);
 		if(F_BIT==F_BIT_LSB_TO_MSB) value = (BINARY_REVERSE_2BYTE(value)>>(16-length));
 		UDVM_SET_2BYTES_VAL(destination, value);
 	}
 	else{
 		// LSB_TO_MSB
-		t_uint16 value = this->sigCompMessage->remaining_sigcomp_buffer.readLsbToMsb(length);
+		uint16_t value = this->sigCompMessage->remaining_sigcomp_buffer.readLsbToMsb(length);
 		if(F_BIT==F_BIT_LSB_TO_MSB) value = (BINARY_REVERSE_2BYTE(value)>>(16-length));
 		UDVM_SET_2BYTES_VAL(destination, value);
 	}
@@ -1212,7 +1212,7 @@ additional bits are requested until the criterion is achieved.
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__INPUT_HUFFMAN(t_uint16 destination, t_uint16 address, t_uint16 n)
+bool SigCompUDVM::EXEC_INST__INPUT_HUFFMAN(uint16_t destination, uint16_t address, uint16_t n)
 { 
 	/* The input_bit_order register contains the following three flags:
 	0             7 8            15
@@ -1230,8 +1230,8 @@ bool SigCompUDVM::EXEC_INST__INPUT_HUFFMAN(t_uint16 destination, t_uint16 addres
 		goto end;
 	}
 
-	const t_uint16 input_bit_order = UDVM_GET_2BYTES_VAL(UDVM_HEADER_INPUT_BIT_ORDER_INDEX);
-	const t_uint16 reserved = (input_bit_order & 0xf8);
+	const uint16_t input_bit_order = UDVM_GET_2BYTES_VAL(UDVM_HEADER_INPUT_BIT_ORDER_INDEX);
+	const uint16_t reserved = (input_bit_order & 0xf8);
 	/*Decompression failure occurs if an INPUT-BITS or an INPUT-HUFFMAN
 	instruction is encountered and the input_bit_order register does not
 	lie between 0 and 7 inclusive.*/
@@ -1242,14 +1242,14 @@ bool SigCompUDVM::EXEC_INST__INPUT_HUFFMAN(t_uint16 destination, t_uint16 addres
 	}
 
 	// H and P
-	const t_uint8 H_BIT = (input_bit_order & 0x0002)?1:0;
-	const t_uint8 P_BIT = (input_bit_order & 0x0001);
+	const uint8_t H_BIT = (input_bit_order & 0x0002)?1:0;
+	const uint8_t P_BIT = (input_bit_order & 0x0001);
 
 	/*P:The P-bit controls the order in which bits are passed from the
 	dispatcher to the INPUT instructions
 	P=0 --> MSB_TO_LSB
 	P=1 --> LSB_TO_MSB*/
-	t_uint8& old_P_BIT = this->sigCompMessage->remaining_sigcomp_buffer.getP_BIT();
+	uint8_t& old_P_BIT = this->sigCompMessage->remaining_sigcomp_buffer.getP_BIT();
 	if( old_P_BIT != P_BIT )
 	{
 		/*If the P-bit has changed since the last INPUT instruction, any fraction of a
@@ -1262,8 +1262,8 @@ bool SigCompUDVM::EXEC_INST__INPUT_HUFFMAN(t_uint16 destination, t_uint16 addres
 	//
 	//	HUFFMAN COMPUTATION
 	//
-	t_uint16 bits_j, lower_bound_j, upper_bound_j, uncompressed_j;
-	t_uint16 bits_total = 0, k = 0, H, J;
+	uint16_t bits_j, lower_bound_j, upper_bound_j, uncompressed_j;
+	uint16_t bits_total = 0, k = 0, H, J;
 	bool criterion_ok = false;
 
 	// 1. Set j := 1 and set H := 0.
@@ -1360,7 +1360,7 @@ This instruction retrieves some previously stored state information.
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__STATE_ACCESS(t_uint16 partial_identifier_start, t_uint16 partial_identifier_length, t_uint16 state_begin, t_uint16 state_length, t_uint16 state_address, t_uint16 state_instruction)
+bool SigCompUDVM::EXEC_INST__STATE_ACCESS(uint16_t partial_identifier_start, uint16_t partial_identifier_length, uint16_t state_begin, uint16_t state_length, uint16_t state_address, uint16_t state_instruction)
 { 
 	/*Decompression failure occurs if partial_identifier_length does not
 	lie between 6 and 20 inclusive.*/
@@ -1382,7 +1382,7 @@ bool SigCompUDVM::EXEC_INST__STATE_ACCESS(t_uint16 partial_identifier_start, t_u
 	SigCompState* lpState = NULL;
 	SigCompBuffer partial_id;
 	partial_id.referenceBuff( this->memory.getBuffer(partial_identifier_start), partial_identifier_length );
-	t_uint16 match_count = const_cast<SigCompStateHandler*>(this->stateHandler)->findState(&partial_id, &lpState);
+	uint16_t match_count = const_cast<SigCompStateHandler*>(this->stateHandler)->findState(&partial_id, &lpState);
 	/*Decompression failure occurs if no state item matching the partial state identifier can be found, if
 	more than one state item matches the partial identifier*/
 	if(!lpState || !match_count || match_count>1)
@@ -1445,7 +1445,7 @@ This instruction requests the creation of a state item at the receiving endpoint
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__STATE_CREATE(t_uint16 state_length, t_uint16 state_address, t_uint16 state_instruction, t_uint16 minimum_access_length, t_uint16 state_retention_priority)
+bool SigCompUDVM::EXEC_INST__STATE_CREATE(uint16_t state_length, uint16_t state_address, uint16_t state_instruction, uint16_t minimum_access_length, uint16_t state_retention_priority)
 { 
 	CONSUME_CYCLES(1+state_length);
 
@@ -1471,7 +1471,7 @@ This instruction informs the receiving endpoint that the sender no longer wishes
 
 @returns true if succeed, otherwise return false 
 */
-bool SigCompUDVM::EXEC_INST__STATE_FREE(t_uint16 partial_identifier_start, t_uint16 partial_identifier_length)
+bool SigCompUDVM::EXEC_INST__STATE_FREE(uint16_t partial_identifier_start, uint16_t partial_identifier_length)
 { 
 	CONSUME_CYCLES(1);
 
@@ -1511,7 +1511,7 @@ This instruction provides successfully decompressed data to the dispatcher.
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__OUTPUT(t_uint16 output_start, t_uint16 output_length)
+bool SigCompUDVM::EXEC_INST__OUTPUT(uint16_t output_start, uint16_t output_length)
 { 
 	CONSUME_CYCLES(1+output_length);
 
@@ -1552,8 +1552,8 @@ handler together with any supplied feedback data.
 
 @returns true if succeed, otherwise return false
 */
-bool SigCompUDVM::EXEC_INST__END_MESSAGE(t_uint16 requested_feedback_location, t_uint16 returned_parameters_location, t_uint16 state_length, t_uint16 state_address,
-										 t_uint16 state_instruction, t_uint16 minimum_access_length, t_uint16 state_retention_priority)
+bool SigCompUDVM::EXEC_INST__END_MESSAGE(uint16_t requested_feedback_location, uint16_t returned_parameters_location, uint16_t state_length, uint16_t state_address,
+										 uint16_t state_instruction, uint16_t minimum_access_length, uint16_t state_retention_priority)
 {
 	CONSUME_CYCLES(1+state_length);
 
@@ -1593,7 +1593,7 @@ bool SigCompUDVM::EXEC_INST__END_MESSAGE(t_uint16 requested_feedback_location, t
 		|                               |
 		+---+---+---+---+---+---+---+---+
 		*/
-		t_uint8 r_f_l = *this->memory.getBuffer(requested_feedback_location);
+		uint8_t r_f_l = *this->memory.getBuffer(requested_feedback_location);
 		this->lpResult->getReqFeedBack()->setI((r_f_l & 0x01));
 		this->lpResult->getReqFeedBack()->setS((r_f_l & 0x02)?1:0);
 		this->lpResult->getReqFeedBack()->setQ((r_f_l & 0x04)?1:0);
@@ -1602,8 +1602,8 @@ bool SigCompUDVM::EXEC_INST__END_MESSAGE(t_uint16 requested_feedback_location, t
 		if(this->lpResult->getReqFeedBack()->getQ())
 		{
 			// we have a requested feedback item
-			t_uint8 r_f_i = *this->memory.getBuffer(requested_feedback_location);
-			t_uint8 length = 1; //[1-128]
+			uint8_t r_f_i = *this->memory.getBuffer(requested_feedback_location);
+			uint8_t length = 1; //[1-128]
 			if(r_f_i & 0x80){
 				// case 2
 				length += (r_f_i & 0x7f); // seven last bits
@@ -1656,7 +1656,7 @@ bool SigCompUDVM::EXEC_INST__END_MESSAGE(t_uint16 requested_feedback_location, t
 			return false;
 		}
 		//** cpb+dms+sms
-		t_uint8 r_p_l = *this->memory.getBuffer(returned_parameters_location);
+		uint8_t r_p_l = *this->memory.getBuffer(returned_parameters_location);
 		returned_parameters_location++;
 		if(r_p_l){
 			this->lpResult->getRemoteParams()->setCpbCode(((r_p_l & 0xc0)>>6));
@@ -1664,15 +1664,15 @@ bool SigCompUDVM::EXEC_INST__END_MESSAGE(t_uint16 requested_feedback_location, t
 			this->lpResult->getRemoteParams()->setSmsCode((r_p_l & 0x07));
 		}
 		//** sigcomp version
-		t_uint8 SigComp_version = *this->memory.getBuffer(returned_parameters_location);
+		uint8_t SigComp_version = *this->memory.getBuffer(returned_parameters_location);
 		returned_parameters_location++;
 		if(SigComp_version){
 			this->lpResult->getRemoteParams()->setSigCompVersion(SigComp_version);
 		}
 		//** state items
-		for(t_uint16 index = returned_parameters_location; index <(this->memory.getSize()-1); )
+		for(uint16_t index = returned_parameters_location; index <(this->memory.getSize()-1); )
 		{
-			t_uint8 length = *this->memory.getBuffer(index); // 1-byte
+			uint8_t length = *this->memory.getBuffer(index); // 1-byte
 			if(length<6 || length>20) break;
 			index++;
 			if((index+length)>=this->memory.getSize()){

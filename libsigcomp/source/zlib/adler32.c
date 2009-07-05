@@ -1,3 +1,4 @@
+#if !HAS_ZLIB
 /* adler32.c -- compute the Adler-32 checksum of a data stream
  * Copyright (C) 1995-2004 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -147,3 +148,4 @@ uLong ZEXPORT adler32_combine(adler1, adler2, len2)
     if (sum2 > BASE) sum2 -= BASE;
     return sum1 | (sum2 << 16);
 }
+#endif // HAS_ZLIB

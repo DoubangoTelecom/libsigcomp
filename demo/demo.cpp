@@ -44,10 +44,10 @@ Don't worry for tcp case --> complexity is hidden
 #define COMPARTMENT_ID1		1983	// My first compartment id
 #define COMPARTMENT_ID2		1984	// My second compartment id
 
-#define IS_STREAM				false	// Using reliable transport
+#define IS_STREAM			false	// Using reliable transport
 #define STREAM_ID			678		// stream identifier
 
-#define MAX_BUFFER_SIZE		0xffff
+#define MAX_BUFFER_SIZE		0xfff0
 
 #define LOOP_COUNT			100
 
@@ -303,6 +303,12 @@ int _tmain(int argc, _TCHAR* argv[])
 			assert(0);	
 		}
 	}
+
+	manager1->closeCompartment(COMPARTMENT_ID1);
+	manager2->closeCompartment(COMPARTMENT_ID2);
+
+	SAFE_DELETE_PTR(manager1);
+	SAFE_DELETE_PTR(manager2);
 
 	return 0;
 }

@@ -41,25 +41,25 @@ public:
 	void reset();
 
 	// Operators
-	operator t_uint8* () { return this->lpbuffer; }
+	operator uint8_t* () { return this->lpbuffer; }
 	operator void* () { return (void*)this->lpbuffer; }
 	operator size_t () { return this->size; }
 	inline bool operator == (const SigCompBuffer &buffer) const;
 	inline bool startsWith(const SigCompBuffer* buff) const;
 
-	inline const t_uint8* getReadOnlyBuffer(size_t position=0)const;
-	inline t_uint8* getBuffer(size_t position=0);
+	inline const uint8_t* getReadOnlyBuffer(size_t position=0)const;
+	inline uint8_t* getBuffer(size_t position=0);
 	inline const size_t getSize()const;
 	inline const size_t getRemainingBits()const;
 
-	inline t_uint8* readBytes(size_t size);
-	t_uint16 readLsbToMsb(size_t length);
-	t_uint16 readMsbToLsb(size_t length);
+	inline uint8_t* readBytes(size_t size);
+	uint16_t readLsbToMsb(size_t length);
+	uint16_t readMsbToLsb(size_t length);
 	inline void discardBits();
-	inline void discardLastBytes(t_uint16 count);
+	inline void discardLastBytes(uint16_t count);
 
 	void allocBuff(size_t size);
-	void referenceBuff(t_uint8* externalBuff, size_t size);
+	void referenceBuff(uint8_t* externalBuff, size_t size);
 	bool appendBuff(const void* data, size_t size);
 	bool removeBuff(size_t pos, size_t size);
 	void freeBuff();
@@ -67,17 +67,17 @@ public:
 	inline size_t& getIndexBytes() { return this->index_bytes; }
 	inline size_t& getIndexBits() { return this->index_bits; }
 	
-	inline t_uint8& getP_BIT() { return this->P_BIT; }
+	inline uint8_t& getP_BIT() { return this->P_BIT; }
 
-	void print(t_int64 size=-1);
+	void print(int64_t size=-1);
 
 private:
 	size_t	size;
-	t_uint8*	lpbuffer;
+	uint8_t*	lpbuffer;
 	size_t    index_bytes;
 	size_t    index_bits;
 	bool		owner;
-	t_uint8		P_BIT;
+	uint8_t		P_BIT;
 };
 
 __NS_DECLARATION_END__

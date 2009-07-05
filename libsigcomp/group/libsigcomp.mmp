@@ -1,0 +1,80 @@
+/*
+============================================================================
+ Name		: libsigcomp.mmp
+ Author	  : Mamadou Diop
+ Copyright   : Copyright (C) 2009 Mamadou Diop <diopmamadou@yahoo.fr>
+
+	This file is part of libSigComp project.
+
+    libSigComp is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+	
+    libSigComp is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+	
+    You should have received a copy of the GNU Lesser General Public License
+    along with libSigComp. 
+ Description : This is the project specification file for libsigcomp.
+============================================================================
+*/
+
+TARGET		  libsigcomp.dll
+TARGETTYPE	  dll
+UID			 0x1000008d 0xE3BE004C
+
+USERINCLUDE	 ..\include
+SYSTEMINCLUDE   \epoc32\include \epoc32\include\stdapis \epoc32\include\stdapis\sys \epoc32\include\stdapis\stlport \epoc32\include\stdapis\stlport\stl
+
+
+
+// In order to use .def files to freeze code you must use one or more DEFFILE lines;
+// see the ones commented out below for examples.
+// By default, the build tools look for the WINSCW def file in a BWINS directory
+// (at the same level as the directory containing the mmp file), 
+// the GCC ARM def file in a BMARM directory, and the ARMV5 def file in a EABI directory. 
+// If your .def files are stored in these default locations, you can simply specify the
+// .def filename(s) with no path. If you want to store .def files in non-default 
+// locations, you will need to specify the paths in the DEFFILE statement(s).
+
+//The following commented out code shows how the build system uses the implicit
+// location for defiles. To create the DEF files Choose Project > Freeze Exports from Carbide
+// or run 'abld freeze' from the command-line
+//#if defined (WINS)
+//  DEFFILE ..\bwins\libsigcomp.def
+//#elif defined (GCC32)
+//  DEFFILE ..\bmarm\libsigcomp.def
+//#else 
+//  DEFFILE ..\eabi\libsigcomp.def
+//#endif
+
+nostrictdef
+
+
+LIBRARY		 euser.lib libc.lib libstdcpp.lib libpthread.lib ezlib.lib
+
+#ifdef ENABLE_ABIV2_MODE
+DEBUGGABLE_UDEBONLY
+#endif
+
+
+SOURCEPATH ..\source\Compressors
+SOURCE DeflateCompressor.cxx DeflateCompressor.ghost.cxx DeflateCompressor.zlib.cxx DummyCompressor.cxx
+SOURCEPATH ..\source
+SOURCE Mutex.cxx SafeObject.cxx SigCompBuffer.cxx
+SOURCEPATH ..\source\SigCompLayer
+SOURCE SigCompCompartment.cxx SigCompCompressor.cxx SigCompCompressorDisp.cxx SigCompDecompressorDisp.cxx SigCompState.cxx SigCompStateHandler.cxx SigCompUDVM.ByteCopy.cxx SigCompUDVM.Instructions.cxx SigCompUDVM.Nack.cxx SigCompUDVM.Operands.cxx SigCompUDVM.StateManagement.cxx SigCompUDVM.cxx
+SOURCEPATH ..\source
+SOURCE SigCompManager.cxx SigCompMessage.cxx binary_utils.cxx rfc1662_ppfcs16.cxx rfc3174_us-sha1.cxx
+SOURCEPATH ..\source\zlib
+SOURCE adler32.c compress.c crc32.c deflate.c trees.c zutil.c
+
+OPTION CW -wchar_t on
+
+MACRO _WCHAR_T_DECLARED LIBSIGCOMP_EXPORTS HAS_ZLIB=1
+
+EPOCALLOWDLLDATA
+

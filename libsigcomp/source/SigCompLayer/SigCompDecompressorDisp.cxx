@@ -48,7 +48,7 @@ SigCompDecompressorDisp::SigCompDecompressorDisp(const SigCompStateHandler* _sta
 SigCompDecompressorDisp::~SigCompDecompressorDisp()
 {
 	// Delete all stream buffer
-	std::map<t_uint64, SigCompBuffer*>::iterator it;
+	std::map<uint64_t, SigCompBuffer*>::iterator it;
 	SAFE_CLEAR_MAP(this->streamBuffers, it);
 }
 
@@ -65,7 +65,7 @@ bool SigCompDecompressorDisp::decompress(LPCVOID input_ptr, size_t input_size, l
 {
 	bool ret = true;
 	bool stream = lpResult->getIsStreamBased();
-	t_uint64 streamId = 0;
+	uint64_t streamId = 0;
 
 	//
 	// Check if transport type changed
@@ -82,8 +82,8 @@ bool SigCompDecompressorDisp::decompress(LPCVOID input_ptr, size_t input_size, l
 	
 	if(stream)
 	{
-		t_uint64 size=0;
-		t_uint16 discard_count=0;
+		uint64_t size=0;
+		uint16_t discard_count=0;
 		SigCompBuffer* lpBuffer = this->streamBuffers[streamId];
 
 		if(ret && this->getNextStreamMsg(streamId, discard_count, size))
@@ -113,9 +113,9 @@ bool SigCompDecompressorDisp::decompress(LPCVOID input_ptr, size_t input_size, l
 bool SigCompDecompressorDisp::getNextMessage(lpDecompressionResult lpResult)
 {
 	bool ret = true;
-	t_uint64 size=0;
-	t_uint16 discard_count=0;
-	t_uint64 streamId = lpResult->getStreamId();
+	uint64_t size=0;
+	uint16_t discard_count=0;
+	uint64_t streamId = lpResult->getStreamId();
 
 	assert(this->streamBuffers.find(streamId)!=this->streamBuffers.end());
 	
@@ -186,7 +186,7 @@ inline bool SigCompDecompressorDisp::internalDecompress(LPCVOID input_ptr, const
 
 	@returns
 */
-bool SigCompDecompressorDisp::appendStream(LPCVOID input_ptr, size_t input_size, t_uint64 streamId)
+bool SigCompDecompressorDisp::appendStream(LPCVOID input_ptr, size_t input_size, uint64_t streamId)
 {
 	SigCompBuffer* lpBuffer = NULL;
 	if(this->streamBuffers.find(streamId)==this->streamBuffers.end()){
@@ -222,7 +222,7 @@ bool SigCompDecompressorDisp::appendStream(LPCVOID input_ptr, size_t input_size,
 
 	@returns;
 */
-bool SigCompDecompressorDisp::getNextStreamMsg(t_uint64 streamId, t_uint16 &discard_count, t_uint64 &size)
+bool SigCompDecompressorDisp::getNextStreamMsg(uint64_t streamId, uint16_t &discard_count, uint64_t &size)
 {
 	//
 	// RFC 3320 - 4.2.1.  Decompressor Dispatcher Strategies [strategie 1]
@@ -233,9 +233,9 @@ bool SigCompDecompressorDisp::getNextStreamMsg(t_uint64 streamId, t_uint16 &disc
 	size = 0;
 	discard_count = 0;
 
-	t_uint8 quote_count = 0;
-	t_uint8* start = lpBuffer->getBuffer();
-	t_uint8* end = (start+lpBuffer->getSize());
+	uint8_t quote_count = 0;
+	uint8_t* start = lpBuffer->getBuffer();
+	uint8_t* end = (start+lpBuffer->getSize());
 	while(start<end){
 		if(*start==0xff)
 		{

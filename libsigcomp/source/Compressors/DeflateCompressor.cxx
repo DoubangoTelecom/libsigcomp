@@ -21,7 +21,14 @@
 
 #include <global_config.h>
 #include <libsigcomp/Compressors/DeflateCompressor.h>
-//#include <libsigcomp/rfc3485_dictionary_sip.h>
+//#include <math.h>
+#define LIBSIGCOMP_MIN(a, b) (a<b?a:b)
+
+// FIXME: do not compile these two files when using carbide.c++
+#ifdef __SYMBIAN32__
+//#	include <../source/Compressors/DeflateCompressor.ghost.cxx>
+//#	include <../source/Compressors/DeflateCompressor.ghost.cxx>
+#endif
 
 __NS_DECLARATION_BEGIN__
 
@@ -61,12 +68,12 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 	bool result = true;
 	
 	SigCompBuffer output_buffer;
-	output_buffer.referenceBuff((t_uint8*)output_ptr, output_size);
+	output_buffer.referenceBuff((uint8_t*)output_ptr, output_size);
 
 	size_t pointer =0, state_len_index =0;
 
 	// State memory size code
-	t_uint8 smsCode = min(lpCompartment->getRemoteParameters()->getSmsCode(), lpCompartment->getRemoteParameters()->getDmsCode());
+	uint8_t smsCode = LIBSIGCOMP_MIN(lpCompartment->getRemoteParameters()->getSmsCode(), lpCompartment->getRemoteParameters()->getDmsCode());
 	
 	//
 	//	Init zLIB --> only if remote sms has changed
@@ -85,7 +92,7 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 	//***********************************************
 	//	SigComp headers
 	//
-	t_uint8* header = output_buffer.getBuffer(pointer++);
+	uint8_t* header = output_buffer.getBuffer(pointer++);
 
 	
 	/* SigComp Header */
@@ -111,7 +118,7 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 	{
 		// FIXME: what about priorities
 		SigCompBuffer* id = lpCompartment->getRetFeedback();
-		t_uint8 size = (*id->getBuffer(0)&0x7f);
+		uint8_t size = (*id->getBuffer(0)&0x7f);
 		switch(size)
 		{
 		case 6:
@@ -134,7 +141,7 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 #endif
 	else
 	{
-		t_uint16 codeLen = DEFLATE_BYTECODE_LEN;
+		uint16_t codeLen = DEFLATE_BYTECODE_LEN;
 		// first byte for codelen
 		*output_buffer.getBuffer(pointer++) = ((codeLen>>4)& 0x00ff);
 		// last 4 bits for codelen
@@ -145,7 +152,7 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 		//////////////////////////////////////////////////
 		//	Upload UDVM bytecode
 		//
-		::memmove(output_buffer.getBuffer(pointer), (t_uint8*)DeflateCompressor::deflate_bytecode, codeLen);
+		::memmove(output_buffer.getBuffer(pointer), (uint8_t*)DeflateCompressor::deflate_bytecode, codeLen);
 		pointer+= codeLen;
 
 		//////////////////////////////////////////////////
@@ -182,8 +189,8 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 	//
 	if(state_len_index)
 	{		
-		t_uint16 state_len = ( (1<<(this->zWindowBits)) + DEFLATE_UDVM_CIRCULAR_START_INDEX - 64 );
-		t_uint32 hash_len = (state_len+8);
+		uint16_t state_len = ( (1<<(this->zWindowBits)) + DEFLATE_UDVM_CIRCULAR_START_INDEX - 64 );
+		uint32_t hash_len = (state_len+8);
 		
 		// FIXME: 131072  could not go in 2-bytes
 		*output_buffer.getBuffer(state_len_index) = (hash_len >> 8);
@@ -195,7 +202,7 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 		this->createGhost(lpCompartment, state_len, lpCompartment->getLocalParameters());
 	}
 
-	this->updateGhost(lpCompartment, (const t_uint8*)input_ptr, input_size);
+	this->updateGhost(lpCompartment, (const uint8_t*)input_ptr, input_size);
 
 	this->unlock();
 

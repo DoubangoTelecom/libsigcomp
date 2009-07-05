@@ -27,7 +27,7 @@ __NS_DECLARATION_BEGIN__
 
 /**
 */
-void SigCompUDVM::createNackInfo(t_uint8 reasonCode, SigCompBuffer* lpDetails, t_int16 memory_address_of_instruction /*= -1*/)
+void SigCompUDVM::createNackInfo(uint8_t reasonCode, SigCompBuffer* lpDetails, int16_t memory_address_of_instruction /*= -1*/)
 {
 #define NACK_HEADER_INDEX		0
 #define NACK_VERSION_INDEX		(NACK_HEADER_INDEX+2)
@@ -65,7 +65,7 @@ void SigCompUDVM::createNackInfo(t_uint8 reasonCode, SigCompBuffer* lpDetails, t
         +---+---+---+---+---+---+---+---+
 	*/
 
-	t_uint16 mem_add_instruction = (memory_address_of_instruction >=0) ? memory_address_of_instruction : this->last_memory_address_of_instruction;
+	uint16_t mem_add_instruction = (memory_address_of_instruction >=0) ? memory_address_of_instruction : this->last_memory_address_of_instruction;
 
 	this->lpResult->getNackInfo()->allocBuff( (NACK_SHA1_INDEX + SHA1HashSize) );
 	*this->lpResult->getNackInfo()->getBuffer(NACK_HEADER_INDEX) = 0xf8;
@@ -92,12 +92,12 @@ void SigCompUDVM::createNackInfo(t_uint8 reasonCode, SigCompBuffer* lpDetails, t
 	}
 	else if(reasonCode == BYTECODES_TOO_LARGE)
 	{
-		t_uint16 memorySize = this->memory.getSize();
+		uint16_t memorySize = this->memory.getSize();
 		this->lpResult->getNackInfo()->appendBuff(&memorySize, 2);
 	}
 	else if(reasonCode == CYCLES_EXHAUSTED)
 	{
-		t_uint8 cpb = this->stateHandler->getSigCompParameters()->getCpbValue();
+		uint8_t cpb = this->stateHandler->getSigCompParameters()->getCpbValue();
 		this->lpResult->getNackInfo()->appendBuff(&cpb, 1);
 	}
 

@@ -34,7 +34,7 @@ From UDVM to UDVM
 @param size_tocopy
 @returns
 */
-bool SigCompUDVM::bytecopy_self(t_uint16 &destination, t_uint16 source, t_uint16 size_tocopy)
+bool SigCompUDVM::bytecopy_self(uint16_t &destination, uint16_t source, uint16_t size_tocopy)
 {
 	//if( ((destination + size_tocopy) > this->memory.getSize()) || ((source + size_tocopy) > this->memory.getSize()) )
 	if (destination == this->memory.getSize() || source == this->memory.getSize())
@@ -46,8 +46,8 @@ bool SigCompUDVM::bytecopy_self(t_uint16 &destination, t_uint16 source, t_uint16
 
 	/*The string of bytes is copied in ascending order of memory address,
 	respecting the bounds set by byte_copy_left and byte_copy_right.*/	
-	t_uint16 byte_copy_left = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_LEFT_INDEX);
-	t_uint16 byte_copy_right = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_RIGHT_INDEX);
+	uint16_t byte_copy_left = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_LEFT_INDEX);
+	uint16_t byte_copy_right = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_RIGHT_INDEX);
 	
 	// string of bytes is copied one byte at a time
 	while((size_tocopy--))
@@ -68,7 +68,7 @@ From EXTERNAL to UDVM
 @param size_tocopy
 @returns
 */
-bool SigCompUDVM::bytecopy_to(t_uint16 destination, const t_uint8* source, t_uint16 size_tocopy)
+bool SigCompUDVM::bytecopy_to(uint16_t destination, const uint8_t* source, uint16_t size_tocopy)
 {
 	//if( ((destination + size_tocopy) > this->memory.getSize()) )
 	if(destination == this->memory.getSize())
@@ -80,8 +80,8 @@ bool SigCompUDVM::bytecopy_to(t_uint16 destination, const t_uint8* source, t_uin
 
 	/*The string of bytes is copied in ascending order of memory address,
 	respecting the bounds set by byte_copy_left and byte_copy_right.*/
-	t_uint16 byte_copy_left = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_LEFT_INDEX);
-	t_uint16 byte_copy_right = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_RIGHT_INDEX);
+	uint16_t byte_copy_left = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_LEFT_INDEX);
+	uint16_t byte_copy_right = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_RIGHT_INDEX);
 
 	// string of bytes is copied one byte at a time
 	while((size_tocopy--))
@@ -102,7 +102,7 @@ From UDVM to EXTERNAL
 @param size_tocopy
 @returns
 */
-bool SigCompUDVM::bytecopy_from(t_uint8* destination, t_uint16 source, t_uint16 size_tocopy)
+bool SigCompUDVM::bytecopy_from(uint8_t* destination, uint16_t source, uint16_t size_tocopy)
 {
 	//if( ((source + size_tocopy) > this->memory.getSize()) )
 	if(source == this->memory.getSize())
@@ -114,8 +114,8 @@ bool SigCompUDVM::bytecopy_from(t_uint8* destination, t_uint16 source, t_uint16 
 
 	/*The string of bytes is copied in ascending order of memory address,
 	respecting the bounds set by byte_copy_left and byte_copy_right.*/
-	t_uint16 byte_copy_left = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_LEFT_INDEX);
-	t_uint16 byte_copy_right = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_RIGHT_INDEX);
+	uint16_t byte_copy_left = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_LEFT_INDEX);
+	uint16_t byte_copy_right = UDVM_GET_2BYTES_VAL(UDVM_HEADER_BYTE_COPY_RIGHT_INDEX);
 
 
 	// string of bytes is copied one byte at a time

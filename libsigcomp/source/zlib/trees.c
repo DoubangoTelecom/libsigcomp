@@ -1,3 +1,4 @@
+#if !HAS_ZLIB
 /* trees.c -- output deflated data using Huffman coding
  * Copyright (C) 1995-2005 Jean-loup Gailly
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -1217,3 +1218,4 @@ local void copy_block(s, buf, len, header)
         put_byte(s, *buf++);
     }
 }
+#endif // HAS_ZLIB

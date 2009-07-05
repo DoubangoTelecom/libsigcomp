@@ -1,3 +1,4 @@
+#if !HAS_ZLIB
 /* zconf.h -- configuration of the zlib compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -200,7 +201,7 @@
 #  endif
 #endif
 
-#if defined(WINDOWS) || defined(WIN32)
+#if defined(WINDOWS) || defined(WIN32) || defined(__SYMBIAN32__)
    /* If building or using zlib as a DLL, define ZLIB_DLL.
     * This is not mandatory, but it offers a little performance increase.
     */
@@ -332,3 +333,4 @@ typedef uLong FAR uLongf;
 #endif
 
 #endif /* ZCONF_H */
+#endif // HAS_ZLIB

@@ -56,7 +56,7 @@ SigCompUDVM::SigCompUDVM(const SigCompMessage* _sigCompMessage, const SigCompSta
 	//
 	if(this->sigCompMessage->ret_feedback_buffer.getSize())
 	{
-		t_uint64 size = this->sigCompMessage->ret_feedback_buffer.getSize();
+		uint64_t size = this->sigCompMessage->ret_feedback_buffer.getSize();
 		lpResult->getRetFeedback()->allocBuff(size);
 		::memmove(lpResult->getRetFeedback()->getBuffer(), this->sigCompMessage->ret_feedback_buffer.getBuffer(), size);
 	}
@@ -68,7 +68,7 @@ SigCompUDVM::SigCompUDVM(const SigCompMessage* _sigCompMessage, const SigCompSta
 	{
 		// Find the provided state
 		SigCompState* lpState = NULL;
-		t_uint16 match_count = this->stateHandler->findState(&this->sigCompMessage->stateId, &lpState);
+		uint16_t match_count = this->stateHandler->findState(&this->sigCompMessage->stateId, &lpState);
 		if( (!match_count || match_count>1 || !lpState)
 			|| (lpState->getMinimumAccessLength()>this->sigCompMessage->stateId.getSize())
 			|| ((lpState->getStateAddress()+lpState->getStateLength())>this->memory.getSize()) )
@@ -153,7 +153,7 @@ bool SigCompUDVM::runByteCode()
 {
 	if(!this->isOK) return false;
 
-	t_uint16 operand_1, operand_2, operand_3, operand_4, operand_5, operand_6, operand_7;
+	uint16_t operand_1, operand_2, operand_3, operand_4, operand_5, operand_6, operand_7;
 
 	bool excution_failed = false;
 	bool end_message = false;
@@ -161,7 +161,7 @@ bool SigCompUDVM::runByteCode()
 	// LOOP - EXCUTE all bytecode
 	while( !excution_failed && !end_message )
 	{
-		t_uint8 udvm_instruction = * (this->memory.getBuffer(this->executionPointer));
+		uint8_t udvm_instruction = * (this->memory.getBuffer(this->executionPointer));
 		this->last_memory_address_of_instruction = this->executionPointer;
 		this->executionPointer++; // Skip the 1-byte [INSTRUCTION]
 

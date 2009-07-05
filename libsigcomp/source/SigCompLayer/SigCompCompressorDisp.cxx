@@ -51,7 +51,7 @@ SigCompCompressorDisp::~SigCompCompressorDisp()
 
 /**
 */
-bool SigCompCompressorDisp::compress(t_uint64 compartmentId, LPCVOID input_ptr, size_t input_size, LPVOID output_ptr, size_t &output_size, bool stream)
+bool SigCompCompressorDisp::compress(uint64_t compartmentId, LPCVOID input_ptr, size_t input_size, LPVOID output_ptr, size_t &output_size, bool stream)
 {
 	bool ret = true;
 
@@ -79,13 +79,13 @@ bool SigCompCompressorDisp::compress(t_uint64 compartmentId, LPCVOID input_ptr, 
 	if(stream)
 	{
 		size_t escapedBufferSize = (output_size + 2); // 2 = strlen(0xffff)
-		for(register int i=0;i<output_size;i++) escapedBufferSize += ((t_uint8*)output_ptr)[i]==0xff?1:0;
-		t_uint8* escapedBuffer = (t_uint8*)malloc(escapedBufferSize);
+		for(register int i=0;i<output_size;i++) escapedBufferSize += ((uint8_t*)output_ptr)[i]==0xff?1:0;
+		uint8_t* escapedBuffer = (uint8_t*)malloc(escapedBufferSize);
 		assert(escapedBuffer);
 
 		for(register int i=0, j=0; i<output_size; i++, j++)
 		{
-			escapedBuffer[j] = ((t_uint8*)output_ptr)[i];
+			escapedBuffer[j] = ((uint8_t*)output_ptr)[i];
 			if(escapedBuffer[j] == 0xff) 
 			{
 				escapedBuffer[++j] = 0x00;
@@ -106,11 +106,11 @@ bool SigCompCompressorDisp::compress(t_uint64 compartmentId, LPCVOID input_ptr, 
 	if(ret && NACK_SUPPORTED)
 	{
 		// store nack for later retrieval in case of errors
-		t_uint8 nackId[SHA1HashSize];
+		uint8_t nackId[SHA1HashSize];
 
 		SHA1Context sha;
 		::SHA1Reset(&sha);
-		::SHA1Input(&sha, (const t_uint8*)output_ptr, output_size);
+		::SHA1Input(&sha, (const uint8_t*)output_ptr, output_size);
 		::SHA1Result(&sha, nackId);
 		lpCompartment->addNack(nackId);
 	}

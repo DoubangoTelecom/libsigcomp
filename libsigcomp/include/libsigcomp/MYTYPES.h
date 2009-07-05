@@ -22,48 +22,53 @@
 #if !defined(LIBSIGCOMP_MYTYPES_H)
 #define LIBSIGCOMP_MYTYPES_H
 
+#ifdef _MSC_VER
+	#if !defined(int8_t)
+	typedef char int8_t;
+	#endif
+
+	#if !defined(uint8_t)
+	typedef unsigned char  uint8_t;
+	#endif
+
+	#if !defined(byte_t)
+	typedef unsigned char  byte_t;
+	#endif
+
+	#if !defined(int16_t)
+	typedef __int16  int16_t;
+	#endif
+
+	#if !defined(uint16_t)
+	typedef unsigned short  uint16_t;
+	#endif
+
+	#if !defined(int32_t)
+	typedef __int32  int32_t;
+	#endif
+
+	#if !defined(uint32_t)
+	typedef unsigned int  uint32_t;
+	#endif
+
+	#if !defined(int64_t)
+	typedef __int64  int64_t;
+	#endif
+
+	#if !defined(uint64_t)
+	typedef unsigned __int64 uint64_t;	
+	#endif
+#else
+	#include <stdint.h>
+#endif
+
+
 	#if !defined(LPVOID)
 	typedef void  *LPVOID;
 	#endif
 	
 	#if !defined(LPCVOID)
 	typedef const void  *LPCVOID;
-	#endif
-
-	#if !defined(t_int8)
-	typedef char t_int8;
-	#endif
-
-	#if !defined(t_uint8)
-	typedef unsigned char  t_uint8;
-	#endif
-
-	#if !defined(t_byte)
-	typedef unsigned char  t_byte;
-	#endif
-
-	#if !defined(t_int16)
-	typedef __int16  t_int16;
-	#endif
-
-	#if !defined(t_uint16)
-	typedef unsigned short  t_uint16;
-	#endif
-
-	#if !defined(t_int32)
-	typedef __int32  t_int32;
-	#endif
-
-	#if !defined(t_uint32)
-	typedef unsigned int  t_uint32;
-	#endif
-
-	#if !defined(t_int64)
-	typedef __int64  t_int64;
-	#endif
-
-	#if !defined(t_uint64)
-	typedef unsigned __int64 t_uint64;	
 	#endif
 
 #endif // LIBSIGCOMP_MYTYPES_H

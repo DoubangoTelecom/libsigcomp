@@ -47,25 +47,25 @@ public:
 	inline const lpstruct_nack_info getNackInfo() { return &this->nack_info; }
 
 private:
-	void initFeedbackItem(t_uint8* &start_ptr);
-	void initStateId(t_uint8* &start_ptr, t_uint8 state_len);
-	void initStateful(t_uint8* &start_ptr, t_uint8* end_ptr);
-	void initStateless(t_uint8* &start_ptr, t_uint8* end_ptr);
-	void initNack(t_uint8* &start_ptr, t_uint8* end_ptr);
+	void initFeedbackItem(uint8_t* &start_ptr);
+	void initStateId(uint8_t* &start_ptr, uint8_t state_len);
+	void initStateful(uint8_t* &start_ptr, uint8_t* end_ptr);
+	void initStateless(uint8_t* &start_ptr, uint8_t* end_ptr);
+	void initNack(uint8_t* &start_ptr, uint8_t* end_ptr);
 
 private:
-	t_uint8 headerSigComp;
+	uint8_t headerSigComp;
 
 	bool isOK;
 	bool isNack;
 	bool stream_based;
-	const t_uint8* startPtr;
+	const uint8_t* startPtr;
 	size_t totalSize;
 	size_t header_size;
 
 	SigCompBuffer stateId;
 
-	t_uint16 bytecodes_destination;
+	uint16_t bytecodes_destination;
 	SigCompBuffer remaining_sigcomp_buffer;
 	SigCompBuffer uploaded_UDVM_buffer;
 	SigCompBuffer ret_feedback_buffer;

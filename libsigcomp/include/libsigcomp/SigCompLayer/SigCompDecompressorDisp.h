@@ -49,13 +49,13 @@ private:
 	bool getNextMessage(lpDecompressionResult lpResult);
 
 	inline bool internalDecompress(LPCVOID input_ptr, const size_t &input_size, lpDecompressionResult *lpResult);
-	bool appendStream(LPCVOID input_ptr, size_t input_size, t_uint64 streamId);
-	bool getNextStreamMsg(t_uint64 streamId, t_uint16 &discard_count, t_uint64 &size);
+	bool appendStream(LPCVOID input_ptr, size_t input_size, uint64_t streamId);
+	bool getNextStreamMsg(uint64_t streamId, uint16_t &discard_count, uint64_t &size);
 
 private:
 	const SigCompStateHandler* stateHandler;
 
-	std::map<t_uint64, SigCompBuffer*> streamBuffers;
+	std::map<uint64_t, SigCompBuffer*> streamBuffers;
 };
 
 __NS_DECLARATION_END__

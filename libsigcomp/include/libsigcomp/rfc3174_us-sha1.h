@@ -50,30 +50,30 @@ enum
  */
 typedef struct SHA1Context
 {
-    t_uint32 Intermediate_Hash[SHA1HashSize/4]; /* Message Digest  */
+    uint32_t Intermediate_Hash[SHA1HashSize/4]; /* Message Digest  */
 
-    t_uint32 Length_Low;            /* Message length in bits      */
-    t_uint32 Length_High;           /* Message length in bits      */
+    uint32_t Length_Low;            /* Message length in bits      */
+    uint32_t Length_High;           /* Message length in bits      */
 
                                /* Index into message block array   */
     int_least16_t Message_Block_Index;
-    t_uint8 Message_Block[64];      /* 512-bit message blocks      */
+    uint8_t Message_Block[64];      /* 512-bit message blocks      */
 
-    t_int32 Computed;               /* Is the digest computed?         */
-    t_int32 Corrupted;             /* Is the message digest corrupted? */
+    int32_t Computed;               /* Is the digest computed?         */
+    int32_t Corrupted;             /* Is the message digest corrupted? */
 } SHA1Context;
 
 /*
  *  Function Prototypes
  */
 
-t_int32 SHA1Reset(  SHA1Context *);
-t_int32 SHA1Input(  SHA1Context *,
-                const t_uint8 *,
-                unsigned t_int32);
-t_int32 SHA1Result( SHA1Context *,
-                t_uint8 Message_Digest[SHA1HashSize]);
-void SHA1Final(t_uint8 *Message_Digest, 
+int32_t SHA1Reset(  SHA1Context *);
+int32_t SHA1Input(  SHA1Context *,
+                const uint8_t *,
+                unsigned int32_t);
+int32_t SHA1Result( SHA1Context *,
+                uint8_t Message_Digest[SHA1HashSize]);
+void SHA1Final(uint8_t *Message_Digest, 
 			   SHA1Context *context);
 
 

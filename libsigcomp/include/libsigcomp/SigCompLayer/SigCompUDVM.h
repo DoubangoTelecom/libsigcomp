@@ -57,81 +57,81 @@ private:
 	SigCompStateHandler* stateHandler;
 	lpDecompressionResult lpResult;
 
-	t_uint32 maximum_UDVM_cycles; // RFC3320-Section_8.6
-	t_uint64 consumed_cycles;
+	uint32_t maximum_UDVM_cycles; // RFC3320-Section_8.6
+	uint64_t consumed_cycles;
 	
 	SigCompBuffer memory;
 	//header_udvm_memory memoryHeader; // RFC3320-Section_7.2 - // Default constructor will initial values (sip default)
 	
-	t_uint16 executionPointer;
-	t_uint16 last_memory_address_of_instruction;
+	uint16_t executionPointer;
+	uint16_t last_memory_address_of_instruction;
 
 	//
 	//	Operands
 	//
-	t_uint16 opget_literal_param();
-	t_uint16 opget_reference_param();
-	t_uint16 opget_multitype_param();
-	t_uint16 opget_address_param(t_uint16 memory_address_of_instruction);
+	uint16_t opget_literal_param();
+	uint16_t opget_reference_param();
+	uint16_t opget_multitype_param();
+	uint16_t opget_address_param(uint16_t memory_address_of_instruction);
 
 	//
 	// ByteCopy
 	//
-	bool bytecopy_self(t_uint16 &destination, t_uint16 source, t_uint16 size_tocopy);
-	bool bytecopy_to(t_uint16 destination, const t_uint8* source, t_uint16 size_tocopy);
-	bool bytecopy_from(t_uint8* destination, t_uint16 source, t_uint16 size_tocopy);
+	bool bytecopy_self(uint16_t &destination, uint16_t source, uint16_t size_tocopy);
+	bool bytecopy_to(uint16_t destination, const uint8_t* source, uint16_t size_tocopy);
+	bool bytecopy_from(uint8_t* destination, uint16_t source, uint16_t size_tocopy);
 
 	//
 	// State Management
 	//
 	bool byteCopy_TempStates();
-	bool createTempState(t_uint16 state_length, t_uint16 state_address, t_uint16 state_instruction, 
-		t_uint16 minimum_access_length, t_uint16 state_retention_priority, bool end_msg);
+	bool createTempState(uint16_t state_length, uint16_t state_address, uint16_t state_instruction, 
+		uint16_t minimum_access_length, uint16_t state_retention_priority, bool end_msg);
 
 	//
 	// Nack creation
 	//
-	void createNackInfo(t_uint8 reasonCode, SigCompBuffer* lpDetails=NULL, t_int16 memory_address_of_instruction = -1);
+	void createNackInfo(uint8_t reasonCode, SigCompBuffer* lpDetails=NULL, int16_t memory_address_of_instruction = -1);
 
 	//
 	// Instructions
 	//
 	bool EXEC_INST__DECOMPRESSION_FAILURE();
-	bool EXEC_INST__AND(t_uint16 operand_1, t_uint16 operand_2);
-	bool EXEC_INST__OR(t_uint16 operand_1, t_uint16 operand_2);
-	bool EXEC_INST__NOT(t_uint16 operand_1);
-	bool EXEC_INST__LSHIFT(t_uint16 operand_1, t_uint16 operand_2);
-	bool EXEC_INST__RSHIFT(t_uint16 operand_1, t_uint16 operand_2);
-	bool EXEC_INST__ADD(t_uint16 operand_1, t_uint16 operand_2);
-	bool EXEC_INST__SUBTRACT(t_uint16 operand_1, t_uint16 operand_2);
-	bool EXEC_INST__MULTIPLY(t_uint16 operand_1, t_uint16 operand_2);
-	bool EXEC_INST__DIVIDE(t_uint16 operand_1, t_uint16 operand_2);
-	bool EXEC_INST__REMAINDER(t_uint16 operand_1, t_uint16 operand_2);
-	bool EXEC_INST__SORT_ASCENDING(t_uint16 start, t_uint16 n, t_uint16 k);
-	bool EXEC_INST__SORT_DESCENDING(t_uint16 start, t_uint16 n, t_uint16 k);
-	bool EXEC_INST__SHA_1(t_uint16 position, t_uint16 length, t_uint16 destination);
-	bool EXEC_INST__LOAD(t_uint16 address, t_uint16 value);
-	bool EXEC_INST__MULTILOAD(t_uint16 address, t_uint16 n);
-	bool EXEC_INST__PUSH(t_int16 value = -1);
-	bool EXEC_INST__POP(t_uint16* value = NULL);
-	bool EXEC_INST__COPY(t_uint16 position, t_uint16 length, t_uint16 destination);
-	bool EXEC_INST__COPY_LITERAL(t_uint16 position, t_uint16 length, t_uint16 destination);
-	bool EXEC_INST__COPY_OFFSET(t_uint16 offset, t_uint16 length, t_uint16 destination);
-	bool EXEC_INST__MEMSET(t_uint16 address, t_uint16 length, t_uint16 start_value, t_uint16 offset);
-	bool EXEC_INST__JUMP(t_int16 address=-1);
-	bool EXEC_INST__COMPARE(t_uint16 value_1, t_uint16 value_2, t_uint16 address_1, t_uint16 address_2, t_uint16 address_3);
-	bool EXEC_INST__CALL(t_uint16 address);
+	bool EXEC_INST__AND(uint16_t operand_1, uint16_t operand_2);
+	bool EXEC_INST__OR(uint16_t operand_1, uint16_t operand_2);
+	bool EXEC_INST__NOT(uint16_t operand_1);
+	bool EXEC_INST__LSHIFT(uint16_t operand_1, uint16_t operand_2);
+	bool EXEC_INST__RSHIFT(uint16_t operand_1, uint16_t operand_2);
+	bool EXEC_INST__ADD(uint16_t operand_1, uint16_t operand_2);
+	bool EXEC_INST__SUBTRACT(uint16_t operand_1, uint16_t operand_2);
+	bool EXEC_INST__MULTIPLY(uint16_t operand_1, uint16_t operand_2);
+	bool EXEC_INST__DIVIDE(uint16_t operand_1, uint16_t operand_2);
+	bool EXEC_INST__REMAINDER(uint16_t operand_1, uint16_t operand_2);
+	bool EXEC_INST__SORT_ASCENDING(uint16_t start, uint16_t n, uint16_t k);
+	bool EXEC_INST__SORT_DESCENDING(uint16_t start, uint16_t n, uint16_t k);
+	bool EXEC_INST__SHA_1(uint16_t position, uint16_t length, uint16_t destination);
+	bool EXEC_INST__LOAD(uint16_t address, uint16_t value);
+	bool EXEC_INST__MULTILOAD(uint16_t address, uint16_t n);
+	bool EXEC_INST__PUSH(int16_t value = -1);
+	bool EXEC_INST__POP(uint16_t* value = NULL);
+	bool EXEC_INST__COPY(uint16_t position, uint16_t length, uint16_t destination);
+	bool EXEC_INST__COPY_LITERAL(uint16_t position, uint16_t length, uint16_t destination);
+	bool EXEC_INST__COPY_OFFSET(uint16_t offset, uint16_t length, uint16_t destination);
+	bool EXEC_INST__MEMSET(uint16_t address, uint16_t length, uint16_t start_value, uint16_t offset);
+	bool EXEC_INST__JUMP(int16_t address=-1);
+	bool EXEC_INST__COMPARE(uint16_t value_1, uint16_t value_2, uint16_t address_1, uint16_t address_2, uint16_t address_3);
+	bool EXEC_INST__CALL(uint16_t address);
 	bool EXEC_INST__RETURN();
-	bool EXEC_INST__SWITCH(t_uint16 n, t_uint16 j);
-	bool EXEC_INST__CRC(t_uint16 value, t_uint16 position, t_uint16 length, t_uint16 address);
-	bool EXEC_INST__INPUT_BYTES(t_uint16 length, t_uint16 destination, t_uint16 address);
-	bool EXEC_INST__INPUT_BITS(t_uint16 length, t_uint16 destination, t_uint16 address);
-	bool EXEC_INST__INPUT_HUFFMAN(t_uint16 destination, t_uint16 address, t_uint16 n);
-	bool EXEC_INST__STATE_ACCESS(t_uint16 partial_identifier_start, t_uint16 partial_identifier_length, t_uint16 state_begin, t_uint16 state_length, t_uint16 state_address, t_uint16 state_instruction);
-	bool EXEC_INST__STATE_CREATE(t_uint16 state_length, t_uint16 state_address, t_uint16 state_instruction, t_uint16 minimum_access_length, t_uint16 state_retention_priority);
-	bool EXEC_INST__STATE_FREE(t_uint16 partial_identifier_start, t_uint16 partial_identifier_length);
-	bool EXEC_INST__OUTPUT(t_uint16 output_start, t_uint16 output_length);
-	bool EXEC_INST__END_MESSAGE(t_uint16 requested_feedback_location, t_uint16 returned_parameters_location, t_uint16 state_length, t_uint16 state_address, t_uint16 state_instruction, t_uint16 minimum_access_length, t_uint16 state_retention_priority);
+	bool EXEC_INST__SWITCH(uint16_t n, uint16_t j);
+	bool EXEC_INST__CRC(uint16_t value, uint16_t position, uint16_t length, uint16_t address);
+	bool EXEC_INST__INPUT_BYTES(uint16_t length, uint16_t destination, uint16_t address);
+	bool EXEC_INST__INPUT_BITS(uint16_t length, uint16_t destination, uint16_t address);
+	bool EXEC_INST__INPUT_HUFFMAN(uint16_t destination, uint16_t address, uint16_t n);
+	bool EXEC_INST__STATE_ACCESS(uint16_t partial_identifier_start, uint16_t partial_identifier_length, uint16_t state_begin, uint16_t state_length, uint16_t state_address, uint16_t state_instruction);
+	bool EXEC_INST__STATE_CREATE(uint16_t state_length, uint16_t state_address, uint16_t state_instruction, uint16_t minimum_access_length, uint16_t state_retention_priority);
+	bool EXEC_INST__STATE_FREE(uint16_t partial_identifier_start, uint16_t partial_identifier_length);
+	bool EXEC_INST__OUTPUT(uint16_t output_start, uint16_t output_length);
+	bool EXEC_INST__END_MESSAGE(uint16_t requested_feedback_location, uint16_t returned_parameters_location, uint16_t state_length, uint16_t state_address, uint16_t state_instruction, uint16_t minimum_access_length, uint16_t state_retention_priority);
 };
 
 __NS_DECLARATION_END__

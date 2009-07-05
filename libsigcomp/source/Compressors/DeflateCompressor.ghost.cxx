@@ -94,7 +94,7 @@ const char* DeflateCompressor::deflate_bytecode1_ghost=
 #define GHOST_STATE_MIN_ACCESS_LEN		6
 #define GHOST_STATE_RETENTION_PRIORITY	0
 
-void DeflateCompressor::createGhost( SigCompCompartment* lpCompartment, t_uint16 state_length, lpstruct_sigcomp_parameters params )
+void DeflateCompressor::createGhost( SigCompCompartment* lpCompartment, uint16_t state_length, lpstruct_sigcomp_parameters params )
 {
 	SigCompState* &ghostState = lpCompartment->getGhostState();
 	assert( !ghostState );
@@ -140,14 +140,14 @@ void DeflateCompressor::createGhost( SigCompCompartment* lpCompartment, t_uint16
 }
 
 
-void DeflateCompressor::updateGhost(SigCompCompartment* lpCompartment, const t_uint8* input_ptr, size_t input_size)
+void DeflateCompressor::updateGhost(SigCompCompartment* lpCompartment, const uint8_t* input_ptr, size_t input_size)
 {
 	SigCompState* &ghostState = lpCompartment->getGhostState();
 	assert( ghostState );
-	t_uint32 &ghost_copy_offset = lpCompartment->getGhostCopyOffset();
+	uint32_t &ghost_copy_offset = lpCompartment->getGhostCopyOffset();
 
 #define ZBUFF_LEN	(0x0001 << this->zWindowBits)
-	for(register t_uint32 i = 0; i<input_size; i++)
+	for(register uint32_t i = 0; i<input_size; i++)
 	{
 		//*ghostState->getStateValue()->getBuffer(GHOST_INPUT_INDEX + ghost_copy_offset) = 0x00; // I use this to test test synchronization failure
 		*ghostState->getStateValue()->getBuffer(GHOST_INPUT_INDEX + ghost_copy_offset) = input_ptr[i];

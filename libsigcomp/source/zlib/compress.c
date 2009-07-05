@@ -1,3 +1,4 @@
+#if !HAS_ZLIB
 /* compress.c -- compress a memory buffer
  * Copyright (C) 1995-2003 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -77,3 +78,4 @@ uLong ZEXPORT compressBound (sourceLen)
 {
     return sourceLen + (sourceLen >> 12) + (sourceLen >> 14) + 11;
 }
+#endif // HAS_ZLIB

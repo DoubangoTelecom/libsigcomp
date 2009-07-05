@@ -29,7 +29,11 @@
 #include <libsigcomp/SigCompLayer/SigCompCompressor.h>
 #include <libsigcomp/SigCompLayer/SigCompState.h>
 
-#include <libsigcomp/zlib/zlib.h>
+#if HAS_ZLIB
+#	include <zlib.h>
+#else
+#	include <libsigcomp/zlib/zlib.h>
+#endif
 
 #define USE_DICTS_FOR_COMPRESSION			0
 
@@ -75,8 +79,8 @@ private:
 	//
 	//	Ghost state
 	//
-	void createGhost(SigCompCompartment* lpCompartment, t_uint16 state_len, lpstruct_sigcomp_parameters params);
-	void updateGhost(SigCompCompartment* lpCompartment, const t_uint8* input_ptr, size_t input_size);
+	void createGhost(SigCompCompartment* lpCompartment, uint16_t state_len, lpstruct_sigcomp_parameters params);
+	void updateGhost(SigCompCompartment* lpCompartment, const uint8_t* input_ptr, size_t input_size);
 
 	//
 	//	zLIB

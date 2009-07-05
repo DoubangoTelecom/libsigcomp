@@ -26,7 +26,7 @@
 #elif defined(USE_PTHREAD_TRHREADS)
 #	include <pthread.h>
 #else
-#error No mutex type defined
+#	error No mutex type defined
 #endif
 
 __NS_DECLARATION_BEGIN__
@@ -42,8 +42,8 @@ Mutex::Mutex()
 	pthread_mutexattr_t *lpattributes = NULL;
 	pthread_mutex_init( (pthread_mutex_t*)this->lphandle, lpattributes );
 
-else
-#error Not implemented
+#else
+#	error Not implemented
 #endif
 }
 
@@ -54,7 +54,7 @@ Mutex::~Mutex()
 #elif defined(USE_PTHREAD_TRHREADS)
 	pthread_mutex_destroy((pthread_mutex_t*)this->lphandle);
 #else
-	#error Not implemented
+#	error Not implemented
 #endif
 
 	SAFE_DELETE_PTR(this->lphandle);
@@ -70,7 +70,7 @@ void Mutex::lock()
 #elif defined(USE_PTHREAD_TRHREADS)
 	assert(!pthread_mutex_lock((pthread_mutex_t*)this->lphandle));
 #else
-#error Not implemented
+#	error Not implemented
 #endif
 }
 
@@ -82,9 +82,9 @@ void Mutex::unlock()
 #if defined(USE_WIN32_THREADS)
 	assert(ReleaseMutex(*((HANDLE*)this->lphandle)));
 #elif defined(USE_PTHREAD_TRHREADS)
-	assert(!pthread_mutex_unlock((pthread_mutex_t*)handle_ptr));
+	assert(!pthread_mutex_unlock((pthread_mutex_t*)this->lphandle));
 #else
-#error Not implemented
+#	error Not implemented
 #endif
 }
 

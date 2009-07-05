@@ -62,20 +62,20 @@ typedef struct rfc4077_struct_nack_info
 
 	/*gives the version of the NACK mechanism being employed.
       This document defines version 1*/
-	t_uint8 version;
+	uint8_t version;
 	/*The Reason Code is a one-byte value that indicates the nature of the
       decompression failure.*/
-	t_uint8 reasonCode;
+	uint8_t reasonCode;
 	/*The OPCODE of failed instruction" is a one-byte field that includes
       the opcode to which the PC was pointing when the failure occurred*/
-	t_uint8 opcode;
+	uint8_t opcode;
 	/*"PC of failed instruction" is a two-byte field containing the
       value of the program counter when failure occurred (i.e., the
       memory address of the failed UDVM instruction)*/
-	t_uint16 pc;
+	uint16_t pc;
 	/*"SHA-1 Hash of failed message" contains the full 20-byte SHA-1
       hash of the SigComp message that could not be decompressed*/
-	t_uint8 sha1[20];
+	uint8_t sha1[20];
 	/*"Error Details" provides additional information that might be
       useful in correcting the problem that caused decompression failure.*/
 	SigCompBuffer details;

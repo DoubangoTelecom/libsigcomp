@@ -30,8 +30,8 @@ __NS_DECLARATION_BEGIN__
 
 /**
 */
-SigCompState::SigCompState(t_uint16 _state_length, t_uint16 _state_address, t_uint16 _state_instruction,
-							t_uint16 _minimum_access_length, t_uint16 _state_retention_priority)
+SigCompState::SigCompState(uint16_t _state_length, uint16_t _state_address, uint16_t _state_instruction,
+							uint16_t _minimum_access_length, uint16_t _state_retention_priority)
 :SafeObject()
 {
 	this->state_length = _state_length;
@@ -71,19 +71,19 @@ void SigCompState::makeValid()
 		   byte string formed by concatenating the state_length, state_address,
 		   state_instruction, minimum_access_length and state_value (in the
 		   order given).  This is the state_identifier.*/
-		t_uint16 values[4] = { this->state_length, this->state_address,
+		uint16_t values[4] = { this->state_length, this->state_address,
 		   this->state_instruction, this->minimum_access_length };
 		
 		//
 		//	Reset
 		//
-		t_int32 err = ::SHA1Reset(&sha);
+		int32_t err = ::SHA1Reset(&sha);
 
 		//
 		//	[state_length]+[state_address]+[state_instruction]+[minimum_access_length]
 		//
-		t_uint8 firstPart[8];
-		for(t_uint8 i=0; i<4; i++)
+		uint8_t firstPart[8];
+		for(uint8_t i=0; i<4; i++)
 		{
 #ifdef BIG_ENDIAN
 			firstPart[i] = (values[i] & 0xff);

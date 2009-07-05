@@ -40,8 +40,8 @@ __NS_DECLARATION_BEGIN__
 typedef struct struct_tempStateToFreeDesc
 {
 	// Operands
-	t_uint16 partial_identifier_start;
-	t_uint16 partial_identifier_length;
+	uint16_t partial_identifier_start;
+	uint16_t partial_identifier_length;
 	// identifier
 	SigCompBuffer identifier;
 
@@ -69,7 +69,7 @@ public:
 			isStreamBased=false;
 			streamId=0;
 			isNack=false;
-			for(t_uint8 i=0;i<4;i++){
+			for(uint8_t i=0;i<4;i++){
 				statesToCreate[i]=NULL;
 				statesToFree[i]=NULL;
 			}
@@ -81,10 +81,10 @@ public:
 		}
 
 		void reset(){
-			for(t_uint8 i=0; i<statesToCreateIndex; i++){
+			for(uint8_t i=0; i<statesToCreateIndex; i++){
 				SAFE_DELETE_PTR(statesToCreate[i]);
 			}
-			for(t_uint8 i=0; i<statesToFreeIndex; i++){
+			for(uint8_t i=0; i<statesToFreeIndex; i++){
 				SAFE_DELETE_PTR(statesToFree[i]);
 			}
 			statesToCreateIndex = 0;
@@ -108,9 +108,9 @@ public:
 
 			@returns
 		*/
-		inline void setOutputBuffer(LPVOID output_ptr, size_t output_size, bool stream, t_uint64 streamId=0)
+		inline void setOutputBuffer(LPVOID output_ptr, size_t output_size, bool stream, uint64_t streamId=0)
 		{
-			this->output_buffer.referenceBuff((t_uint8*)output_ptr, output_size);
+			this->output_buffer.referenceBuff((uint8_t*)output_ptr, output_size);
 			this->isStreamBased = stream;
 			this->streamId = streamId;
 		}
@@ -120,18 +120,18 @@ public:
 			return &this->output_buffer;
 		}
 
-		inline void setCompartmentId(t_uint64 id){
+		inline void setCompartmentId(uint64_t id){
 			this->compartmentId = id;
 		}
 
-		inline t_uint64 getCompartmentId(){
+		inline uint64_t getCompartmentId(){
 			return this->compartmentId;
 		}
 
 		inline bool getIsStreamBased(){
 			return this->isStreamBased;
 		}
-		inline t_uint64 getStreamId(){
+		inline uint64_t getStreamId(){
 			return this->streamId;
 		}
 
@@ -150,7 +150,7 @@ public:
 		inline SigCompState* *getTempStatesToCreate(){
 			return this->statesToCreate;
 		}
-		inline t_uint8 getTempStatesToCreateSize(){
+		inline uint8_t getTempStatesToCreateSize(){
 			return this->statesToCreateIndex;
 		}
 
@@ -167,7 +167,7 @@ public:
 		inline lptempStateToFreeDesc *getTempStatesToFree(){
 			return this->statesToFree;
 		}
-		inline t_uint8 getTempStatesToFreeSize(){
+		inline uint8_t getTempStatesToFreeSize(){
 			return this->statesToFreeIndex;
 		}
 		
@@ -209,14 +209,14 @@ public:
 		}
 
 private:
-	t_uint64 compartmentId;
+	uint64_t compartmentId;
 	SigCompState* statesToCreate[4];
-	t_uint8 statesToCreateIndex;
+	uint8_t statesToCreateIndex;
 
 	lptempStateToFreeDesc statesToFree[4];
-	t_uint8 statesToFreeIndex;
+	uint8_t statesToFreeIndex;
 
-	t_uint64 streamId;
+	uint64_t streamId;
 	bool isStreamBased;
 	SigCompBuffer output_buffer;
 

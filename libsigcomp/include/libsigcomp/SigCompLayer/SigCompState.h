@@ -44,8 +44,8 @@ __NS_DECLARATION_BEGIN__
 class LIBSIGCOMP_API SigCompState : public SafeObject
 {
 public:
-	SigCompState(t_uint16 state_length, t_uint16 state_address, t_uint16 state_instruction,
-							t_uint16 minimum_access_length, t_uint16 state_retention_priority);
+	SigCompState(uint16_t state_length, uint16_t state_address, uint16_t state_instruction,
+							uint16_t minimum_access_length, uint16_t state_retention_priority);
 	~SigCompState();
 
 	inline bool operator == (const SigCompState &state) const;
@@ -54,22 +54,22 @@ public:
 	inline SigCompBuffer* getStateValue();
 	inline const SigCompBuffer* getStateIdentifier()const;
 
-	inline const t_uint16 getStateLength()const { return this->state_length; }
-	inline const void setStateLength(t_uint16 length) { this->state_length = length; }
-	inline const t_uint16 getStateAddress()const { return this->state_address; }
-	inline const t_uint16 getStateInstruction()const { return this->state_instruction; }
-	inline const t_uint16 getMinimumAccessLength()const { return this->minimum_access_length; }
-	inline const t_uint16 getStateRetentionPriority()const { return this->state_retention_priority; }
+	inline const uint16_t getStateLength()const { return this->state_length; }
+	inline const void setStateLength(uint16_t length) { this->state_length = length; }
+	inline const uint16_t getStateAddress()const { return this->state_address; }
+	inline const uint16_t getStateInstruction()const { return this->state_instruction; }
+	inline const uint16_t getMinimumAccessLength()const { return this->minimum_access_length; }
+	inline const uint16_t getStateRetentionPriority()const { return this->state_retention_priority; }
 
 protected:
 	SigCompBuffer state_value;
 	SigCompBuffer state_identifier;
 
-	t_uint16 state_length; 
-	t_uint16 state_address; 
-	t_uint16 state_instruction;
-	t_uint16 minimum_access_length;
-	t_uint16 state_retention_priority;
+	uint16_t state_length; 
+	uint16_t state_address; 
+	uint16_t state_instruction;
+	uint16_t minimum_access_length;
+	uint16_t state_retention_priority;
 };
 
 

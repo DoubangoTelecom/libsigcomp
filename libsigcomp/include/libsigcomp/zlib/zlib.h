@@ -1,3 +1,4 @@
+#if !HAS_ZLIB
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.3, July 18th, 2005
 
@@ -1355,3 +1356,4 @@ ZEXTERN const uLongf * ZEXPORT get_crc_table    OF((void));
 #endif
 
 #endif /* ZLIB_H */
+#endif // HAS_ZLIB

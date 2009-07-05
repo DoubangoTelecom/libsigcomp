@@ -43,12 +43,12 @@ __NS_DECLARATION_BEGIN__
 class SigCompCompartment : public SafeObject
 {
 public:
-	SigCompCompartment(t_uint64 id, t_uint16 sigCompParameters);
+	SigCompCompartment(uint64_t id, uint16_t sigCompParameters);
 	~SigCompCompartment();
 	
-	inline t_uint64 getIdentifier();
-	t_uint16 getTotalMemorySize();
-	t_uint16 getTotalMemoryLeft();
+	inline uint64_t getIdentifier();
+	uint16_t getTotalMemorySize();
+	uint16_t getTotalMemoryLeft();
 
 	//
 	//	SigComp Parameters
@@ -68,39 +68,39 @@ public:
 	void clearStates();
 	void freeStateByPriority();
 	void freeState(SigCompState* &lpState);
-	void freeStates(lptempStateToFreeDesc *tempStates, t_uint8 size);
+	void freeStates(lptempStateToFreeDesc *tempStates, uint8_t size);
 	void addState(SigCompState* &lpState);
-	t_uint16 findState(const SigCompBuffer* partial_identifier, SigCompState** lpState);
+	uint16_t findState(const SigCompBuffer* partial_identifier, SigCompState** lpState);
 
 	//
 	//	Ghost
 	//
 	inline SigCompState* &getGhostState() { return this->ghostState; }
-	inline t_uint32 &getGhostCopyOffset() { return this->ghost_copy_offset; }
+	inline uint32_t &getGhostCopyOffset() { return this->ghost_copy_offset; }
 	inline void freeGhostState() { SAFE_DELETE_PTR(this->ghostState); this->ghost_copy_offset = 0; }
 
 	//
 	//	Nacks
 	//
-	void addNack(const t_uint8 nackId[SHA1HashSize]);
+	void addNack(const uint8_t nackId[SHA1HashSize]);
 	bool hasNack(const SigCompBuffer* nackId);
 
 private:
 	/*An identifier (in a locally chosen format) that uniquely
       references a compartment.*/
-	t_uint64 identifier;
+	uint64_t identifier;
 
 	std::list<SigCompState*> local_states;
 	struct_sigcomp_parameters remote_parameters;
 	struct_sigcomp_parameters local_parameters;
-	t_uint16 total_memory_size;
-	t_uint16 total_memory_left;
+	uint16_t total_memory_size;
+	uint16_t total_memory_left;
 
 	SigCompBuffer* lpReqFeedback;
 	SigCompBuffer* lpRetFeedback;
 
 	SigCompState* ghostState;
-	t_uint32 ghost_copy_offset;
+	uint32_t ghost_copy_offset;
 
 	std::list<SigCompBuffer*> nacks;
 };

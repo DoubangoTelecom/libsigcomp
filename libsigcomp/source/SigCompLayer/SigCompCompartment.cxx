@@ -30,7 +30,7 @@ __NS_DECLARATION_BEGIN__
 SigComp Compartment constructor. An application-specific grouping of messages that relate to a peer
       endpoint.
 */
-SigCompCompartment::SigCompCompartment(t_uint64 id, t_uint16 sigCompParameters)
+SigCompCompartment::SigCompCompartment(uint64_t id, uint16_t sigCompParameters)
 :SafeObject(), identifier(id)
 {
 	this->lpReqFeedback = NULL;
@@ -79,21 +79,21 @@ SigCompCompartment::~SigCompCompartment()
 
 /**
 */
-inline t_uint64 SigCompCompartment::getIdentifier()
+inline uint64_t SigCompCompartment::getIdentifier()
 {
 	return this->identifier;
 }
 
 /**
 */
-t_uint16 SigCompCompartment::getTotalMemorySize()
+uint16_t SigCompCompartment::getTotalMemorySize()
 {
 	return this->total_memory_size;
 }
 
 /**
 */
-t_uint16 SigCompCompartment::getTotalMemoryLeft()
+uint16_t SigCompCompartment::getTotalMemoryLeft()
 {
 	return this->total_memory_left;
 }
@@ -199,7 +199,7 @@ void SigCompCompartment::freeState(SigCompState* &lpState)
 
 /**
 */
-void SigCompCompartment::freeStates(lptempStateToFreeDesc *tempStates, t_uint8 size)
+void SigCompCompartment::freeStates(lptempStateToFreeDesc *tempStates, uint8_t size)
 {
 	if(!tempStates || !size)
 	{
@@ -210,7 +210,7 @@ void SigCompCompartment::freeStates(lptempStateToFreeDesc *tempStates, t_uint8 s
 	
 	SigCompState* lpState = NULL;
 	list<SigCompState* >::iterator it_states;
-	for ( t_uint8 i=0; i<size; i++ )
+	for ( uint8_t i=0; i<size; i++ )
 	{
 		for ( it_states=this->local_states.begin(); it_states!=this->local_states.end(); it_states++ )
 		{
@@ -243,9 +243,9 @@ findState
 
 @returns
 */
-t_uint16 SigCompCompartment::findState(const SigCompBuffer* partial_identifier, SigCompState** lpState)
+uint16_t SigCompCompartment::findState(const SigCompBuffer* partial_identifier, SigCompState** lpState)
 {
-	t_uint16 count = 0;
+	uint16_t count = 0;
 	
 	this->lock();
 
@@ -316,7 +316,7 @@ void SigCompCompartment::setRetFeedback(SigCompBuffer* feedback)
 	this->unlock();
 }
 
-void SigCompCompartment::addNack(const t_uint8 nackId[SHA1HashSize])
+void SigCompCompartment::addNack(const uint8_t nackId[SHA1HashSize])
 {
 	this->lock();
 

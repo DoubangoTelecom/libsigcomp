@@ -34,7 +34,7 @@ bool SigCompUDVM::byteCopy_TempStates()
 	//
 	// State Create
 	//
-	for(t_uint8 i=0; i<this->lpResult->getTempStatesToCreateSize(); i++)
+	for(uint8_t i=0; i<this->lpResult->getTempStatesToCreateSize(); i++)
 	{
 		/*The UDVM byte copies a string of state_length bytes from the UDVM
 		memory beginning at state_address (obeying the rules of Section 8.4).
@@ -47,7 +47,7 @@ bool SigCompUDVM::byteCopy_TempStates()
 	//
 	// State Free
 	//
-	for(t_uint8 i=0; i<this->lpResult->getTempStatesToFreeSize(); i++)
+	for(uint8_t i=0; i<this->lpResult->getTempStatesToFreeSize(); i++)
 	{
 		lptempStateToFreeDesc lpDesc = this->lpResult->getTempStatesToFree()[i];
 		lpDesc->identifier.allocBuff(lpDesc->partial_identifier_length);
@@ -56,8 +56,8 @@ bool SigCompUDVM::byteCopy_TempStates()
 	return ok;
 }
 
-bool SigCompUDVM::createTempState(t_uint16 state_length, t_uint16 state_address, t_uint16 state_instruction, 
-								  t_uint16 minimum_access_length, t_uint16 state_retention_priority, bool end_msg)
+bool SigCompUDVM::createTempState(uint16_t state_length, uint16_t state_address, uint16_t state_instruction, 
+								  uint16_t minimum_access_length, uint16_t state_retention_priority, bool end_msg)
 {
 	/*If the specified minimum_access_length does not lie between 6 and 20 inclusive, or if
 	the state_retention_priority is 65535 then the END-MESSAGE

@@ -83,21 +83,21 @@ inline const size_t SigCompBuffer::getSize() const
 
 inline const size_t SigCompBuffer::getRemainingBits()const
 {
-	t_int64 result = ((this->size*8)-((this->index_bytes*8)+this->index_bits));
+	int64_t result = ((this->size*8)-((this->index_bytes*8)+this->index_bits));
 	return (result<0)?0:result;
 }
 
-inline const t_uint8* SigCompBuffer::getReadOnlyBuffer(size_t position/*=0*/)const
+inline const uint8_t* SigCompBuffer::getReadOnlyBuffer(size_t position/*=0*/)const
 {
 	return (this->lpbuffer + position);
 }
 
-inline t_uint8* SigCompBuffer::getBuffer(size_t position/*=0*/)
+inline uint8_t* SigCompBuffer::getBuffer(size_t position/*=0*/)
 {
 	return (this->lpbuffer + position);
 }
 
-inline t_uint8* SigCompBuffer::readBytes(size_t length)
+inline uint8_t* SigCompBuffer::readBytes(size_t length)
 {
 	if((this->index_bytes+length)>(this->size)) {
 		return NULL;
@@ -110,13 +110,13 @@ inline t_uint8* SigCompBuffer::readBytes(size_t length)
 }
 
 // FIXME: use mask instead of strtol
-t_uint16 SigCompBuffer::readMsbToLsb(size_t length)
+uint16_t SigCompBuffer::readMsbToLsb(size_t length)
 {
 	// UDV Memory is always MSB first
 	// MSB  --> LSB
 	//
-	t_int8 pos = 0;
-	t_uint16 result_val = 0;
+	int8_t pos = 0;
+	uint16_t result_val = 0;
 	char result_str[16]; memset(result_str, NULL, 16);
 	while(pos < length)
 	{
@@ -136,13 +136,13 @@ t_uint16 SigCompBuffer::readMsbToLsb(size_t length)
 }
 
 // FIXME: use mask instead of strtol
-t_uint16 SigCompBuffer::readLsbToMsb(size_t length)
+uint16_t SigCompBuffer::readLsbToMsb(size_t length)
 {
 	// UDV Memory is always MSB first
 	// MSB  <-- LSB
 	//
-	t_uint8 pos = 0;
-	t_uint16 result_val = 0;
+	uint8_t pos = 0;
+	uint16_t result_val = 0;
 	char result_str[16]; memset(result_str, NULL, 16);
 	while(pos < length)
 	{
@@ -170,7 +170,7 @@ inline void SigCompBuffer::discardBits()
 }
 
 // FIXME: very bad but ....
-inline void SigCompBuffer::discardLastBytes(t_uint16 count)
+inline void SigCompBuffer::discardLastBytes(uint16_t count)
 {
 	if(this->size>count){
 		this->size-=count;
@@ -193,7 +193,7 @@ void SigCompBuffer::allocBuff(size_t _size)
 	if(this->lpbuffer) ::free(this->lpbuffer);
 
 	this->index_bits = this->index_bytes = 0;
-	this->lpbuffer = (t_uint8*) ::malloc( _size );
+	this->lpbuffer = (uint8_t*) ::malloc( _size );
 	::memset( this->lpbuffer, NULL, _size);
 	this->size = _size;
 }
@@ -205,7 +205,7 @@ void SigCompBuffer::allocBuff(size_t _size)
 
 	@returns
 */
-void SigCompBuffer::referenceBuff(t_uint8* externalBuff, size_t _size)
+void SigCompBuffer::referenceBuff(uint8_t* externalBuff, size_t _size)
 {
 	if(this->size && this->owner)
 	{
@@ -234,10 +234,10 @@ bool SigCompBuffer::appendBuff(const void* data, size_t _size)
 	{
 		// realloc buffer
 		if(!this->size){
-			this->lpbuffer = (t_uint8*) ::malloc( newSize );
+			this->lpbuffer = (uint8_t*) ::malloc( newSize );
 		}
 		else{
-			this->lpbuffer = (t_uint8*) ::realloc( this->lpbuffer, newSize );
+			this->lpbuffer = (uint8_t*) ::realloc( this->lpbuffer, newSize );
 		}
 	}
 	if(!this->lpbuffer) return false;
@@ -273,10 +273,10 @@ bool SigCompBuffer::removeBuff(size_t pos, size_t _size)
 	{
 		// realloc
 		if(!this->size){
-			this->lpbuffer = (t_uint8*) malloc( newSize );
+			this->lpbuffer = (uint8_t*) malloc( newSize );
 		}
 		else{
-			this->lpbuffer = (t_uint8*) realloc( this->lpbuffer, newSize );
+			this->lpbuffer = (uint8_t*) realloc( this->lpbuffer, newSize );
 		}
 	}
 	if(this->lpbuffer){
@@ -301,7 +301,7 @@ void SigCompBuffer::freeBuff()
 	this->size = this->index_bytes = this->index_bits = NULL;
 }
 
-void SigCompBuffer::print(t_int64 size/*=-1*/)
+void SigCompBuffer::print(int64_t size/*=-1*/)
 {
 #if !_DEBUG && !DEBUG
 	assert(0);
@@ -313,7 +313,7 @@ void SigCompBuffer::print(t_int64 size/*=-1*/)
 	for(int i=0; i<size_to_print; i+=2)
 	{
 		char s[10]; memset(s, 0, 10);
-		t_uint16 value;
+		uint16_t value;
 
 		if((i+1)==size_to_print) 
 		{

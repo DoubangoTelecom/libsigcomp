@@ -1,3 +1,4 @@
+#if !HAS_ZLIB
 /* deflate.h -- internal compression state
  * Copyright (C) 1995-2004 Jean-loup Gailly
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -329,3 +330,5 @@ void _tr_stored_block OF((deflate_state *s, charf *buf, ulg stored_len,
 #endif
 
 #endif /* DEFLATE_H */
+  
+#endif // HAS_ZLIB

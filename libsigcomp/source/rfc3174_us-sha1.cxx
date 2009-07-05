@@ -92,7 +92,7 @@ void SHA1ProcessMessageBlock(SHA1Context *);
  *      sha Error Code.
  *
  */
-t_int32 SHA1Reset(SHA1Context *context)
+int32_t SHA1Reset(SHA1Context *context)
 {
     if (!context)
     {
@@ -134,10 +134,10 @@ t_int32 SHA1Reset(SHA1Context *context)
  *      sha Error Code.
  *
  */
-t_int32 SHA1Result( SHA1Context *context,
-                t_uint8 Message_Digest[SHA1HashSize])
+int32_t SHA1Result( SHA1Context *context,
+                uint8_t Message_Digest[SHA1HashSize])
 {
-    t_int32 i;
+    int32_t i;
 
     if (!context || !Message_Digest)
     {
@@ -192,8 +192,8 @@ t_int32 SHA1Result( SHA1Context *context,
  *      sha Error Code.
  *
  */
-t_int32 SHA1Input(    SHA1Context    *context,
-                  const t_uint8  *message_array,
+int32_t SHA1Input(    SHA1Context    *context,
+                  const uint8_t  *message_array,
                   unsigned       length)
 {
     if (!length)
@@ -267,16 +267,16 @@ t_int32 SHA1Input(    SHA1Context    *context,
  */
 void SHA1ProcessMessageBlock(SHA1Context *context)
 {
-    const t_uint32 K[] =    {       /* Constants defined in SHA-1   */
+    const uint32_t K[] =    {       /* Constants defined in SHA-1   */
                             0x5A827999,
                             0x6ED9EBA1,
                             0x8F1BBCDC,
                             0xCA62C1D6
                             };
-    t_int32           t;                 /* Loop counter                */
-    t_uint32      temp;              /* Temporary word value        */
-    t_uint32      W[80];             /* Word sequence               */
-    t_uint32      A, B, C, D, E;     /* Word buffers                */
+    int32_t           t;                 /* Loop counter                */
+    uint32_t      temp;              /* Temporary word value        */
+    uint32_t      W[80];             /* Word sequence               */
+    uint32_t      A, B, C, D, E;     /* Word buffers                */
 
     /*
      *  Initialize the first 16 words in the array W
@@ -425,16 +425,16 @@ void SHA1PadMessage(SHA1Context *context)
 }
 
 
-void SHA1Final(t_uint8 *Message_Digest, SHA1Context *context)
+void SHA1Final(uint8_t *Message_Digest, SHA1Context *context)
 {
 	SHA1PadMessage(context);
-	for(t_int32 i=0; i<64; ++i) {
+	for(int32_t i=0; i<64; ++i) {
 		context->Message_Block[i] = 0;
 	}
 	context->Length_Low = 0;    /* and clear length */
 	context->Length_High = 0;
 	
-	for(t_int32 i= 0; i < SHA1HashSize; ++i) {
+	for(int32_t i= 0; i < SHA1HashSize; ++i) {
 		Message_Digest[i] = context->Intermediate_Hash[i>>2] >> 8*(3-(i&0x03));
 	}
 }

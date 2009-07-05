@@ -40,10 +40,10 @@ Bytecode:                       Operand value:      Range:
 10nnnnnn nnnnnnnn               N                   0 - 16383
 11000000 nnnnnnnn nnnnnnnn      N                   0 - 65535
 */
-t_uint16 SigCompUDVM::opget_literal_param()
+uint16_t SigCompUDVM::opget_literal_param()
 {
-	const t_uint8* memory_ptr = this->memory.getBuffer(this->executionPointer);
-	t_uint16 result = 0;
+	const uint8_t* memory_ptr = this->memory.getBuffer(this->executionPointer);
+	uint16_t result = 0;
 
 	switch( *memory_ptr & 0xc0) // 2 first bits
 	{
@@ -85,17 +85,17 @@ Bytecode:                       Operand value:      Range:
 10nnnnnn nnnnnnnn               memory[2 * N]       0 - 65535
 11000000 nnnnnnnn nnnnnnnn      memory[N]           0 - 65535
 */
-t_uint16 SigCompUDVM::opget_reference_param()
+uint16_t SigCompUDVM::opget_reference_param()
 {
-	const t_uint8* memory_ptr = this->memory.getBuffer(this->executionPointer);
-	t_uint16 result = 0;
+	const uint8_t* memory_ptr = this->memory.getBuffer(this->executionPointer);
+	uint16_t result = 0;
 	
 	switch( *memory_ptr & 0xc0) // 2 first bits
 	{
 	case 0x00: // 0nnnnnnn                        memory[2 * N]       0 - 65535
 	case 0x40: // 0nnnnnnn                        memory[2 * N]       0 - 65535
 		{
-			t_uint8 N = (*(memory_ptr) & 0x7f); // no effect first bit is already nil
+			uint8_t N = (*(memory_ptr) & 0x7f); // no effect first bit is already nil
 			result = 2*N;
 			this->executionPointer++;
 		}
@@ -103,7 +103,7 @@ t_uint16 SigCompUDVM::opget_reference_param()
 
 	case 0x80: // 10nnnnnn nnnnnnnn               memory[2 * N]       0 - 65535
 		{
-			t_uint8 N = (BINARY_GET_2BYTES(memory_ptr) & 0x3fff);
+			uint8_t N = (BINARY_GET_2BYTES(memory_ptr) & 0x3fff);
 			result = 2*N;
 			this->executionPointer+=2;
 		}
@@ -111,7 +111,7 @@ t_uint16 SigCompUDVM::opget_reference_param()
 	
 	case 0xc0: // 11000000 nnnnnnnn nnnnnnnn      memory[N]           0 - 65535
 		{
-			t_uint16 N = BINARY_GET_2BYTES(memory_ptr+1);
+			uint16_t N = BINARY_GET_2BYTES(memory_ptr+1);
 			result = N;
 			this->executionPointer+=3;
 		}
@@ -141,11 +141,11 @@ Bytecode:                       Operand value:      Range:
 10000000 nnnnnnnn nnnnnnnn      N                   0 - 65535
 10000001 nnnnnnnn nnnnnnnn      memory[N]           0 - 65535
 */
-t_uint16 SigCompUDVM::opget_multitype_param()
+uint16_t SigCompUDVM::opget_multitype_param()
 {
-	const t_uint8* memory_ptr = this->memory.getBuffer(this->executionPointer);
-	t_int8 index = operand_multitype_indexes[*memory_ptr];
-	t_uint16 result = 0;
+	const uint8_t* memory_ptr = this->memory.getBuffer(this->executionPointer);
+	int8_t index = operand_multitype_indexes[*memory_ptr];
+	uint16_t result = 0;
 
 	switch(index)
 	{
@@ -158,7 +158,7 @@ t_uint16 SigCompUDVM::opget_multitype_param()
 
 	case 2: // 01nnnnnn                        memory[2 * N]       0 - 65535
 		{
-			t_uint8 N = (*(memory_ptr) & 0x3f);
+			uint8_t N = (*(memory_ptr) & 0x3f);
 			result = BINARY_GET_2BYTES( this->memory.getBuffer(2*N) );
 			this->executionPointer++;
 		}
@@ -166,7 +166,7 @@ t_uint16 SigCompUDVM::opget_multitype_param()
 
 	case 3: // 1000011n                        2 ^ (N + 6)        64 , 128
 		{
-			t_uint8 N = (*(memory_ptr) & 0x01);
+			uint8_t N = (*(memory_ptr) & 0x01);
 			result = pow( (double)2, (N + 6) );
 			this->executionPointer++;
 		}
@@ -174,7 +174,7 @@ t_uint16 SigCompUDVM::opget_multitype_param()
 
 	case 4: // 10001nnn                        2 ^ (N + 8)    256 , ... , 32768
 		{
-			t_uint8 N = (*(memory_ptr) & 0x07);
+			uint8_t N = (*(memory_ptr) & 0x07);
 			result = pow( (double)2, (N + 8) );
 			this->executionPointer++;
 		}
@@ -203,7 +203,7 @@ t_uint16 SigCompUDVM::opget_multitype_param()
 
 	case 8: // 110nnnnn nnnnnnnn               memory[N]           0 - 65535
 		{
-			t_uint16 N = BINARY_GET_2BYTES(memory_ptr) & 0x1fff;
+			uint16_t N = BINARY_GET_2BYTES(memory_ptr) & 0x1fff;
 			result = BINARY_GET_2BYTES( this->memory.getBuffer(N) );
 			this->executionPointer+=2;
 		}
@@ -218,7 +218,7 @@ t_uint16 SigCompUDVM::opget_multitype_param()
 
 	case 10: // 10000001 nnnnnnnn nnnnnnnn      memory[N]           0 - 65535
 		{
-			t_uint16 N = BINARY_GET_2BYTES(memory_ptr+1);
+			uint16_t N = BINARY_GET_2BYTES(memory_ptr+1);
 			result = BINARY_GET_2BYTES( this->memory.getBuffer(N) );
 			this->executionPointer+=3;
 		}
@@ -244,9 +244,9 @@ calculated as follows:
 
    operand_value = (memory_address_of_instruction + D) modulo 2^16
 */
-t_uint16 SigCompUDVM::opget_address_param(t_uint16 memory_address_of_instruction)
+uint16_t SigCompUDVM::opget_address_param(uint16_t memory_address_of_instruction)
 {
-	t_uint16 D = this->opget_multitype_param(); 
+	uint16_t D = this->opget_multitype_param(); 
 	// (2^16) => 65536;
 	return ( (memory_address_of_instruction + D)%65536 );
 }

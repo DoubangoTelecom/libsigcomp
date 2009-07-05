@@ -48,11 +48,11 @@ DummyCompressor::~DummyCompressor()
 bool DummyCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID input_ptr, size_t input_size, LPVOID output_ptr, size_t &output_size, bool stream)
 {
 	SigCompBuffer output_buffer;
-	output_buffer.referenceBuff((t_uint8*)output_ptr, output_size);
+	output_buffer.referenceBuff((uint8_t*)output_ptr, output_size);
 
 	size_t pointer =0;
 
-	t_uint8* header = output_buffer.getBuffer(pointer++);
+	uint8_t* header = output_buffer.getBuffer(pointer++);
 
 	/* SigComp Header */
 	if(lpCompartment->getReqFeedback() && lpCompartment->getReqFeedback()->getSize()){
@@ -64,7 +64,7 @@ bool DummyCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID input_
 	else{
 		*header = 0xf8;
 	}
-	t_uint16 codeLen = UNCOMPRESSED_BYTECODE_LENGTH;
+	uint16_t codeLen = UNCOMPRESSED_BYTECODE_LENGTH;
 	// first byte for codelen
 	*output_buffer.getBuffer(pointer++) = ((codeLen>>4)& 0x00ff);
 	// last 4 bits for codelen
@@ -75,7 +75,7 @@ bool DummyCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID input_
 	//////////////////////////////////////////////////
 	//	Upload UDVM bytecode
 	//
-	::memmove(output_buffer.getBuffer(pointer), (t_uint8*)DummyCompressor::uncompressed_bytecode, codeLen);
+	::memmove(output_buffer.getBuffer(pointer), (uint8_t*)DummyCompressor::uncompressed_bytecode, codeLen);
 	pointer+= codeLen;
 
 	//***********************************************

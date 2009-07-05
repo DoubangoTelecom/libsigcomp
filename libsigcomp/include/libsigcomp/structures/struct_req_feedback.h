@@ -43,14 +43,14 @@ typedef struct rfc3320_struct_req_feedback
 	rfc3320_struct_req_feedback(){
 		reset();
 	}
-	inline void setQ(t_uint8 q){ Q=q; }
-	inline t_uint8 getQ(){ return Q; }
+	inline void setQ(uint8_t q){ Q=q; }
+	inline uint8_t getQ(){ return Q; }
 
-	inline void setS(t_uint8 s){ S=s; }
-	inline t_uint8 getS(){ return S; }
+	inline void setS(uint8_t s){ S=s; }
+	inline uint8_t getS(){ return S; }
 
-	inline void setI(t_uint8 i){ I=i; }
-	inline t_uint8 getI(){ return I; }
+	inline void setI(uint8_t i){ I=i; }
+	inline uint8_t getI(){ return I; }
 
 	inline SigCompBuffer* getReqFeedItem() { return &req_feed_item; }
 
@@ -63,15 +63,15 @@ typedef struct rfc3320_struct_req_feedback
 private:
 	/*The Q-bit indicates whether a requested feedback item is present or
 	not.*/
-	t_uint8 Q;
+	uint8_t Q;
 	/*The compressor sets the S-bit to 1 if it does not wish (or no longer
 	wishes) to save state information at the receiving endpoint and also
 	does not wish to access state information that it has previously saved.*/
-	t_uint8 S;
+	uint8_t S;
 	/*Similarly the compressor sets the I-bit to 1 if it does not wish (or
 	no longer wishes) to access any of the locally available state items
 	offered by the receiving endpoint.*/
-	t_uint8 I;
+	uint8_t I;
 
 	SigCompBuffer req_feed_item;
 }
