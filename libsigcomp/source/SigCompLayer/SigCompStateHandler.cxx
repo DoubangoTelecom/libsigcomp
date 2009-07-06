@@ -23,6 +23,9 @@
 #include <libsigcomp/SigCompLayer/SigCompStateHandler.h>
 #include <libsigcomp/NACK_CODES.h>
 
+#include <libsigcomp/Dictionaries/SipDictionaryState.h>
+#include <libsigcomp/Dictionaries/PresenceDictionaryState.h>
+
 using namespace std;
 
 __NS_DECLARATION_BEGIN__
@@ -35,6 +38,7 @@ SigCompStateHandler::SigCompStateHandler()
 :SafeObject()
 {
 	this->hasSipSdpDictionary = false;
+	this->hasPresenceDictionary = false;
 
 	// RFC 3320 - 3.3.  SigComp Parameters
 	this->sigcomp_parameters.setDmsValue( SIP_RFC5049_DECOMPRESSION_MEMORY_SIZE );
@@ -310,14 +314,8 @@ void SigCompStateHandler::addSipSdpDictionary()
 
 	if(!this->hasSipSdpDictionary)
 	{
-		SigCompBuffer sipdict_id;
-		sipdict_id.referenceBuff((uint8_t*)RFC3485_DICTIONARY_SIP_IDENTIFIER, RFC3485_DICTIONARY_SIP_IDENTIFIER_LENGTH);
-		if( this->dictionaries.find(&sipdict_id)==this->dictionaries.end() )
-		{
-			SigCompState* lpSipState = new SigCompSipDictionary();
-			this->dictionaries[const_cast<SigCompBuffer*>(lpSipState->getStateIdentifier())] = lpSipState;
-		}
-
+		SigCompState* lpSipState = new SipDictionaryState();
+		this->dictionaries[const_cast<SigCompBuffer*>(lpSipState->getStateIdentifier())] = lpSipState;
 		this->hasSipSdpDictionary = true;
 	}
 
@@ -325,33 +323,19 @@ void SigCompStateHandler::addSipSdpDictionary()
 }
 
 /**
-Remove the sip/sdp dictionary (as defined in rfc 3485)
+Add Presence static dictionary (as defined by RFC 5112)
 
 @returns void
 */
-void SigCompStateHandler::removeSipSdpDictionary()
+void SigCompStateHandler::addPresenceDictionary()
 {
 	this->lock();
 
-	if(this->hasSipSdpDictionary)
+	if(!this->hasPresenceDictionary)
 	{
-		SigCompState* lpSipState = NULL;
-		SigCompBuffer sipdict_id;
-		sipdict_id.referenceBuff((uint8_t*)RFC3485_DICTIONARY_SIP_IDENTIFIER, RFC3485_DICTIONARY_SIP_IDENTIFIER_LENGTH);
-		map<SigCompBuffer*, SigCompState*>::iterator it;
-		for ( it=this->dictionaries.begin() ; it != this->dictionaries.end(); it++ ){
-			if( *((*it).first) == sipdict_id){
-				lpSipState = it->second;	
-				break;
-			}
-		}
-		if(lpSipState)
-		{
-			this->dictionaries.erase(const_cast<SigCompBuffer*>(lpSipState->getStateIdentifier()));
-			SAFE_DELETE_PTR(lpSipState);
-		}
-
-		this->hasSipSdpDictionary = false;
+		SigCompState* lpSipState = new PresenceDictionaryState();
+		this->dictionaries[const_cast<SigCompBuffer*>(lpSipState->getStateIdentifier())] = lpSipState;
+		this->hasPresenceDictionary = true;
 	}
 
 	this->unlock();

@@ -129,19 +129,4 @@ inline const SigCompBuffer* SigCompState::getStateIdentifier()const
 	return &this->state_identifier;
 }
 
-
-
-
-//
-//
-//
-SigCompSipDictionary::SigCompSipDictionary()
-:SigCompState(RFC3485_DICTIONARY_SIP_VALUE_LENGTH, RFC3485_DICTIONARY_SIP_STATE_ADDRESS,
-			  RFC3485_DICTIONARY_SIP_STATE_INSTRUCTION, RFC3485_DICTIONARY_SIP_MINIMUM_ACCESS_LENGTH, 65535)
-{
-	this->state_value.allocBuff(RFC3485_DICTIONARY_SIP_VALUE_LENGTH);
-	::memmove(this->state_value.getBuffer(), RFC3485_DICTIONARY_SIP_VALUE, RFC3485_DICTIONARY_SIP_VALUE_LENGTH);
-	this->makeValid();
-}
-
 __NS_DECLARATION_END__

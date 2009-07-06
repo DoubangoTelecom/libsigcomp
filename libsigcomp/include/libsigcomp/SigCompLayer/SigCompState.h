@@ -28,7 +28,6 @@
 
 #include <libsigcomp/SigCompBuffer.h>
 #include <libsigcomp/rfc3174_us-sha1.h>
-#include <libsigcomp/rfc3485_dictionary_sip.h>
 #include <libsigcomp/SafeObject.h>
 
 // FIXME:
@@ -70,16 +69,6 @@ protected:
 	uint16_t state_instruction;
 	uint16_t minimum_access_length;
 	uint16_t state_retention_priority;
-};
-
-
-//
-//
-//
-class LIBSIGCOMP_API SigCompSipDictionary : public SigCompState
-{
-public:
-	SigCompSipDictionary();
 };
 
 __NS_DECLARATION_END__

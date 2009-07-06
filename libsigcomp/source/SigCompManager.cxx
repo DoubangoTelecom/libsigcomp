@@ -83,7 +83,7 @@ size_t SigCompManager::compress(uint64_t compartmentId, LPCVOID input_ptr, size_
 */
 size_t SigCompManager::decompress(LPCVOID input_ptr, size_t input_size, lpDecompressionResult lpResult)
 {
-	assert(lpResult->getOutputBuffer()->getSize());
+	assert(lpResult->getOutputBuffer()->getSize()); // You Must set the output buffer
 
 	lpResult->reset();
 	if(this->dispatcher_decompressor->decompress(input_ptr, input_size, lpResult))
@@ -136,9 +136,9 @@ inline void SigCompManager::addSipSdpDictionary()
 
 /**
 */
-inline void SigCompManager::removeSipSdpDictionary()
+inline void SigCompManager::addPresenceDictionary()
 {
-	this->stateHandler->removeSipSdpDictionary();
+	this->stateHandler->addPresenceDictionary();
 }
 
 __NS_DECLARATION_END__

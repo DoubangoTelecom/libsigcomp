@@ -366,10 +366,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\libsigcomp\rfc3485_dictionary_sip.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\libsigcomp\rfc5049_sip.h"
 					>
 				</File>
@@ -494,6 +490,26 @@
 					</File>
 					<File
 						RelativePath=".\include\libsigcomp\zlib\zutil.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Dictionaries"
+					>
+					<File
+						RelativePath=".\include\libsigcomp\dictionaries\PresenceDictionaryState.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\libsigcomp\dictionaries\rfc3485_dictionary_sip.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\libsigcomp\dictionaries\rfc5112_dictionary_presence.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\libsigcomp\dictionaries\SipDictionaryState.h"
 						>
 					</File>
 				</Filter>
@@ -631,6 +647,18 @@
 				</File>
 				<File
 					RelativePath=".\source\Compressors\DummyCompressor.cxx"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Dictionaries"
+				>
+				<File
+					RelativePath=".\source\dictionaries\PresenceDictionaryState.cxx"
+					>
+				</File>
+				<File
+					RelativePath=".\source\dictionaries\SipDictionaryState.cxx"
 					>
 				</File>
 			</Filter>

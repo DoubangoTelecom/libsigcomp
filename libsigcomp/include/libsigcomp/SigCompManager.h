@@ -76,7 +76,7 @@ public:
 	//	Dictionnaries
 	//
 	inline void addSipSdpDictionary();
-	inline void removeSipSdpDictionary();
+	inline void addPresenceDictionary();
 
 private:
 	SigCompCompressorDisp* dispatcher_compressor;

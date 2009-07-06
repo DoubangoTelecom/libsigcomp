@@ -56,7 +56,7 @@ public:
 	// Dictionnaries
 	//
 	void addSipSdpDictionary();
-	void removeSipSdpDictionary();
+	void addPresenceDictionary();
 
 	const std::map<SigCompBuffer*, SigCompState*>* getDictionaries() { return &this->dictionaries; }
 	
@@ -67,6 +67,7 @@ private:
 
 	std::map<SigCompBuffer*, SigCompState*> dictionaries;
 	bool hasSipSdpDictionary;
+	bool hasPresenceDictionary;
 
 };
 

@@ -226,9 +226,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	sigcomp::SigCompManager* manager1 = new sigcomp::SigCompManager();
 	sigcomp::SigCompManager* manager2 = new sigcomp::SigCompManager();
 
-	// Add Sip dictionnaries
+	// Add SIP/Presence dictionnaries
 	manager1->addSipSdpDictionary();
+	manager1->addPresenceDictionary();
 	manager2->addSipSdpDictionary();
+	manager2->addPresenceDictionary();
 
 	// Results --> it is recomanded to use one result struct for each manager
 	sigcomp::DecompressionResult result1; result1.setCompartmentId(COMPARTMENT_ID1);
@@ -238,8 +240,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	manager1->setDecompression_Memory_Size(8192);
 	manager2->setDecompression_Memory_Size(8192);
 	manager1->setState_Memory_Size(8192);
-	manager2->setState_Memory_Size(4096);
-
+	manager2->setState_Memory_Size(8192);
+		
 	for(int i = 0; i< (8*LOOP_COUNT); i++)
 	{
 
@@ -308,9 +310,11 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 	}
 
+	// Close compartments
 	manager1->closeCompartment(COMPARTMENT_ID1);
 	manager2->closeCompartment(COMPARTMENT_ID2);
 
+	// Delete managers
 	SAFE_DELETE_PTR(manager1);
 	SAFE_DELETE_PTR(manager2);
 

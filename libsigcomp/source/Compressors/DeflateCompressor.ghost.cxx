@@ -21,7 +21,6 @@
 
 #include <global_config.h>
 #include <libsigcomp/Compressors/DeflateCompressor.h>
-#include <libsigcomp/rfc3485_dictionary_sip.h>
 
 
 __NS_DECLARATION_BEGIN__
