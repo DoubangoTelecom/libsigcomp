@@ -76,17 +76,22 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 	uint8_t smsCode = LIBSIGCOMP_MIN(lpCompartment->getRemoteParameters()->getSmsCode(), lpCompartment->getRemoteParameters()->getDmsCode());
 	
 	//
-	//	Init zLIB --> only if remote sms has changed
+	//	Init zLIB
 	//
-	int windowBits = (smsCode-1) + 10;
+	int windowBits = ( smsCode - (stream?2:1) ) + 10;
 	windowBits = (windowBits < 8) ? 8 : ( (windowBits > 15 ? 15 : windowBits) ); // Because of zlib limitation (windowsize MUST be between 8 and 15)
 	if(windowBits != this->zWindowBits)
 	{
-		this->zWindowBits = windowBits;
-		//result = this->zInit();
-		result = this->zReset();
+		// Window size changed
 		lpCompartment->freeGhostState();
-		if(!result) goto bail;
+		this->zWindowBits = windowBits;
+		if( !(result = this->zReset()) ) goto bail;
+	}
+	else if(!lpCompartment->getGhostState())
+	{
+		// No ghost --> reset zlib
+		lpCompartment->getGhostCopyOffset() = 0;
+		if( !(result = this->zReset()) ) goto bail;
 	}
 
 	//***********************************************

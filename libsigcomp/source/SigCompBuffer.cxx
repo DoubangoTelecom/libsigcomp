@@ -53,7 +53,10 @@ void SigCompBuffer::reset()
 {
 	this->index_bytes = 0;
 	this->index_bits = 0;
-	memset(this->lpbuffer, 0, this->size);
+	if(this->lpbuffer)
+	{
+		memset(this->lpbuffer, 0, this->size);
+	}
 }
 
 inline bool SigCompBuffer::operator == (const SigCompBuffer &buffer) const

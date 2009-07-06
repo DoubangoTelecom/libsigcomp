@@ -77,27 +77,30 @@ public:
 
 		~struct_decompResult()
 		{
-			reset();
+			reset(true);
 		}
 
-		void reset(){
+		void reset(bool destructor=false, bool resetOutput=true){
 			for(uint8_t i=0; i<statesToCreateIndex; i++){
 				SAFE_DELETE_PTR(statesToCreate[i]);
 			}
 			for(uint8_t i=0; i<statesToFreeIndex; i++){
 				SAFE_DELETE_PTR(statesToFree[i]);
 			}
-			statesToCreateIndex = 0;
-			statesToFreeIndex = 0;
+			if(!destructor)
+			{
+				statesToCreateIndex = 0;
+				statesToFreeIndex = 0;
 
-			remote_parameters.reset();
-			output_buffer.reset();
+				remote_parameters.reset();
+				if(resetOutput)output_buffer.reset();
 
-			req_feedback.reset();
-			ret_feedback.freeBuff();
+				req_feedback.reset();
+				ret_feedback.freeBuff();
 
-			isNack=false;
-			nack_info.freeBuff();
+				isNack=false;
+				nack_info.freeBuff();
+			}
 		}
 		
 		/**

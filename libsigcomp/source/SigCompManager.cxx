@@ -98,7 +98,7 @@ size_t SigCompManager::getNextMessage(lpDecompressionResult lpResult)
 	assert(lpResult->getOutputBuffer()->getSize());
 	assert(lpResult->getIsStreamBased());
 
-	lpResult->reset();
+	lpResult->reset(false, false);
 	if(this->dispatcher_decompressor->getNextMessage(lpResult))
 	{
 		return lpResult->getOutputBuffer()->getIndexBytes();

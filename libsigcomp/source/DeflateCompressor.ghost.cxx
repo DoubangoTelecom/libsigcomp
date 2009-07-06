@@ -4,38 +4,29 @@
 	This file is part of libSigComp project.
 
     libSigComp is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
+    it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 	
     libSigComp is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
+    GNU General Public License for more details.
 	
-    You should have received a copy of the GNU Lesser General Public License
-    along with libSigComp.  
+    You should have received a copy of the GNU General Public License
+    along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
 
-	
+	For Commercial Use or non-GPL Licensing please contact me at <diopmamadou@yahoo.fr>
 */
 
 #include <global_config.h>
-#include <libsigcomp/Compressors/DeflateCompressor.h>
+#include <libsigcomp/DeflateCompressor.h>
 #include <libsigcomp/rfc3485_dictionary_sip.h>
 
 
 __NS_DECLARATION_BEGIN__
 
 /*
-	|<----------------------------DMS--------------------------------->|
-    |<-----SigComp message---->|<------------UDVM memory size--------->|
-    +-+----------+-------------+-----+----------+----------------------+
-    | | bytecode |  comp msg   |     | bytecode | circular buffer      |
-    +-+----------+-------------+-----+----------+----------------------+
-     ^                            ^
-     |                            |
-    SigComp header          Low bytes of UDVM
-
 I suppose we would like to compress this message "libsigcomp":
 	GHOST STRUCTURE:
 	0x02bb	--> Circular Buffer size (DEFLATE_UDVM_CIRCULAR_START_INDEX = 699)
@@ -94,14 +85,14 @@ const char* DeflateCompressor::deflate_bytecode1_ghost=
 #define GHOST_STATE_MIN_ACCESS_LEN		6
 #define GHOST_STATE_RETENTION_PRIORITY	0
 
-void DeflateCompressor::createGhost( SigCompCompartment* lpCompartment, uint16_t state_length, lpstruct_sigcomp_parameters params )
+void DeflateCompressor::createGhost( SigCompCompartment* lpCompartment, t_uint16 state_length, lpstruct_sigcomp_parameters params )
 {
 	SigCompState* &ghostState = lpCompartment->getGhostState();
 	assert( !ghostState );
 
 	ghostState = new SigCompState(state_length, GHOST_STATE_ADDRESS, GHOST_STATE_INSTRUCTION, GHOST_STATE_MIN_ACCESS_LEN, GHOST_STATE_RETENTION_PRIORITY);
 	ghostState->getStateValue()->allocBuff(state_length);
-	::memmove(ghostState->getStateValue()->getBuffer(), DeflateCompressor::deflate_bytecode1_ghost, GHOST_BYTECODE1_SIZE);
+	::memmove(ghostState->getStateValue()->getBuffer(0), DeflateCompressor::deflate_bytecode1_ghost, GHOST_BYTECODE1_SIZE);
 	
 
 	BINARY_SET_2BYTES( ghostState->getStateValue()->getBuffer(GHOST_CB_START_INDEX), DEFLATE_UDVM_CIRCULAR_START_INDEX );
@@ -113,18 +104,14 @@ void DeflateCompressor::createGhost( SigCompCompartment* lpCompartment, uint16_t
 	BINARY_SET_2BYTES( ghostState->getStateValue()->getBuffer(GHOST_CPB_DMS_SMS_INDEX), params->getParameters() ); // [cpb+dms+sms]+[version]
 
 	// ------------------------------------------------------------
+	const t_uint8 dicts_word_len = (DEFLATE_FIXME_DICT==DEFLATE_NO_DICT?0:(DEFLATE_FIXME_DICT==DEFLATE_SIP_PRES_DICTS?7:4));
 
 #define GHOST_DICT_CODE_INDEX			(GHOST_BYTECODE1_SIZE)
 #define GHOST_DICT_WORDS_INDEX			(GHOST_DICT_CODE_INDEX + 2)
-#if USE_DICTS_FOR_COMPRESSION
-#	define GHOST_FIXME2_INDEX			(GHOST_DICT_WORDS_INDEX + 4/*Sip dict id len*/)
-#else
-#	define GHOST_FIXME2_INDEX			(GHOST_DICT_WORDS_INDEX + 0)
-#endif
+#define GHOST_FIXME2_INDEX				(GHOST_DICT_WORDS_INDEX + dicts_word_len)
 #define GHOST_DEFLATE_BYTECODE_INDEX	(GHOST_FIXME2_INDEX + 4)
 #define GHOST_INPUT_INDEX				(GHOST_DEFLATE_BYTECODE_INDEX + DEFLATE_BYTECODE_LEN)	
 
-#if USE_DICTS_FOR_COMPRESSION
 	BINARY_SET_2BYTES( ghostState->getStateValue()->getBuffer(GHOST_DICT_CODE_INDEX), DEFLATE_FIXME_DICT );
 	if( DEFLATE_FIXME_DICT == DEFLATE_NO_DICT ){
 		// Nothing to append
@@ -135,21 +122,24 @@ void DeflateCompressor::createGhost( SigCompCompartment* lpCompartment, uint16_t
 			assert(1==0);
 		}
 	}
-#endif
 	::memmove( ghostState->getStateValue()->getBuffer(GHOST_DEFLATE_BYTECODE_INDEX), DeflateCompressor::deflate_bytecode, DEFLATE_BYTECODE_LEN );
+	//::memmove( ghostState->getStateValue()->getBuffer(GHOST_INPUT_INDEX), input_ptr, input_size ); // FIXME: copy Circ
 }
 
 
-void DeflateCompressor::updateGhost(SigCompCompartment* lpCompartment, const uint8_t* input_ptr, size_t input_size)
+void DeflateCompressor::updateGhost(SigCompCompartment* lpCompartment, const t_uint8* input_ptr, size_t input_size)
 {
 	SigCompState* &ghostState = lpCompartment->getGhostState();
 	assert( ghostState );
-	uint32_t &ghost_copy_offset = lpCompartment->getGhostCopyOffset();
+	t_uint32 &ghost_copy_offset = lpCompartment->getGhostCopyOffset();
 
+	const t_uint8 dicts_word_len = (DEFLATE_FIXME_DICT==DEFLATE_NO_DICT?0:(DEFLATE_FIXME_DICT==DEFLATE_SIP_PRES_DICTS?7:4)); // FIXME: redefined
+
+//#define ZBUFF_LEN	(ghostState->getStateLength() - GHOST_INPUT_INDEX)
 #define ZBUFF_LEN	(0x0001 << this->zWindowBits)
-	for(register uint32_t i = 0; i<input_size; i++)
+	for(register t_uint32 i = 0; i<input_size; i++)
 	{
-		//*ghostState->getStateValue()->getBuffer(GHOST_INPUT_INDEX + ghost_copy_offset) = 0x00;
+		//*ghostState->getStateValue()->getBuffer(GHOST_INPUT_INDEX + ghost_copy_offset) = 0x00; // I use this to test test synchronization failure
 		*ghostState->getStateValue()->getBuffer(GHOST_INPUT_INDEX + ghost_copy_offset) = input_ptr[i];
 		ghost_copy_offset = (ghost_copy_offset + 1)%ZBUFF_LEN;
 	}
