@@ -226,6 +226,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	sigcomp::SigCompManager* manager1 = new sigcomp::SigCompManager();
 	sigcomp::SigCompManager* manager2 = new sigcomp::SigCompManager();
 
+	// Add Sip dictionnaries
+	manager1->addSipSdpDictionary();
+	manager2->addSipSdpDictionary();
+
 	// Results --> it is recomanded to use one result struct for each manager
 	sigcomp::DecompressionResult result1; result1.setCompartmentId(COMPARTMENT_ID1);
 	sigcomp::DecompressionResult result2; result2.setCompartmentId(COMPARTMENT_ID2);

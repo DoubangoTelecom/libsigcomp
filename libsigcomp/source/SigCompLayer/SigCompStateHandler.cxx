@@ -67,18 +67,16 @@ created
 */
 SigCompCompartment* SigCompStateHandler::getCompartment(uint64_t id)
 {
-	this->lock();
-
 	SigCompCompartment* result = NULL;
 
 	if(this->compartmentExist(id)){
 		result = this->compartments[id];
 	}else{
+		this->lock();
 		result = new SigCompCompartment(id, this->getSigCompParameters()->getParameters());
 		this->compartments[id] = result;
+		this->unlock();
 	}
-
-	this->unlock();
 
 	return result;
 }
@@ -92,14 +90,14 @@ Delete a compartement with the given identifier
 */
 void SigCompStateHandler::deleteCompartment(uint64_t id)
 {
-	this->lock();
 	if(this->compartmentExist(id)){
+		this->lock();
 		SigCompCompartment* lpCompartment = this->compartments[id];
 		this->compartments.erase(this->compartments.find(id));
-
+		
 		SAFE_DELETE_PTR(lpCompartment);
+		this->unlock();
 	}
-	this->unlock();
 }
 
 /**
