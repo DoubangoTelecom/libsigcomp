@@ -3,7 +3,7 @@ EXPORTS
 	??0DummyCompressor@sigcomp@@QAE@XZ @ 2 NONAME ; sigcomp::DummyCompressor::DummyCompressor(void)
 	??0SigCompBuffer@sigcomp@@QAE@XZ @ 3 NONAME ; sigcomp::SigCompBuffer::SigCompBuffer(void)
 	??0SigCompManager@sigcomp@@QAE@XZ @ 4 NONAME ; sigcomp::SigCompManager::SigCompManager(void)
-	??0SigCompSipDictionary@sigcomp@@QAE@XZ @ 5 NONAME ; sigcomp::SigCompSipDictionary::SigCompSipDictionary(void)
+	??0SigCompSipDictionary@sigcomp@@QAE@XZ @ 5 NONAME ABSENT ; sigcomp::SigCompSipDictionary::SigCompSipDictionary(void)
 	??0SigCompState@sigcomp@@QAE@GGGGG@Z @ 6 NONAME ; sigcomp::SigCompState::SigCompState(unsigned short, unsigned short, unsigned short, unsigned short, unsigned short)
 	??1DeflateCompressor@sigcomp@@QAE@XZ @ 7 NONAME ; sigcomp::DeflateCompressor::~DeflateCompressor(void)
 	??1DummyCompressor@sigcomp@@QAE@XZ @ 8 NONAME ; sigcomp::DummyCompressor::~DummyCompressor(void)
@@ -55,7 +55,7 @@ EXPORTS
 	?readMsbToLsb@SigCompBuffer@sigcomp@@QAEGI@Z @ 54 NONAME ; unsigned short sigcomp::SigCompBuffer::readMsbToLsb(unsigned int)
 	?referenceBuff@SigCompBuffer@sigcomp@@QAEXPAEI@Z @ 55 NONAME ; void sigcomp::SigCompBuffer::referenceBuff(unsigned char *, unsigned int)
 	?removeBuff@SigCompBuffer@sigcomp@@QAE_NII@Z @ 56 NONAME ; bool sigcomp::SigCompBuffer::removeBuff(unsigned int, unsigned int)
-	?removeSipSdpDictionary@SigCompManager@sigcomp@@QAEXXZ @ 57 NONAME ; void sigcomp::SigCompManager::removeSipSdpDictionary(void)
+	?removeSipSdpDictionary@SigCompManager@sigcomp@@QAEXXZ @ 57 NONAME ABSENT ; void sigcomp::SigCompManager::removeSipSdpDictionary(void)
 	?reset@SigCompBuffer@sigcomp@@QAEXXZ @ 58 NONAME ; void sigcomp::SigCompBuffer::reset(void)
 	?setCycles_Per_Bit@SigCompManager@sigcomp@@QAEXE@Z @ 59 NONAME ; void sigcomp::SigCompManager::setCycles_Per_Bit(unsigned char)
 	?setDecompression_Memory_Size@SigCompManager@sigcomp@@QAEXI@Z @ 60 NONAME ; void sigcomp::SigCompManager::setDecompression_Memory_Size(unsigned int)
@@ -71,4 +71,7 @@ EXPORTS
 	?uncompressed_bytecode@DummyCompressor@sigcomp@@0PBDB @ 70 NONAME ; char const * const sigcomp::DummyCompressor::uncompressed_bytecode
 	?deflate_bytecode@DeflateCompressor@sigcomp@@0PBDB @ 71 NONAME ; char const * const sigcomp::DeflateCompressor::deflate_bytecode
 	?deflate_bytecode1_ghost@DeflateCompressor@sigcomp@@0PBDB @ 72 NONAME ; char const * const sigcomp::DeflateCompressor::deflate_bytecode1_ghost
+	??0PresenceDictionaryState@sigcomp@@QAE@XZ @ 73 NONAME ; sigcomp::PresenceDictionaryState::PresenceDictionaryState(void)
+	??0SipDictionaryState@sigcomp@@QAE@XZ @ 74 NONAME ; sigcomp::SipDictionaryState::SipDictionaryState(void)
+	?addPresenceDictionary@SigCompManager@sigcomp@@QAEXXZ @ 75 NONAME ; void sigcomp::SigCompManager::addPresenceDictionary(void)
 

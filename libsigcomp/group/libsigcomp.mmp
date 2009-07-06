@@ -78,3 +78,5 @@ MACRO _WCHAR_T_DECLARED LIBSIGCOMP_EXPORTS FORCE_STATIC HAS_ZLIB=1
 
 EPOCALLOWDLLDATA
 
+SOURCEPATH ..\source\dictionaries
+SOURCE PresenceDictionaryState.cxx SipDictionaryState.cxx
