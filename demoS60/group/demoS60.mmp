@@ -26,7 +26,7 @@ TARGET		  demoS60.exe
 TARGETTYPE	  exe
 UID			 0 0xE5758DAC
 
-USERINCLUDE	 ..\include ..\..\libsigcomp\include
+USERINCLUDE	 ..\include ..\..\libsigcomp\src
 SYSTEMINCLUDE   \epoc32\include \epoc32\include\stdapis \epoc32\include\stdapis\sys \epoc32\include\stdapis\stlport \epoc32\include\stdapis\stlport\stl
 
 SOURCEPATH	  ..\source

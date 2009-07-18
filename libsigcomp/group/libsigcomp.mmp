@@ -26,7 +26,7 @@ TARGET		  libsigcomp.dll
 TARGETTYPE	  dll
 UID			 0x1000008d 0xE3BE004C
 
-USERINCLUDE	 ..\include
+USERINCLUDE	 .
 SYSTEMINCLUDE   \epoc32\include \epoc32\include\stdapis \epoc32\include\stdapis\sys \epoc32\include\stdapis\stlport \epoc32\include\stdapis\stlport\stl
 
 
@@ -61,22 +61,12 @@ DEBUGGABLE_UDEBONLY
 #endif
 
 
-SOURCEPATH ..\source\Compressors
-SOURCE DeflateCompressor.cxx DeflateCompressor.ghost.cxx DeflateCompressor.zlib.cxx DummyCompressor.cxx
-SOURCEPATH ..\source
-SOURCE Mutex.cxx SafeObject.cxx SigCompBuffer.cxx
-SOURCEPATH ..\source\SigCompLayer
-SOURCE SigCompCompartment.cxx SigCompCompressor.cxx SigCompCompressorDisp.cxx SigCompDecompressorDisp.cxx SigCompState.cxx SigCompStateHandler.cxx SigCompUDVM.ByteCopy.cxx SigCompUDVM.Instructions.cxx SigCompUDVM.Nack.cxx SigCompUDVM.Operands.cxx SigCompUDVM.StateManagement.cxx SigCompUDVM.cxx
-SOURCEPATH ..\source
-SOURCE SigCompManager.cxx SigCompMessage.cxx binary_utils.cxx rfc1662_ppfcs16.cxx rfc3174_us-sha1.cxx
-SOURCEPATH ..\source\zlib
-SOURCE adler32.c compress.c crc32.c deflate.c trees.c zutil.c
 
 OPTION CW -wchar_t on
 
-MACRO _WCHAR_T_DECLARED LIBSIGCOMP_EXPORTS FORCE_STATIC HAS_ZLIB=1
+MACRO _WCHAR_T_DECLARED LIBSIGCOMP_EXPORTS HAS_ZLIB=0
 
 EPOCALLOWDLLDATA
 
-SOURCEPATH ..\source\dictionaries
-SOURCE PresenceDictionaryState.cxx SipDictionaryState.cxx
+SOURCEPATH ..\src
+SOURCE DeflateCompressor.cxx DeflateCompressor.ghost.cxx DeflateCompressor.zlib.cxx DummyCompressor.cxx Mutex.cxx PresenceDictionaryState.cxx SafeObject.cxx SigCompBuffer.cxx SigCompCompartment.cxx SigCompCompressor.cxx SigCompCompressorDisp.cxx SigCompDecompressorDisp.cxx SigCompManager.cxx SigCompMessage.cxx SigCompState.cxx SigCompStateHandler.cxx SigCompUDVM.ByteCopy.cxx SigCompUDVM.Instructions.cxx SigCompUDVM.Nack.cxx SigCompUDVM.Operands.cxx SigCompUDVM.StateManagement.cxx SigCompUDVM.cxx SipDictionaryState.cxx adler32.c binary_utils.cxx compress.c deflate.c rfc1662_ppfcs16.cxx rfc3174_us-sha1.cxx trees.c zutil.c

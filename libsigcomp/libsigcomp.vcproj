@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="libsigcomp"
 	ProjectGUID="{11D6B4E0-84D5-4EA8-81DD-D71AB40BD9CD}"
 	RootNamespace="libsigcomp"
@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBSIGCOMP_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -126,6 +126,7 @@
 				MinimalRebuild="true"
 				RuntimeLibrary="1"
 				TreatWChar_tAsBuiltInType="false"
+				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -277,6 +278,7 @@
 				AdditionalIncludeDirectories="include"
 				PreprocessorDefinitions="NDEBUG;WINCE;_WIN32_WCE=$(CEVER);UNDER_CE;_WINDOWS;_USRDLL;LIBSIGCOMP_EXPORTS;$(ARCHFAM);$(_ARCHFAM_)"
 				RuntimeLibrary="2"
+				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -294,7 +296,7 @@
 				Name="VCLinkerTool"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
-				SubSystem="2"
+				SubSystem="9"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="0"
@@ -331,81 +333,77 @@
 			Name="include"
 			>
 			<File
-				RelativePath=".\include\global_config.h"
+				RelativePath=".\src\binary_utils.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\global_config.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\libsigcomp_config.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Mutex.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\MYTYPES.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\NACK_CODES.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\rfc1662_ppfcs16.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\rfc3174_us-sha1.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\rfc5049_sip.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SafeObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SIGCOMP_HEADERS_INDEX.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SigCompBuffer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\SigCompManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\UDVM_INSTRUCTIONS.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\UDVM_OPERANDS.h"
 				>
 			</File>
 			<Filter
 				Name="libsigcomp"
 				>
-				<File
-					RelativePath=".\include\libsigcomp\binary_utils.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\libsigcomp\libsigcomp_config.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\libsigcomp\Mutex.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\libsigcomp\MYTYPES.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\libsigcomp\NACK_CODES.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\libsigcomp\rfc1662_ppfcs16.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\libsigcomp\rfc3174_us-sha1.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\libsigcomp\rfc5049_sip.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\libsigcomp\SafeObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\libsigcomp\SIGCOMP_HEADERS_INDEX.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\libsigcomp\SigCompBuffer.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\libsigcomp\SigCompManager.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\libsigcomp\SigCompMessage.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\libsigcomp\UDVM_INSTRUCTIONS.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\libsigcomp\UDVM_OPERANDS.h"
-					>
-				</File>
 				<Filter
 					Name="Compressors"
 					>
 					<File
-						RelativePath=".\include\libsigcomp\Compressors\DeflateCompressor.h"
+						RelativePath=".\src\DeflateCompressor.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\Compressors\DummyCompressor.h"
+						RelativePath=".\src\DummyCompressor.h"
 						>
 					</File>
 				</Filter>
@@ -413,19 +411,19 @@
 					Name="structures"
 					>
 					<File
-						RelativePath=".\include\libsigcomp\structures\struct_decompResult.h"
+						RelativePath=".\src\struct_decompResult.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\structures\struct_nack_info.h"
+						RelativePath=".\src\struct_nack_info.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\structures\struct_req_feedback.h"
+						RelativePath=".\src\struct_req_feedback.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\structures\struct_sigcomp_parameters.h"
+						RelativePath=".\src\struct_sigcomp_parameters.h"
 						>
 					</File>
 				</Filter>
@@ -433,31 +431,35 @@
 					Name="SigCompLayer"
 					>
 					<File
-						RelativePath=".\include\libsigcomp\SigCompLayer\SigCompCompartment.h"
+						RelativePath=".\src\SigCompCompartment.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\SigCompLayer\SigCompCompressor.h"
+						RelativePath=".\src\SigCompCompressor.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\SigCompLayer\SigCompCompressorDisp.h"
+						RelativePath=".\src\SigCompCompressorDisp.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\SigCompLayer\SigCompDecompressorDisp.h"
+						RelativePath=".\src\SigCompDecompressorDisp.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\SigCompLayer\SigCompState.h"
+						RelativePath=".\src\SigCompMessage.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\SigCompLayer\SigCompStateHandler.h"
+						RelativePath=".\src\SigCompState.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\SigCompLayer\SigCompUDVM.h"
+						RelativePath=".\src\SigCompStateHandler.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\SigCompUDVM.h"
 						>
 					</File>
 				</Filter>
@@ -465,31 +467,23 @@
 					Name="zlib"
 					>
 					<File
-						RelativePath=".\include\libsigcomp\zlib\crc32.h"
+						RelativePath=".\src\deflate.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\zlib\deflate.h"
+						RelativePath=".\src\trees.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\zlib\inflate.h"
+						RelativePath=".\src\zconf.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\zlib\trees.h"
+						RelativePath=".\src\zlib.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\zlib\zconf.h"
-						>
-					</File>
-					<File
-						RelativePath=".\include\libsigcomp\zlib\zlib.h"
-						>
-					</File>
-					<File
-						RelativePath=".\include\libsigcomp\zlib\zutil.h"
+						RelativePath=".\src\zutil.h"
 						>
 					</File>
 				</Filter>
@@ -497,19 +491,19 @@
 					Name="Dictionaries"
 					>
 					<File
-						RelativePath=".\include\libsigcomp\dictionaries\PresenceDictionaryState.h"
+						RelativePath=".\src\PresenceDictionaryState.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\dictionaries\rfc3485_dictionary_sip.h"
+						RelativePath=".\src\rfc3485_dictionary_sip.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\dictionaries\rfc5112_dictionary_presence.h"
+						RelativePath=".\src\rfc5112_dictionary_presence.h"
 						>
 					</File>
 					<File
-						RelativePath=".\include\libsigcomp\dictionaries\SipDictionaryState.h"
+						RelativePath=".\src\SipDictionaryState.h"
 						>
 					</File>
 				</Filter>
@@ -519,86 +513,86 @@
 			Name="source"
 			>
 			<File
-				RelativePath=".\source\binary_utils.cxx"
+				RelativePath=".\src\binary_utils.cxx"
 				>
 			</File>
 			<File
-				RelativePath=".\source\Mutex.cxx"
+				RelativePath=".\src\Mutex.cxx"
 				>
 			</File>
 			<File
-				RelativePath=".\source\rfc1662_ppfcs16.cxx"
+				RelativePath=".\src\rfc1662_ppfcs16.cxx"
 				>
 			</File>
 			<File
-				RelativePath=".\source\rfc3174_us-sha1.cxx"
+				RelativePath=".\src\rfc3174_us-sha1.cxx"
 				>
 			</File>
 			<File
-				RelativePath=".\source\SafeObject.cxx"
+				RelativePath=".\src\SafeObject.cxx"
 				>
 			</File>
 			<File
-				RelativePath=".\source\SigCompBuffer.cxx"
+				RelativePath=".\src\SigCompBuffer.cxx"
 				>
 			</File>
 			<File
-				RelativePath=".\source\SigCompManager.cxx"
+				RelativePath=".\src\SigCompManager.cxx"
 				>
 			</File>
 			<File
-				RelativePath=".\source\SigCompMessage.cxx"
+				RelativePath=".\src\SigCompUDVM.ByteCopy.cxx"
 				>
 			</File>
 			<Filter
 				Name="SigCompLayer"
 				>
 				<File
-					RelativePath=".\source\SigCompLayer\SigCompCompartment.cxx"
+					RelativePath=".\src\SigCompCompartment.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\SigCompLayer\SigCompCompressor.cxx"
+					RelativePath=".\src\SigCompCompressor.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\SigCompLayer\SigCompCompressorDisp.cxx"
+					RelativePath=".\src\SigCompCompressorDisp.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\SigCompLayer\SigCompDecompressorDisp.cxx"
+					RelativePath=".\src\SigCompDecompressorDisp.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\SigCompLayer\SigCompState.cxx"
+					RelativePath=".\src\SigCompMessage.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\SigCompLayer\SigCompStateHandler.cxx"
+					RelativePath=".\src\SigCompState.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\SigCompLayer\SigCompUDVM.ByteCopy.cxx"
+					RelativePath=".\src\SigCompStateHandler.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\SigCompLayer\SigCompUDVM.cxx"
+					RelativePath=".\src\SigCompUDVM.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\SigCompLayer\SigCompUDVM.Instructions.cxx"
+					RelativePath=".\src\SigCompUDVM.Instructions.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\SigCompLayer\SigCompUDVM.Nack.cxx"
+					RelativePath=".\src\SigCompUDVM.Nack.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\SigCompLayer\SigCompUDVM.Operands.cxx"
+					RelativePath=".\src\SigCompUDVM.Operands.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\SigCompLayer\SigCompUDVM.StateManagement.cxx"
+					RelativePath=".\src\SigCompUDVM.StateManagement.cxx"
 					>
 				</File>
 			</Filter>
@@ -606,27 +600,23 @@
 				Name="zlib"
 				>
 				<File
-					RelativePath=".\source\zlib\adler32.c"
+					RelativePath=".\src\adler32.c"
 					>
 				</File>
 				<File
-					RelativePath=".\source\zlib\compress.c"
+					RelativePath=".\src\compress.c"
 					>
 				</File>
 				<File
-					RelativePath=".\source\zlib\crc32.c"
+					RelativePath=".\src\deflate.c"
 					>
 				</File>
 				<File
-					RelativePath=".\source\zlib\deflate.c"
+					RelativePath=".\src\trees.c"
 					>
 				</File>
 				<File
-					RelativePath=".\source\zlib\trees.c"
-					>
-				</File>
-				<File
-					RelativePath=".\source\zlib\zutil.c"
+					RelativePath=".\src\zutil.c"
 					>
 				</File>
 			</Filter>
@@ -634,19 +624,19 @@
 				Name="Compressors"
 				>
 				<File
-					RelativePath=".\source\Compressors\DeflateCompressor.cxx"
+					RelativePath=".\src\DeflateCompressor.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\Compressors\DeflateCompressor.ghost.cxx"
+					RelativePath=".\src\DeflateCompressor.ghost.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\Compressors\DeflateCompressor.zlib.cxx"
+					RelativePath=".\src\DeflateCompressor.zlib.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\Compressors\DummyCompressor.cxx"
+					RelativePath=".\src\DummyCompressor.cxx"
 					>
 				</File>
 			</Filter>
@@ -654,11 +644,11 @@
 				Name="Dictionaries"
 				>
 				<File
-					RelativePath=".\source\dictionaries\PresenceDictionaryState.cxx"
+					RelativePath=".\src\PresenceDictionaryState.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\source\dictionaries\SipDictionaryState.cxx"
+					RelativePath=".\src\SipDictionaryState.cxx"
 					>
 				</File>
 			</Filter>
