@@ -33,9 +33,9 @@ Description : Exe source file
 #include <iostream>
 
 // libSigComp Manager header (the only one needed to have access to all features)
-#include <libsigcomp/SigCompManager.h>
+#include <SigCompManager.h>
 // cross compilation (portable) types
-#include <libsigcomp/MYTYPES.h>
+#include <MYTYPES.h>
 
 #define COMPARTMENT_ID1		1983	// My first compartment id
 #define COMPARTMENT_ID2		1984	// My second compartment id
@@ -45,7 +45,7 @@ Description : Exe source file
 
 #define MAX_BUFFER_SIZE		0xfff0
 
-#define LOOP_COUNT			100
+#define LOOP_COUNT			10
 
 #define DECOMP_NACK_4_TEST	1
 
@@ -246,7 +246,7 @@ LOCAL_C void MainL()
 	manager1->setDecompression_Memory_Size(8192);
 	manager2->setDecompression_Memory_Size(8192);
 	manager1->setState_Memory_Size(8192);
-	manager2->setState_Memory_Size(4096);
+	manager2->setState_Memory_Size(8192);
 
 	for(int i = 0; i< (8*LOOP_COUNT); i++)
 	{

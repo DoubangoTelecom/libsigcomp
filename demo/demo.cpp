@@ -37,9 +37,9 @@ Don't worry for tcp case --> complexity is hidden
 #include "stdafx.h"
 
 // libSigComp Manager header (the only one needed to have access to all features)
-#include <libsigcomp/SigCompManager.h>
+#include <SigCompManager.h>
 // cross compilation (portable) types
-#include <libsigcomp/MYTYPES.h>
+#include <MYTYPES.h>
 
 #define COMPARTMENT_ID1		1983	// My first compartment id
 #define COMPARTMENT_ID2		1984	// My second compartment id
@@ -56,7 +56,7 @@ Don't worry for tcp case --> complexity is hidden
 // messages to use for tests
 const char* messages[] =
 {
-	{ 
+	//{ 
 		"REGISTER sip:v6.ims.test SIP/2.0\r\n"
 		"Via: SIP/2.0/UDP [2001:5c0:1502:1800:1d41:bf77:f1bf:bb49]:1988;comp=sigcomp;rport;branch=z9hG4bK1245420841406\r\n"
 		"From: <sip:mamadou@v6.ims.test>;tag=29358\r\n"
@@ -75,9 +75,9 @@ const char* messages[] =
 		"Supported: timer\r\n"
 		"Content-Length: 0\r\n"
 		"\r\n"
-	}
+	//}
 	,
-	{ 
+	//{ 
 		"SIP/2.0 401 Unauthorized - Challenging the UE\r\n"
 		"Via: SIP/2.0/UDP [2001:5c0:1502:1800:1d41:bf77:f1bf:bb49]:1988;comp=sigcomp;received=2001:5C0:1502:1800:1D41:BF77:F1BF:BB49;rport=1988;branch=z9hG4bK1245420841406\r\n"
 		"From: <sip:mamadou@v6.ims.test>;tag=29358\r\n"
@@ -93,9 +93,9 @@ const char* messages[] =
 		"WWW-Authenticate: Digest realm=\"v6.ims.test\", nonce=\"xFBhTyFaQ0/lBgboH2ZqDe3BDmFXDwAA2Peq/bxtLQs=\", algorithm=AKAv1-MD5, qop=\"auth,auth-int\"\r\n"
 		"\r\n"
 
-	}
+	//}
 		,
-	{ 
+	//{ 
 		"REGISTER sip:v6.ims.test SIP/2.0\r\n"
 		"Via: SIP/2.0/UDP [2001:5c0:1502:1800:1d41:bf77:f1bf:bb49]:1988;comp=sigcomp;rport;branch=z9hG4bK1245420841407\r\n"
 		"From: <sip:mamadou@v6.ims.test>;tag=29358\r\n"
@@ -115,9 +115,9 @@ const char* messages[] =
 		"Supported: timer\r\n"
 		"Content-Length: 0\r\n"
 		"\r\n"
-	}
+	//}
 		,
-	{ 
+	//{ 
 		"SIP/2.0 200 OK - SAR succesful and registrar saved\r\n"
 		"Via: SIP/2.0/UDP [2001:5c0:1502:1800:1d41:bf77:f1bf:bb49]:1988;comp=sigcomp;received=2001:5C0:1502:1800:1D41:BF77:F1BF:BB49;rport=1988;branch=z9hG4bK1245420841407\r\n"
 		"From: <sip:mamadou@v6.ims.test>;tag=29358\r\n"
@@ -134,9 +134,9 @@ const char* messages[] =
 		"Content-Length: 0\r\n"
 		"Warning: 392 2001:5C0:1502:1800:0:0:0:226:6060 \"Noisy feedback tells:  pid=24452 req_src_ip=2001:5C0:1502:1800:0:0:0:226 req_src_port=5060 in_uri=sip:scscf.v6.ims.test:6060 out_uri=sip:scscf.v6.ims.test:6060 via_cnt==3\"\r\n"
 		"\r\n"
-	}
+	//}
 		,
-	{ 
+	//{ 
 		"SUBSCRIBE sip:mamadou@v6.ims.test SIP/2.0\r\n"
 		"Via: SIP/2.0/UDP [2001:5c0:1502:1800:1d41:bf77:f1bf:bb49]:1988;comp=sigcomp;rport;branch=z9hG4bK1245420841408\r\n"
 		"From: <sip:mamadou@v6.ims.test>;tag=5705\r\n"
@@ -157,9 +157,9 @@ const char* messages[] =
 		"Allow-Events: presence, presence.winfo, conference\r\n"
 		"Content-Length: 0\r\n"
 		"\r\n"
-	}
+	//}
 		,
-	{ 
+	//{ 
 		"SIP/2.0 200 Subscription to REG saved\r\n"
 		"Record-Route: <sip:mo@pcscf.v6.ims.test:4060;lr>\r\n"
 		"Via: SIP/2.0/UDP [2001:5c0:1502:1800:1d41:bf77:f1bf:bb49]:1988;comp=sigcomp;received=2001:5C0:1502:1800:1D41:BF77:F1BF:BB49;rport=1988;branch=z9hG4bK1245420841408\r\n"
@@ -173,9 +173,9 @@ const char* messages[] =
 		"Content-Length: 0\r\n"
 		"Warning: 392 2001:5C0:1502:1800:0:0:0:226:6060 \"Noisy feedback tells:  pid=24454 req_src_ip=2001:5C0:1502:1800:0:0:0:226 req_src_port=4060 in_uri=sip:mamadou@v6.ims.test out_uri=sip:mamadou@v6.ims.test via_cnt==2\"\r\n"
 		"\r\n"
-	}
+	//}
 		,
-	{ 
+	//{ 
 		"NOTIFY sip:mamadou@[2001:5c0:1502:1800:1d41:bf77:f1bf:bb49]:1988;transport=udp SIP/2.0\r\n"
 		"Via: SIP/2.0/UDP [2001:5C0:1502:1800:0:0:0:226]:4060;comp=sigcomp;branch=z9hG4bK2b3f.38818b91.0\r\n"
 		"Via: SIP/2.0/UDP [2001:5C0:1502:1800:0:0:0:226]:6060;received=2001:5C0:1502:1800:0:0:0:226;rport=6060;branch=z9hG4bK2b3f.6db77cf1.0\r\n"
@@ -199,9 +199,9 @@ const char* messages[] =
 		"</contact>\r\n"
 		"</registration>\r\n"
 		"</reginfo>\r\n"
-	}
+	//}
 	,
-	{
+	//{
 		"SIP/2.0 200 OK\r\n"
 		"Max-Forwards: 70\r\n"
 		"User-Agent: IM-client/OMA1.0 Mercuro-Gold/v4.0.1390.0\r\n"
@@ -213,15 +213,19 @@ const char* messages[] =
 		"Call-ID: M-dd6e227ce416f853ca7bca49ad5b676d\r\n"
 		"Content-Length: 0\r\n"
 		"\r\n"
-	}
+	//}
 };
 
-int _tmain(int argc, _TCHAR* argv[])
+#ifdef __GNUC__
+int main(int argc, char **a_argv)
+#else
+int _tmain(int argc, TCHAR **argv)
+#endif
 {
 	// temporary buffers  --> will hold compression/decompression results
 	char buff1[MAX_BUFFER_SIZE]; 	memset(buff1, NULL, MAX_BUFFER_SIZE);
 	char buff2[MAX_BUFFER_SIZE]; 	memset(buff2, NULL, MAX_BUFFER_SIZE);
-
+	
 	// Managers
 	sigcomp::SigCompManager* manager1 = new sigcomp::SigCompManager();
 	sigcomp::SigCompManager* manager2 = new sigcomp::SigCompManager();
@@ -231,7 +235,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	manager1->addPresenceDictionary();
 	manager2->addSipSdpDictionary();
 	manager2->addPresenceDictionary();
-
+	
 	// Results --> it is recomanded to use one result struct for each manager
 	sigcomp::DecompressionResult result1; result1.setCompartmentId(COMPARTMENT_ID1);
 	sigcomp::DecompressionResult result2; result2.setCompartmentId(COMPARTMENT_ID2);
@@ -267,6 +271,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			}
 			else // NOK
 			{
+				std::cout<< "ERROR (1)" << std::endl;
 				assert(result2.getIsNack());
 #if DECOMP_NACK_4_TEST
 				manager1->decompress(result2.getNackInfo()->getBuffer(), result2.getNackInfo()->getSize(), &result1);
@@ -279,6 +284,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 		else
 		{
+			std::cout<< "ERROR (2)" << std::endl;
 			assert(0); // MUST never happen	
 		}
 
@@ -298,6 +304,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			}
 			else
 			{
+				std::cout<< "ERROR (3)" << std::endl;
 				assert(result2.getIsNack());
 #if DECOMP_NACK_4_TEST
 				manager2->decompress(result1.getNackInfo()->getBuffer(), result1.getNackInfo()->getSize(), &result2);
@@ -306,6 +313,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 		else
 		{
+			std::cout<< "ERROR (4)" << std::endl;
 			assert(0);	
 		}
 	}
