@@ -349,13 +349,13 @@ bool SigCompUDVM::EXEC_INST__SORT_ASCENDING(uint16_t start, uint16_t n, uint16_t
 	uint16_t* list_temp = NULL;
 	IndexValuePair* list1_values = NULL;
 
-	if( this->memory.getSize() <= (start+(n*k*2)) ) goto __SEGFAULT;
+	if( this->memory.getSize() <= (start+(n*k*2)) ){ segfault=true; goto __SEGFAULT; };
 
 	//
 	// Create FirstList with key-value pairs
 	//
 	list1_values = new IndexValuePair[k];
-	if(!list1_values) goto __SEGFAULT;
+	if(!list1_values) { segfault=true; goto __SEGFAULT; };
 	for(int j=0, pos=0; pos<k; j+=2,pos++)
 	{
 		list1_values[pos].index = pos;
@@ -370,7 +370,7 @@ bool SigCompUDVM::EXEC_INST__SORT_ASCENDING(uint16_t start, uint16_t n, uint16_t
 
 	// Sort all lists
 	list_temp = new uint16_t[k];
-	if(!list1_values) goto __SEGFAULT;
+	if(!list1_values) { segfault=true; goto __SEGFAULT; };
 	for( uint16_t list_index=0; list_index<n; list_index++ )
 	{
 		uint16_t* list_start = (uint16_t*)this->memory.getBuffer( start + (list_index*k*2) );
@@ -414,13 +414,13 @@ bool SigCompUDVM::EXEC_INST__SORT_DESCENDING(uint16_t start, uint16_t n, uint16_
 	IndexValuePair* list1_values = NULL;
 	uint16_t* list_temp = NULL;
 
-	if( this->memory.getSize() <= (start+(n*k*2)) ) goto __SEGFAULT;
+	if( this->memory.getSize() <= (start+(n*k*2)) ) { segfault=true; goto __SEGFAULT; };
 
 	//
 	// Create FirstList with key-value pairs
 	//
 	list1_values = new IndexValuePair[k];
-	if(!list1_values) goto __SEGFAULT;
+	if(!list1_values) { segfault=true; goto __SEGFAULT; };
 	for(int j=0, pos=0; pos<k; j+=2,pos++)
 	{
 		list1_values[pos].index = pos;
@@ -435,7 +435,7 @@ bool SigCompUDVM::EXEC_INST__SORT_DESCENDING(uint16_t start, uint16_t n, uint16_
 
 	// Sort all lists
 	list_temp = new uint16_t[k];
-	if(!list1_values) goto __SEGFAULT;
+	if(!list1_values) { segfault=true; goto __SEGFAULT; };
 	for( uint16_t list_index=0; list_index<n; list_index++ )
 	{
 		uint16_t* list_start = (uint16_t*)this->memory.getBuffer( start + (list_index*k*2) );
