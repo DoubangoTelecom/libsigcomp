@@ -158,6 +158,22 @@ BOOLEAN DecompressionResult_getIsNack(struct DecompressionResult* result)
 }
 
 /**
+	inline SigCompBuffer* getNackInfo()
+*/
+uint8_t* DecompressionResult_getNackInfo(struct DecompressionResult* result)
+{
+	return GET_RESULT(result)->getNackInfo()->getBuffer();
+}
+
+/**
+	DecompressionResult::getNackInfo()->getSize()
+*/
+size_t DecompressionResult_getNackInfoSize(struct DecompressionResult* result)
+{
+	return GET_RESULT(result)->getNackInfo()->getSize();
+}
+
+/**
 	delete result
 */
 void DecompressionResult_delete(struct DecompressionResult** result)

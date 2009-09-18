@@ -61,6 +61,8 @@ EXTERN_C int DecompressionResult_new(struct DecompressionResult**);
 EXTERN_C void DecompressionResult_setCompartmentId(struct DecompressionResult*, uint64_t compartmentId);
 EXTERN_C void DecompressionResult_setOutputBuffer(struct DecompressionResult*, void* output_ptr, size_t output_size, BOOLEAN stream, uint64_t streamId);
 EXTERN_C BOOLEAN DecompressionResult_getIsNack(struct DecompressionResult* );
+EXTERN_C uint8_t* DecompressionResult_getNackInfo(struct DecompressionResult*);
+EXTERN_C size_t DecompressionResult_getNackInfoSize(struct DecompressionResult*);
 EXTERN_C void DecompressionResult_delete(struct DecompressionResult**);
 
 //#undef BOOLEAN
