@@ -128,7 +128,7 @@ void SigCompManager_delete(SigCompManager** manager)
 	new DecompressionResult()
 	Returns 1 if success, otherwise 0
 */
-int DecompressionResult_new(struct DecompressionResult** result)
+int DecompressionResult_new(DecompressionResult** result)
 {
 	*result = (struct DecompressionResult*)new sigcomp::DecompressionResult();
 	return *result?1:0;
@@ -137,7 +137,7 @@ int DecompressionResult_new(struct DecompressionResult** result)
 /**
 	inline void DecompressionResult::setCompartmentId(uint64_t id)
 */
-void DecompressionResult_setCompartmentId(struct DecompressionResult* result, uint64_t compartmentId)
+void DecompressionResult_setCompartmentId(DecompressionResult* result, uint64_t compartmentId)
 {
 	GET_RESULT(result)->setCompartmentId(compartmentId);
 }
@@ -145,14 +145,14 @@ void DecompressionResult_setCompartmentId(struct DecompressionResult* result, ui
 /**
 	inline void DecompressionResult::setOutputBuffer(LPVOID output_ptr, size_t output_size, bool stream, uint64_t streamId=0)
 */
-void DecompressionResult_setOutputBuffer(struct DecompressionResult* result, void* output_ptr, size_t output_size, BOOLEAN stream, uint64_t streamId)
+void DecompressionResult_setOutputBuffer(DecompressionResult* result, void* output_ptr, size_t output_size, BOOLEAN stream, uint64_t streamId)
 {
 	GET_RESULT(result)->setOutputBuffer(output_ptr, output_size, stream,  streamId);
 }
 /**
 	inline bool getIsNack()
 */
-BOOLEAN DecompressionResult_getIsNack(struct DecompressionResult* result)
+BOOLEAN DecompressionResult_getIsNack(DecompressionResult* result)
 {
 	return GET_RESULT(result)->getIsNack();
 }
@@ -160,7 +160,7 @@ BOOLEAN DecompressionResult_getIsNack(struct DecompressionResult* result)
 /**
 	inline SigCompBuffer* getNackInfo()
 */
-uint8_t* DecompressionResult_getNackInfo(struct DecompressionResult* result)
+uint8_t* DecompressionResult_getNackInfo(DecompressionResult* result)
 {
 	return GET_RESULT(result)->getNackInfo()->getBuffer();
 }
@@ -168,7 +168,7 @@ uint8_t* DecompressionResult_getNackInfo(struct DecompressionResult* result)
 /**
 	DecompressionResult::getNackInfo()->getSize()
 */
-size_t DecompressionResult_getNackInfoSize(struct DecompressionResult* result)
+size_t DecompressionResult_getNackInfoSize(DecompressionResult* result)
 {
 	return GET_RESULT(result)->getNackInfo()->getSize();
 }
@@ -176,7 +176,7 @@ size_t DecompressionResult_getNackInfoSize(struct DecompressionResult* result)
 /**
 	delete result
 */
-void DecompressionResult_delete(struct DecompressionResult** result)
+void DecompressionResult_delete(DecompressionResult** result)
 {
 	SAFE_DELETE_PTR(*result);
 }

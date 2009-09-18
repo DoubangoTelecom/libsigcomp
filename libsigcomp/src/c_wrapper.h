@@ -57,13 +57,13 @@ EXTERN_C void SigCompManager_closeCompartment(SigCompManager*, uint64_t compartm
 EXTERN_C void SigCompManager_delete(SigCompManager**);
 
 
-EXTERN_C int DecompressionResult_new(struct DecompressionResult**);
-EXTERN_C void DecompressionResult_setCompartmentId(struct DecompressionResult*, uint64_t compartmentId);
-EXTERN_C void DecompressionResult_setOutputBuffer(struct DecompressionResult*, void* output_ptr, size_t output_size, BOOLEAN stream, uint64_t streamId);
-EXTERN_C BOOLEAN DecompressionResult_getIsNack(struct DecompressionResult* );
-EXTERN_C uint8_t* DecompressionResult_getNackInfo(struct DecompressionResult*);
-EXTERN_C size_t DecompressionResult_getNackInfoSize(struct DecompressionResult*);
-EXTERN_C void DecompressionResult_delete(struct DecompressionResult**);
+EXTERN_C int DecompressionResult_new(DecompressionResult**);
+EXTERN_C void DecompressionResult_setCompartmentId(DecompressionResult*, uint64_t compartmentId);
+EXTERN_C void DecompressionResult_setOutputBuffer(DecompressionResult*, void* output_ptr, size_t output_size, BOOLEAN stream, uint64_t streamId);
+EXTERN_C BOOLEAN DecompressionResult_getIsNack(DecompressionResult* );
+EXTERN_C uint8_t* DecompressionResult_getNackInfo(DecompressionResult*);
+EXTERN_C size_t DecompressionResult_getNackInfoSize(DecompressionResult*);
+EXTERN_C void DecompressionResult_delete(DecompressionResult**);
 
 //#undef BOOLEAN
 #undef EXTERN_C
