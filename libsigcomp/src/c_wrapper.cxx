@@ -143,6 +143,14 @@ void DecompressionResult_setCompartmentId(DecompressionResult* result, uint64_t 
 }
 
 /**
+	inline void DecompressionResult::setCompartmentId(LPCVOID id, size_t len)
+*/
+void DecompressionResult_setCompartmentId2(DecompressionResult* result, const void* id, size_t len)
+{
+	GET_RESULT(result)->setCompartmentId(id, len);
+}
+
+/**
 	inline void DecompressionResult::setOutputBuffer(LPVOID output_ptr, size_t output_size, bool stream, uint64_t streamId=0)
 */
 void DecompressionResult_setOutputBuffer(DecompressionResult* result, void* output_ptr, size_t output_size, BOOLEAN stream, uint64_t streamId)
