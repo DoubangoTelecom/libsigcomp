@@ -15,7 +15,7 @@
 	along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* Copyright (C) 2008 Inexbee
+/* Copyright (C) 2009 Inexbee
 *
 * Authors:	Mamadou Diop <mamadou.diop@inexbee.com>
 *			Laurent Etiemble <laurent.etiemble@inexbee.com>
@@ -140,6 +140,14 @@ int DecompressionResult_new(DecompressionResult** result)
 void DecompressionResult_setCompartmentId(DecompressionResult* result, uint64_t compartmentId)
 {
 	GET_RESULT(result)->setCompartmentId(compartmentId);
+}
+
+/**
+	inline uint64_t DecompressionResult::getCompartmentId()
+*/
+uint64_t DecompressionResult_getCompartmentId(DecompressionResult* result)
+{
+	return GET_RESULT(result)->getCompartmentId();
 }
 
 /**

@@ -15,7 +15,7 @@
 	along with libSigComp.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* Copyright (C) 2008 Inexbee
+/* Copyright (C) 2009 Inexbee
 *
 * Authors:	Mamadou Diop <mamadou.diop@inexbee.com>
 *			Laurent Etiemble <laurent.etiemble@inexbee.com>
@@ -59,6 +59,7 @@ EXTERN_C void SigCompManager_delete(SigCompManager**);
 
 EXTERN_C int DecompressionResult_new(DecompressionResult**);
 EXTERN_C void DecompressionResult_setCompartmentId(DecompressionResult*, uint64_t compartmentId);
+EXTERN_C uint64_t DecompressionResult_getCompartmentId(DecompressionResult*);
 EXTERN_C void DecompressionResult_setCompartmentId2(DecompressionResult*, const void* id, size_t len);
 EXTERN_C void DecompressionResult_setOutputBuffer(DecompressionResult*, void* output_ptr, size_t output_size, BOOLEAN stream, uint64_t streamId);
 EXTERN_C BOOLEAN DecompressionResult_getIsNack(DecompressionResult* );
