@@ -35,7 +35,7 @@ __NS_DECLARATION_BEGIN__
 class LIBSIGCOMP_API SigCompBuffer
 {
 public:
-	SigCompBuffer();
+	SigCompBuffer(const void* data = NULL, size_t len = 0);
 	~SigCompBuffer();  
 
 	void reset();

@@ -26,6 +26,7 @@
 
 #include "MYTYPES.h"
 
+#include "SigCompCompressorData.h"
 #include "SigCompState.h"
 #include "struct_decompResult.h"
 #include "SafeObject.h"
@@ -71,13 +72,13 @@ public:
 	void freeStates(lptempStateToFreeDesc *tempStates, uint8_t size);
 	void addState(SigCompState* &lpState);
 	uint16_t findState(const SigCompBuffer* partial_identifier, SigCompState** lpState);
+	void freeGhostState();
 
 	//
-	//	Ghost
+	//	Compressor data
 	//
-	inline SigCompState* &getGhostState() { return this->ghostState; }
-	inline uint32_t &getGhostCopyOffset() { return this->ghost_copy_offset; }
-	inline void freeGhostState() { SAFE_DELETE_PTR(this->ghostState); this->ghost_copy_offset = 0; }
+	inline SigCompCompressorData* getCompressionData() { return  this->compressorData; }
+	inline void setCompressionData(SigCompCompressorData* data){ this->compressorData = data; }
 
 	//
 	//	Nacks
@@ -99,8 +100,7 @@ private:
 	SigCompBuffer* lpReqFeedback;
 	SigCompBuffer* lpRetFeedback;
 
-	SigCompState* ghostState;
-	uint32_t ghost_copy_offset;
+	SigCompCompressorData* compressorData;
 
 	std::list<SigCompBuffer*> nacks;
 };

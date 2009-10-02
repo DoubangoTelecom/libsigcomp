@@ -30,16 +30,22 @@ __NS_DECLARATION_BEGIN__
 
 // From: 
 //
-SigCompBuffer::SigCompBuffer()
+SigCompBuffer::SigCompBuffer(const void* _data /*= NULL*/, size_t _len /*= 0*/)
 {
 	this->size = 0; 
 	this->index_bytes = 0;
 	this->index_bits = 0;
 	this->lpbuffer = NULL;
 	this->owner = true;
+
 	/*The P-bit controls the order in which bits are passed from the
 	dispatcher to the INPUT instructions*/
 	this->P_BIT = P_BIT_MSB_TO_LSB;
+
+	if(_data && _len)
+	{
+		this->appendBuff(_data, _len);
+	}
 }
 
 //
@@ -70,6 +76,8 @@ inline bool SigCompBuffer::operator == (const SigCompBuffer &buffer) const
 
 inline bool SigCompBuffer::startsWith(const SigCompBuffer* buff)const
 {
+	if(this->size < buff->getSize()) return false;
+
 	for(size_t i=0; i<buff->getSize(); i++)
 	{
 		if(*getReadOnlyBuffer(i)!=*buff->getReadOnlyBuffer(i)){

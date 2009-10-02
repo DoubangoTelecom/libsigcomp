@@ -15,8 +15,6 @@
 	
     You should have received a copy of the GNU Lesser General Public License
     along with libSigComp.  
-
-	
 */
 
 #if !defined(LIBSIGCOMP_STRUCTDECOMPRESULT_H)

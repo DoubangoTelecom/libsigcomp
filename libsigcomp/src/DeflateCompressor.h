@@ -29,73 +29,16 @@
 #include "SigCompCompressor.h"
 #include "SigCompState.h"
 
-#if HAS_ZLIB
-#	include <zlib.h>
-#else
-#	include "zlib.h"
-#endif
-
-#define USE_DICTS_FOR_COMPRESSION			0
-
-#define Z_DEFAULT_WINDOW_BITS 10 /* 1024*/
-
-#define DEFLATE_DECOMPRESSION_PTR_INDEX			70
-#if USE_DICTS_FOR_COMPRESSION
-#	define DEFLATE_UDVM_CIRCULAR_START_INDEX	701
-#else
-#	define DEFLATE_UDVM_CIRCULAR_START_INDEX	630
-#endif
-
-#define DEFLATE_SIP_DICT_ONLY				0x00
-#define DEFLATE_PRES_DICT_ONLY				0x01
-#define DEFLATE_SIP_PRES_DICTS				0x02
-#define DEFLATE_NO_DICT						0x03
-#define DEFLATE_FIXME_DICT					DEFLATE_NO_DICT
-
-#define DEFLATE_BYTECODE_DESTINATION_START	320
-#define DEFLATE_BYTECODE_DESTINATION_CODE	0x04 // 320
-#if USE_DICTS_FOR_COMPRESSION
-#	define DEFLATE_BYTECODE_LEN				381
-#else
-#	define DEFLATE_BYTECODE_LEN				310
-#endif
-
 
 __NS_DECLARATION_BEGIN__
 
 class LIBSIGCOMP_API DeflateCompressor : public SigCompCompressor
 {
 public:
-	DeflateCompressor(int z_level=Z_BEST_COMPRESSION, int z_windowBits = Z_DEFAULT_WINDOW_BITS);
+	DeflateCompressor();
 	~DeflateCompressor();
 
 	virtual bool compress(SigCompCompartment* lpCompartment, LPCVOID input_ptr, size_t input_size, LPVOID output_ptr, size_t &output_size, bool stream);
-
-private:
-	//
-	static const char* deflate_bytecode;
-	static const char* deflate_bytecode1_ghost;
-
-	//
-	//	Ghost state
-	//
-	void createGhost(SigCompCompartment* lpCompartment, uint16_t state_len, lpstruct_sigcomp_parameters params);
-	void updateGhost(SigCompCompartment* lpCompartment, const uint8_t* input_ptr, size_t input_size);
-
-	//
-	//	zLIB
-	//
-	bool zInit();
-	bool zUnInit();
-	bool zReset() { bool ret = initialized?zUnInit():true; ret &= zInit(); return ret; }
-	bool zCompress(const void* in, size_t inLen, void* out, size_t* outLen);
-
-private:
-	z_stream zStream;
-	int zLevel;
-	int zWindowBits;
-	
-	bool initialized;
 };
 
 __NS_DECLARATION_END__

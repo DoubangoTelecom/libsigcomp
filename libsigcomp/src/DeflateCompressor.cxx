@@ -14,74 +14,30 @@
     GNU Lesser General Public License for more details.
 	
     You should have received a copy of the GNU Lesser General Public License
-    along with libSigComp.  
-
-	
+    along with libSigComp.
 */
 
 #include "global_config.h"
 #include "DeflateCompressor.h"
+#include "DeflateData.h"
+
 //#include <math.h>
 #define LIBSIGCOMP_MIN(a, b) (a<b?a:b)
 
 __NS_DECLARATION_BEGIN__
 
-// see this file for more info: 'libsigcomp/asm/deflate.asm'
-const char* DeflateCompressor::deflate_bytecode =
-{
-#if USE_DICTS_FOR_COMPRESSION
-	/*"\x0f\x86\x7a\xa2\xbd\x8d\x05\xa2\xbd\x00\x03\x00\x04\x00\x05\x00\x06\x00\x07\x00\x08\x00
-	"\x09\x00\x0a\x01\x0b\x01\x0d\x01\x0f\x01\x11\x02\x13\x02\x17\x02\x1b\x02\x1f\x03\x23\x03"
-	"\x2b\x03\x33\x03\x3b\x04\xa0\x43\x04\xa0\x53\x04\xa0\x63\x04\xa0\x73\x05\xa0\x83\x05\xa0"
-	"\xa3\x05\xa0\xc3\x05\xa0\xe3\x00\xa1\x02\x00\x01\x00\x02\x00\x03\x00\x04\x01\x05\x01\x07"
-	"\x02\x09\x02\x0d\x03\x11\x03\x19\x04\x21\x04\x31\x05\xa0\x41\x05\xa0\x61\x06\xa0\x81\x06"
-	"\xa0\xc1\x07\xa1\x01\x07\xa1\x81\x08\xa2\x01\x08\xa3\x01\x09\xa4\x01\x09\xa6\x01\x0a\xa8"
-	"\x01\x0a\xac\x01\x0b\xb0\x01\x0b\xb8\x01\x0c\x80\x20\x01\x0c\x80\x30\x01\x0d\x80\x40\x01"
-	"\x0d\x80\x60\x01\x1c\x08\xa1\x34\xa0\xde\x0e\xa0\x42\xc1\x36\x06\x21\x86\x1a\x04\xc1\x3a"
-	"\xa0\x0c\xa0\x1e\xa0\x30\xa0\x47\x0f\xa1\x3a\x04\xa6\xfb\x80\xe5\x07\x80\xdf\xe5\x80\xe6"
-	"\x00\x16\xa0\x2c\x0f\xa1\x3a\x04\xa6\xd9\x80\x42\x29\x80\x7d\x0b\x80\xb3\x00\x16\xa0\x1a"
-	"\x0f\xa1\x3a\x07\xa6\xfb\x80\xe5\x07\x80\xdf\xe5\x80\xe6\x06\x80\xd9\x42\x80\x29\x7d\xab"
-	"\xb3\x1d\x03\x22\xa0\x89\x1e\x20\xa0\x68\x04\x07\x00\x17\x80\x40\x11\x01\x30\xa0\xbf\x00"
-	"\x00\xa0\xc0\xa0\xc7\x80\x40\x29\x01\xa1\x90\xa1\xff\xa0\x90\x17\x50\x80\x40\x11\xa0\x0b"
-	"\xa0\x49\xa0\x15\x22\x21\x01\x13\x21\x01\x23\x16\x9f\xcf\x08\x10\x04\x12\x50\x04\x22\x1d"
-	"\x51\x22\xa0\x49\x06\x12\x51\x1e\x20\xa0\x41\x01\x05\x00\x1f\x2f\x08\x10\x04\x12\x50\x04"
-	"\x26\x1d\x53\x26\xa0\x31\x06\x14\x53\x0e\x20\x63\x14\x54\x52\x23\x22\x50\x52\x16\x9f\x9b"
-	"\x0e\x2a\xa4\x86\x0f\x38\x04\xc1\x36\x86\xa1\xec\x06\x0d\x38\xc1\x34\x2c\x23\x2a\xa1\x38"
-	"\xc1\x36\x86\xa1\xec\x06\x00"*/
-#else
-	"\x0f\x86\x7a\xa2\x76\x8d\x05\xa2\x76\x00\x03\x00\x04\x00\x05\x00\x06\x00\x07\x00\x08\x00"
-	"\x09\x00\x0a\x01\x0b\x01\x0d\x01\x0f\x01\x11\x02\x13\x02\x17\x02\x1b\x02\x1f\x03\x23\x03"
-	"\x2b\x03\x33\x03\x3b\x04\xa0\x43\x04\xa0\x53\x04\xa0\x63\x04\xa0\x73\x05\xa0\x83\x05\xa0"
-	"\xa3\x05\xa0\xc3\x05\xa0\xe3\x00\xa1\x02\x00\x01\x00\x02\x00\x03\x00\x04\x01\x05\x01\x07"
-	"\x02\x09\x02\x0d\x03\x11\x03\x19\x04\x21\x04\x31\x05\xa0\x41\x05\xa0\x61\x06\xa0\x81\x06"
-	"\xa0\xc1\x07\xa1\x01\x07\xa1\x81\x08\xa2\x01\x08\xa3\x01\x09\xa4\x01\x09\xa6\x01\x0a\xa8"
-	"\x01\x0a\xac\x01\x0b\xb0\x01\x0b\xb8\x01\x0c\x80\x20\x01\x0c\x80\x30\x01\x0d\x80\x40\x01"
-	"\x0d\x80\x60\x01\x1c\x06\xa1\x34\xa0\x97\x0e\xa0\x42\xc1\x36\x06\x21\x86\x1d\x03\x22\xa0"
-	"\x89\x1e\x20\xa0\x68\x04\x07\x00\x17\x80\x40\x11\x01\x30\xa0\xbf\x00\x00\xa0\xc0\xa0\xc7"
-	"\x80\x40\x29\x01\xa1\x90\xa1\xff\xa0\x90\x17\x50\x80\x40\x11\xa0\x0b\xa0\x49\xa0\x15\x22"
-	"\x21\x01\x13\x21\x01\x23\x16\x9f\xcf\x08\x10\x04\x12\x50\x04\x22\x1d\x51\x22\xa0\x49\x06"
-	"\x12\x51\x1e\x20\xa0\x41\x01\x05\x00\x1f\x2f\x08\x10\x04\x12\x50\x04\x26\x1d\x53\x26\xa0"
-	"\x31\x06\x14\x53\x0e\x20\x63\x14\x54\x52\x23\x22\x50\x52\x16\x9f\x9b\x0e\x2a\xa4\x86\x0f"
-	"\x38\x04\xc1\x36\x86\xa1\xec\x06\x0d\x38\xc1\x34\x2c\x23\x2a\xa1\x38\xc1\x36\x86\xa1\xec"
-	"\x06\x00"
-#endif
-};
-
 /**
 */
-DeflateCompressor::DeflateCompressor(int z_level/*=Z_BEST_COMPRESSION*/, int z_windowBits /*= Z_DEFAULT_WINDOW_BITS*/)
+DeflateCompressor::DeflateCompressor()
 {
-	this->zLevel = z_level;
-	this->zWindowBits = z_windowBits;
-
-	this->initialized = false;
+	
 }
 
 /**
 */
 DeflateCompressor::~DeflateCompressor()
 {
-	this->zUnInit();
+	
 }
 
 /**
@@ -90,33 +46,47 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 {
 	this->lock();
 
-	bool result = true;
+	bool result = true, stateChanged, stateful;
 	
+	DeflateData* data = NULL;
+
 	SigCompBuffer output_buffer;
 	output_buffer.referenceBuff((uint8_t*)output_ptr, output_size);
 
 	size_t pointer =0, state_len_index =0;
 
+	// Compression Data
+	if(!lpCompartment->getCompressionData())
+		lpCompartment->setCompressionData(new DeflateData(stream));
+
+	data = dynamic_cast<DeflateData*>(lpCompartment->getCompressionData());
+	assert(data);
+
 	// State memory size code
 	uint8_t smsCode = LIBSIGCOMP_MIN(lpCompartment->getRemoteParameters()->getSmsCode(), lpCompartment->getRemoteParameters()->getDmsCode());
-	
+#if USE_ONLY_ACKED_STATES
+	stateful = (data->getGhostState() && data->isStateful());
+#else
+	stateful = (data->getGhostState() != NULL);
+#endif
+
 	//
 	//	Init zLIB
 	//
 	int windowBits = ( smsCode - (stream?2:1) ) + 10;
 	windowBits = (windowBits < 8) ? 8 : ( (windowBits > 15 ? 15 : windowBits) ); // Because of zlib limitation (windowsize MUST be between 8 and 15)
-	if(windowBits != this->zWindowBits)
+	if(windowBits != data->zGetWindowBits())
 	{
 		// Window size changed
-		lpCompartment->freeGhostState();
-		this->zWindowBits = windowBits;
-		if( !(result = this->zReset()) ) /*goto bail*/return false;
+		data->freeGhostState();
+		data->zSetWindowBits(windowBits);
+		if( !(result = data->zReset()) ) goto bail; /*return false*/;
 	}
-	else if(!lpCompartment->getGhostState())
+	else if(!data->getGhostState())
 	{
 		// No ghost --> reset zlib
-		lpCompartment->getGhostCopyOffset() = 0;
-		if( !(result = this->zReset()) ) /*goto bail*/return false;
+		data->getGhostCopyOffset() = 0;
+		if( !(result = data->zReset()) ) goto bail; /*return false*/;
 	}
 
 	//***********************************************
@@ -135,40 +105,16 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 	else{
 		*header = 0xf8;
 	}
-	/* Stateless or stateful? */
-#if 1
-	if(lpCompartment->getGhostState())
+
+	//
+	// Stateless or stateful?
+	//
+	if(stateful)
 	{
-		::memmove(output_buffer.getBuffer(pointer), const_cast<SigCompBuffer*>(lpCompartment->getGhostState()->getStateIdentifier())->getBuffer(), 
+		::memmove(output_buffer.getBuffer(pointer), const_cast<SigCompBuffer*>(data->getGhostState()->getStateIdentifier())->getBuffer(), 
 			PARTIAL_ID_LEN_VALUE);
 		pointer+=PARTIAL_ID_LEN_VALUE; *header |= PARTIAL_ID_LEN_CODE;
 	}
-#else
-	if(lpCompartment->getRetFeedback() && lpCompartment->getRetFeedback()->getSize())
-	{
-		// FIXME: what about priorities
-		SigCompBuffer* id = lpCompartment->getRetFeedback();
-		uint8_t size = (*id->getBuffer(0)&0x7f);
-		switch(size)
-		{
-		case 6:
-			*header |= 0x01;
-			break;
-		case 9:
-			*header |= 0x02;
-			break;
-		case 16:
-			*header |= 0x03;
-			break;
-		default:
-			assert(0);//FIXME
-			break;
-		}
-		::memmove(output_buffer.getBuffer(pointer), id->getBuffer(1), size);
-		pointer+=size;
-		//id->print();
-	}
-#endif
 	else
 	{
 		uint16_t codeLen = DEFLATE_BYTECODE_LEN;
@@ -182,7 +128,7 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 		//////////////////////////////////////////////////
 		//	Upload UDVM bytecode
 		//
-		::memmove(output_buffer.getBuffer(pointer), (uint8_t*)DeflateCompressor::deflate_bytecode, codeLen);
+		::memmove(output_buffer.getBuffer(pointer), (uint8_t*)DeflateData::deflate_bytecode, codeLen);
 		pointer+= codeLen;
 
 		//////////////////////////////////////////////////
@@ -206,7 +152,7 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 	//	Compress data using ZLIB
 	//
 	size_t compressedDataLen = (output_size-pointer);
-	bool zret = this->zCompress(input_ptr, input_size, output_buffer.getBuffer(pointer), &compressedDataLen);
+	bool zret = data->zCompress(input_ptr, input_size, output_buffer.getBuffer(pointer), &compressedDataLen, &stateChanged);
 	if(!zret){
 		//result = false;
 		//goto bail;
@@ -216,11 +162,11 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 	output_size = (pointer);
 
 	//
-	// Update state length(FIXME - what about tcp/udp?)
+	// Update state length
 	//
-	if(state_len_index)
+	if(!stateful)
 	{		
-		uint16_t state_len = ( (1<<(this->zWindowBits)) + DEFLATE_UDVM_CIRCULAR_START_INDEX - 64 );
+		uint16_t state_len = ( (1<<(data->zGetWindowBits())) + DEFLATE_UDVM_CIRCULAR_START_INDEX - 64 );
 		uint32_t hash_len = (state_len+8);
 		
 		// FIXME: 131072  could not go in 2-bytes
@@ -230,14 +176,20 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 		*output_buffer.getBuffer(state_len_index+3) = (state_len & 0x00ff);
 
 		//	First time or synchronize failure (NACK reason=STATE_NOT_FOUND)
-		this->createGhost(lpCompartment, state_len, lpCompartment->getLocalParameters());
+		if(!data->getGhostState()){
+			data->createGhost(state_len, lpCompartment->getLocalParameters());
+		}
 	}
-
-	this->updateGhost(lpCompartment, (const uint8_t*)input_ptr, input_size);
+#if USE_ONLY_ACKED_STATES
+	if(stateChanged)
+#endif
+	{
+		data->updateGhost((const uint8_t*)input_ptr, input_size);
+	}
 
 	//output_buffer.print(2000);
 	this->unlock();
-//bail:
+bail:
 	return result;
 }
 

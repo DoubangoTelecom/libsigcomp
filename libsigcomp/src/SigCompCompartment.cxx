@@ -35,8 +35,7 @@ SigCompCompartment::SigCompCompartment(uint64_t id, uint16_t sigCompParameters)
 {
 	this->lpReqFeedback = NULL;
 	this->lpRetFeedback = NULL;
-	this->ghostState = NULL;
-	this->ghost_copy_offset = 0;
+	this->compressorData = NULL;
 
 	/*+---+---+---+---+---+---+---+---+
       |  cpb  |    dms    |    sms    |
@@ -73,8 +72,8 @@ SigCompCompartment::~SigCompCompartment()
 	list<SigCompBuffer* >::iterator it_nacks;
 	SAFE_CLEAR_LIST(this->nacks, it_nacks);
 
-	// Delete Ghost state
-	SAFE_DELETE_PTR(this->ghostState);
+	// Delete Compressor data
+	SAFE_DELETE_PTR(this->compressorData);
 }
 
 /**
@@ -282,6 +281,19 @@ void SigCompCompartment::addState(SigCompState* &lpState)
 	this->unlock();
 }
 
+
+/**
+*/
+void SigCompCompartment::freeGhostState()
+{
+	this->lock();
+	if(this->compressorData)
+	{
+		this->compressorData->freeGhostState();
+	}
+	this->unlock();
+}
+
 /**
 */
 void SigCompCompartment::setReqFeedback(SigCompBuffer* feedback)
@@ -291,10 +303,7 @@ void SigCompCompartment::setReqFeedback(SigCompBuffer* feedback)
 	// Delete old
 	SAFE_DELETE_PTR(this->lpReqFeedback);
 
-	this->lpReqFeedback = new SigCompBuffer();
-
-	this->lpReqFeedback->allocBuff(feedback->getSize());
-	memmove(this->lpReqFeedback->getBuffer(), feedback->getBuffer(), feedback->getSize());
+	this->lpReqFeedback = new SigCompBuffer(feedback->getBuffer(), feedback->getSize());
 
 	this->unlock();
 }
@@ -308,10 +317,19 @@ void SigCompCompartment::setRetFeedback(SigCompBuffer* feedback)
 	// Delete old
 	SAFE_DELETE_PTR(this->lpRetFeedback);
 
-	this->lpRetFeedback = new SigCompBuffer();
+	this->lpRetFeedback = new SigCompBuffer(feedback->getBuffer(), feedback->getSize());
 
-	this->lpRetFeedback->allocBuff(feedback->getSize());
-	memmove(this->lpRetFeedback->getBuffer(), feedback->getBuffer(), feedback->getSize());
+#if USE_ONLY_ACKED_STATES
+	//
+	// ACK STATE ==> Returned feedback contains the partial state-id.
+	//
+	if(this->compressorData && !this->compressorData->isStream())
+	{
+		SigCompBuffer stateid(feedback->getBuffer(1), feedback->getSize()-1);
+		this->compressorData->ackGhost(&stateid);
+		stateid.freeBuff();
+	}
+#endif
 
 	this->unlock();
 }
@@ -328,8 +346,7 @@ void SigCompCompartment::addNack(const uint8_t nackId[SHA1HashSize])
 		this->nacks.erase(it);
 		SAFE_DELETE_PTR(lpBuffer);
 	}
-	SigCompBuffer* id = new SigCompBuffer();
-	id->appendBuff(nackId, SHA1HashSize);
+	SigCompBuffer* id = new SigCompBuffer(nackId, SHA1HashSize);
 	this->nacks.push_front(id);
 
 	this->unlock();

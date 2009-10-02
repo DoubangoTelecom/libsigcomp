@@ -100,6 +100,11 @@
 #define NACK_MAX_HISTORY_SIZE	0x0a
 
 //
+//	Feedbacks
+//
+#define USE_ONLY_ACKED_STATES	1
+
+//
 //	SAFE DELETE
 //
 #define SAFE_DELETE_PTR(ptr) {if(ptr){delete ptr; ptr=NULL;}}

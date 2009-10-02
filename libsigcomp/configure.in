@@ -63,7 +63,11 @@ if test "$pthread" != no; then
    AC_CHECK_LIB([pthread], [pthread_mutex_unlock],,AC_MSG_ERROR([pthread library not found]))
 else
    if test "$WIN32THREAD" = "no"; then
-      AC_MSG_ERROR(This package requires pthread or win32thread. Use --help option for more information.)
+      AC_CHECK_HEADERS([pthread.h],,AC_MSG_ERROR([pthread.h header not found]))
+      AC_CHECK_LIB([pthread], [pthread_mutex_init],,AC_MSG_ERROR([pthread library not found]))
+      AC_CHECK_LIB([pthread], [pthread_mutex_destroy],,AC_MSG_ERROR([pthread library not found]))
+      AC_CHECK_LIB([pthread], [pthread_mutex_lock],,AC_MSG_ERROR([pthread library not found]))
+      AC_CHECK_LIB([pthread], [pthread_mutex_unlock],,AC_MSG_ERROR([pthread library not found]))
    fi
 fi
 

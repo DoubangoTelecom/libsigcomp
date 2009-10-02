@@ -407,6 +407,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\src\DeflateData.h"
+						>
+					</File>
+					<File
 						RelativePath=".\src\DummyCompressor.h"
 						>
 					</File>
@@ -440,6 +444,10 @@
 					</File>
 					<File
 						RelativePath=".\src\SigCompCompressor.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\SigCompCompressorData.h"
 						>
 					</File>
 					<File
@@ -564,6 +572,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\SigCompCompressorData.cxx"
+					>
+				</File>
+				<File
 					RelativePath=".\src\SigCompCompressorDisp.cxx"
 					>
 				</File>
@@ -636,11 +648,15 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\DeflateCompressor.ghost.cxx"
+					RelativePath=".\src\DeflateData.cxx"
 					>
 				</File>
 				<File
-					RelativePath=".\src\DeflateCompressor.zlib.cxx"
+					RelativePath=".\src\DeflateData.Ghost.cxx"
+					>
+				</File>
+				<File
+					RelativePath=".\src\DeflateData.zlib.cxx"
 					>
 				</File>
 				<File

@@ -14,14 +14,15 @@
     GNU Lesser General Public License for more details.
 	
     You should have received a copy of the GNU Lesser General Public License
-    along with libSigComp.  
+    along with libSigComp.
+*/
 
-	
+/*
+	09-2009, by Inexbee: Only acknowledged states MUST be loaded for compression
 */
 
 #include "global_config.h"
-#include "DeflateCompressor.h"
-
+#include "DeflateData.h"
 
 __NS_DECLARATION_BEGIN__
 
@@ -65,13 +66,13 @@ I suppose we would like to compress this message "libsigcomp":
 
 #define GHOST_BYTECODE1_SIZE				(GHOST_VERSION_INDEX + 1)
 
-const char* DeflateCompressor::deflate_bytecode1_ghost=
+const char* DeflateData::deflate_bytecode1_ghost=
 {
 	"\xff\xff"	// Circular buffer Size (CBS)
 	"\xff\xff"	// State Memory Size (DMS)
 	"\x00\x05"	// See 'libsigcomp/asm/deflate.asm'
 	"\xff\xff"	// (CBS + strlen(input))
-
+	
 	"\x00\x00\x00\x03\x00\x00\x00\x04\x00\x00\x00\x05\x00\x00\x00\x06\x00\x00\x00\x07\x00\x00\x00\x08\x00\x00\x00\x09\x00\x00"
 	"\x00\x0a\x00\x01\x00\x0b\x00\x01\x00\x0d\x00\x01\x00\x0f\x00\x01\x00\x11\x00\x02\x00\x13\x00\x02\x00\x17\x00\x02\x00\x1b"
 	"\x00\x02\x00\x1f\x00\x03\x00\x23\x00\x03\x00\x2b\x00\x03\x00\x33\x00\x03\x00\x3b\x00\x04\x00\x43\x00\x04\x00\x53\x00\x04"
@@ -93,14 +94,15 @@ const char* DeflateCompressor::deflate_bytecode1_ghost=
 #define GHOST_STATE_MIN_ACCESS_LEN		6
 #define GHOST_STATE_RETENTION_PRIORITY	0
 
-void DeflateCompressor::createGhost( SigCompCompartment* lpCompartment, uint16_t state_length, lpstruct_sigcomp_parameters params )
+void DeflateData::createGhost( uint16_t state_length, lpstruct_sigcomp_parameters params )
 {
-	SigCompState* &ghostState = lpCompartment->getGhostState();
-	assert( !ghostState );
+	this->lock();
+
+	assert( !this->ghostState );
 
 	ghostState = new SigCompState(state_length, GHOST_STATE_ADDRESS, GHOST_STATE_INSTRUCTION, GHOST_STATE_MIN_ACCESS_LEN, GHOST_STATE_RETENTION_PRIORITY);
 	ghostState->getStateValue()->allocBuff(state_length);
-	::memmove(ghostState->getStateValue()->getBuffer(), DeflateCompressor::deflate_bytecode1_ghost, GHOST_BYTECODE1_SIZE);
+	::memmove(ghostState->getStateValue()->getBuffer(), DeflateData::deflate_bytecode1_ghost, GHOST_BYTECODE1_SIZE);
 	
 
 	BINARY_SET_2BYTES( ghostState->getStateValue()->getBuffer(GHOST_CB_START_INDEX), DEFLATE_UDVM_CIRCULAR_START_INDEX );
@@ -135,21 +137,26 @@ void DeflateCompressor::createGhost( SigCompCompartment* lpCompartment, uint16_t
 		}
 	}
 #endif
-	::memmove( ghostState->getStateValue()->getBuffer(GHOST_DEFLATE_BYTECODE_INDEX), DeflateCompressor::deflate_bytecode, DEFLATE_BYTECODE_LEN );
+	::memmove( ghostState->getStateValue()->getBuffer(GHOST_DEFLATE_BYTECODE_INDEX), DeflateData::deflate_bytecode, DEFLATE_BYTECODE_LEN );
+
+	this->unlock();
 }
 
 
-void DeflateCompressor::updateGhost(SigCompCompartment* lpCompartment, const uint8_t* input_ptr, size_t input_size)
+void DeflateData::updateGhost(const uint8_t* input_ptr, size_t input_size)
 {
-	SigCompState* &ghostState = lpCompartment->getGhostState();
-	assert( ghostState );
-	uint32_t &ghost_copy_offset = lpCompartment->getGhostCopyOffset();
+	this->lock();
+
+	assert( this->ghostState );
 
 #define ZBUFF_LEN	(0x0001 << this->zWindowBits)
 	for(register uint32_t i = 0; i<input_size; i++)
 	{
-		//*ghostState->getStateValue()->getBuffer(GHOST_INPUT_INDEX + ghost_copy_offset) = 0x00;
+#if 0
+		*ghostState->getStateValue()->getBuffer(GHOST_INPUT_INDEX + ghost_copy_offset) = 0x00;
+#else
 		*ghostState->getStateValue()->getBuffer(GHOST_INPUT_INDEX + ghost_copy_offset) = input_ptr[i];
+#endif
 		ghost_copy_offset = (ghost_copy_offset + 1)%ZBUFF_LEN;
 	}
 
@@ -162,6 +169,8 @@ void DeflateCompressor::updateGhost(SigCompCompartment* lpCompartment, const uin
 	/*printf("GHOST\n");
 	ghostState->getStateValue()->print();
 	const_cast<SigCompBuffer*>(ghostState->getStateIdentifier())->print();*/
+	
+	this->unlock();
 }
 
 __NS_DECLARATION_END__
