@@ -80,13 +80,13 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 		// Window size changed
 		data->freeGhostState();
 		data->zSetWindowBits(windowBits);
-		if( !(result = data->zReset()) ) goto bail; /*return false*/;
+		if( !(result = data->zReset()) ) /*goto bail;*/ return false;
 	}
 	else if(!data->getGhostState())
 	{
 		// No ghost --> reset zlib
 		data->getGhostCopyOffset() = 0;
-		if( !(result = data->zReset()) ) goto bail; /*return false*/;
+		if( !(result = data->zReset()) ) /*goto bail;*/ return false;
 	}
 
 	//***********************************************
