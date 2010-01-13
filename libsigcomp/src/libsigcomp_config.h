@@ -36,13 +36,22 @@
 #	define INLINE
 #endif
 
-#if (defined(WIN32) || defined(__SYMBIAN32__)) && defined(LIBSIGCOMP_EXPORTS)
-# 	define LIBSIGCOMP_API __declspec(dllexport)
-//#	define ZLIB_DLL
-#elif (defined(WIN32) || defined(__SYMBIAN32__)) && defined(LIBSIGCOMP_IMPORTS)
-# 	define LIBSIGCOMP_API __declspec(dllimport)
+#if defined(LIBSIGCOMP_EXPORTS)
+#	if defined(WIN32) || defined(__SYMBIAN32__)
+# 		define LIBSIGCOMP_API __declspec(dllexport)
+#	elif defined(__GNUC__)
+# 		define LIBSIGCOMP_API __attribute__ ((visibility("default")))
+#	else
+#		define LIBSIGCOMP_API
+#	endif
 #else
-# define LIBSIGCOMP_API
+#	if defined(WIN32) || defined(__SYMBIAN32__)
+# 		define LIBSIGCOMP_API __declspec(dllimport)
+#	elif defined(__GNUC__)
+# 		define LIBSIGCOMP_API __attribute__ ((visibility("hidden")))
+#	else
+#		define LIBSIGCOMP_API
+#	endif
 #endif
 
 //
