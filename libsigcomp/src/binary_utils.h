@@ -32,7 +32,7 @@
 #define TO_U8(buffer) ((uint8_t*)buffer)
 #define BINARY_GET_1BYTE(buffer) *TO_U8(buffer)// 1-byte
 
-static inline uint16_t LSB_2_MSB( void const * buffer )
+static INLINE uint16_t LSB_2_MSB( void const * buffer )
 {
     const uint8_t* dummy = (const uint8_t*)buffer;
     return ( ((uint16_t)dummy[0] << 8) | dummy[1] );

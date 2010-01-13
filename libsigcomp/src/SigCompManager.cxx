@@ -108,35 +108,35 @@ size_t SigCompManager::getNextMessage(lpDecompressionResult lpResult)
 
 /**
 */
-inline void SigCompManager::provideCompartmentId(lpDecompressionResult lpResult)
+INLINE void SigCompManager::provideCompartmentId(lpDecompressionResult lpResult)
 {
 	this->stateHandler->handleResult(lpResult);
 }
 
 /**
 */
-inline void SigCompManager::closeCompartment(uint64_t compartmentId)
+INLINE void SigCompManager::closeCompartment(uint64_t compartmentId)
 {
 	this->stateHandler->deleteCompartment(compartmentId);
 }
 
 /**
 */
-inline void SigCompManager::addCompressor(SigCompCompressor* compressor)
+INLINE void SigCompManager::addCompressor(SigCompCompressor* compressor)
 {
 	this->dispatcher_compressor->addCompressor(compressor);
 }
 
 /**
 */
-inline void SigCompManager::addSipSdpDictionary()
+INLINE void SigCompManager::addSipSdpDictionary()
 {
 	this->stateHandler->addSipSdpDictionary();
 }
 
 /**
 */
-inline void SigCompManager::addPresenceDictionary()
+INLINE void SigCompManager::addPresenceDictionary()
 {
 	this->stateHandler->addPresenceDictionary();
 }

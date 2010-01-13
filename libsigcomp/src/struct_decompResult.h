@@ -109,23 +109,23 @@ public:
 
 			@returns
 		*/
-		inline void setOutputBuffer(LPVOID output_ptr, size_t output_size, bool stream, uint64_t streamId=0)
+		INLINE void setOutputBuffer(LPVOID output_ptr, size_t output_size, bool stream, uint64_t streamId=0)
 		{
 			this->output_buffer.referenceBuff((uint8_t*)output_ptr, output_size);
 			this->isStreamBased = stream;
 			this->streamId = streamId;
 		}
 
-		inline SigCompBuffer* getOutputBuffer()
+		INLINE SigCompBuffer* getOutputBuffer()
 		{
 			return &this->output_buffer;
 		}
 
-		inline void setCompartmentId(uint64_t id){
+		INLINE void setCompartmentId(uint64_t id){
 			this->compartmentId = id;
 		}
 
-		inline void setCompartmentId(LPCVOID id, size_t len){
+		INLINE void setCompartmentId(LPCVOID id, size_t len){
 #define PRIME_1		500237
 #define PRIME_2		700241
 			uint64_t hash = 0;
@@ -146,21 +146,21 @@ public:
 #undef PRIME_2
 		}
 
-		inline uint64_t getCompartmentId(){
+		INLINE uint64_t getCompartmentId(){
 			return this->compartmentId;
 		}
 
-		inline bool getIsStreamBased(){
+		INLINE bool getIsStreamBased(){
 			return this->isStreamBased;
 		}
-		inline uint64_t getStreamId(){
+		INLINE uint64_t getStreamId(){
 			return this->streamId;
 		}
 
 		//
 		// STATE-CREATE
 		//
-		inline void addTempStateToCreate(SigCompState* lpState)
+		INLINE void addTempStateToCreate(SigCompState* lpState)
 		{
 			/*Note that there is a maximum limit of four state creation requests
 			per instance of the UDVM.*/
@@ -169,63 +169,63 @@ public:
 			// Add state
 			this->statesToCreate[this->statesToCreateIndex++] = lpState;
 		}
-		inline SigCompState* *getTempStatesToCreate(){
+		INLINE SigCompState* *getTempStatesToCreate(){
 			return this->statesToCreate;
 		}
-		inline uint8_t getTempStatesToCreateSize(){
+		INLINE uint8_t getTempStatesToCreateSize(){
 			return this->statesToCreateIndex;
 		}
 
 		//
 		// STATE-FREE
 		//
-		inline void addTempStateToFree(lptempStateToFreeDesc lpDesc)
+		INLINE void addTempStateToFree(lptempStateToFreeDesc lpDesc)
 		{
 			/*Decompression failure MUST occur if more than four state free
 				requests are made before the END-MESSAGE instruction is encountered.*/
 			if(this->statesToFreeIndex >= 4) return;
 			this->statesToFree[this->statesToFreeIndex++] = lpDesc;
 		}
-		inline lptempStateToFreeDesc *getTempStatesToFree(){
+		INLINE lptempStateToFreeDesc *getTempStatesToFree(){
 			return this->statesToFree;
 		}
-		inline uint8_t getTempStatesToFreeSize(){
+		INLINE uint8_t getTempStatesToFreeSize(){
 			return this->statesToFreeIndex;
 		}
 		
 		//
 		//	Requested feedback
 		//
-		inline lpstruct_req_feedback getReqFeedBack(){
+		INLINE lpstruct_req_feedback getReqFeedBack(){
 			return &this->req_feedback;
 		}
 
 		//
 		//	Returned parameters
 		//
-		inline lpstruct_sigcomp_parameters getRemoteParams(){
+		INLINE lpstruct_sigcomp_parameters getRemoteParams(){
 			return &this->remote_parameters;
 		}
 
 		//
 		//	Returned feedback
 		//
-		inline SigCompBuffer* getRetFeedback(){
+		INLINE SigCompBuffer* getRetFeedback(){
 			return &this->ret_feedback;
 		}
 
 		//
 		//	Nack
 		//
-		inline void setIsNack(bool isnack)
+		INLINE void setIsNack(bool isnack)
 		{
 			this->isNack = isnack;
 		}
-		inline bool getIsNack()
+		INLINE bool getIsNack()
 		{
 			return this->isNack;
 		}
-		inline SigCompBuffer* getNackInfo()
+		INLINE SigCompBuffer* getNackInfo()
 		{
 			return &this->nack_info;
 		}

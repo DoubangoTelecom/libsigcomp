@@ -35,11 +35,11 @@ public:
 
 	virtual void ackGhost(const SigCompBuffer* stateid);
 
-	virtual inline SigCompState* &getGhostState() { return this->ghostState; }
-	virtual inline void freeGhostState() { SAFE_DELETE_PTR(this->ghostState); }
-	//virtual inline void setGhostAcked(bool bAcked) { this->acked = bAcked; }
-	//virtual inline bool getGhostAcked() { return this->acked;  }
-	virtual inline bool isStream() { return this->stream; }
+	virtual INLINE SigCompState* &getGhostState() { return this->ghostState; }
+	virtual INLINE void freeGhostState() { SAFE_DELETE_PTR(this->ghostState); }
+	//virtual INLINE void setGhostAcked(bool bAcked) { this->acked = bAcked; }
+	//virtual INLINE bool getGhostAcked() { return this->acked;  }
+	virtual INLINE bool isStream() { return this->stream; }
 	
 protected:
 	SigCompState* ghostState;

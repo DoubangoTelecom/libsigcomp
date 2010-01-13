@@ -143,7 +143,7 @@ bool SigCompDecompressorDisp::getNextMessage(lpDecompressionResult lpResult)
 	@returns
 */
 
-inline bool SigCompDecompressorDisp::internalDecompress(LPCVOID input_ptr, const size_t &input_size, lpDecompressionResult *lpResult)
+INLINE bool SigCompDecompressorDisp::internalDecompress(LPCVOID input_ptr, const size_t &input_size, lpDecompressionResult *lpResult)
 {
 	SigCompMessage sigCompMessage(input_ptr, input_size, (*lpResult)->getIsStreamBased());
 	if( !sigCompMessage.getIsOK() )

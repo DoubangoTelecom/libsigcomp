@@ -76,16 +76,16 @@ typedef struct struct_sigcomp_parameters
 		SAFE_CLEAR_LIST(this->returnedStates, it);
 	}
 	
-	inline bool hasCpbDmsSms(){
+	INLINE bool hasCpbDmsSms(){
 		return (cpbCode||dmsCode||smsCode);
 	}
 
 	//
 	//	cycles_per_bit
 	//
-	inline void setCpbCode(uint8_t _cpbCode) { cpbCode=_cpbCode; cpbValue = sigcomp_encoding_cpb[_cpbCode]; }
-	inline uint8_t getCpbCode(){ return cpbCode; }
-	inline void setCpbValue(uint8_t _cpbValue){
+	INLINE void setCpbCode(uint8_t _cpbCode) { cpbCode=_cpbCode; cpbValue = sigcomp_encoding_cpb[_cpbCode]; }
+	INLINE uint8_t getCpbCode(){ return cpbCode; }
+	INLINE void setCpbValue(uint8_t _cpbValue){
 		for(int code=0;code<4;code++){
 			if( _cpbValue<=sigcomp_encoding_cpb[code]){
 				cpbCode = code;
@@ -94,14 +94,14 @@ typedef struct struct_sigcomp_parameters
 		}
 		cpbValue = _cpbValue;
 	}
-	inline uint8_t getCpbValue(){ return  cpbValue; }
+	INLINE uint8_t getCpbValue(){ return  cpbValue; }
 
 	//
 	//	decompression_memory_size
 	//
-	inline void setDmsCode(uint8_t _dmsCode) { dmsCode=_dmsCode; dmsValue = sigcomp_encoding_dms[_dmsCode]; }
-	inline uint8_t getDmsCode(){ return dmsCode; }
-	inline void setDmsValue(uint32_t _dmsValue){
+	INLINE void setDmsCode(uint8_t _dmsCode) { dmsCode=_dmsCode; dmsValue = sigcomp_encoding_dms[_dmsCode]; }
+	INLINE uint8_t getDmsCode(){ return dmsCode; }
+	INLINE void setDmsValue(uint32_t _dmsValue){
 		for(int code=1;code<8;code++){
 			if( _dmsValue<=sigcomp_encoding_dms[code]){
 				dmsCode = code;
@@ -110,14 +110,14 @@ typedef struct struct_sigcomp_parameters
 		}
 		dmsValue = _dmsValue;
 	}
-	inline uint32_t getDmsValue(){ return  dmsValue; }
+	INLINE uint32_t getDmsValue(){ return  dmsValue; }
 
 	//
 	//	state_memory_size
 	//
-	inline void setSmsCode(uint8_t _smsCode) { smsCode=_smsCode; smsValue = sigcomp_encoding_sms[_smsCode]; }
-	inline uint8_t getSmsCode(){ return smsCode; }
-	inline void setSmsValue(uint32_t _smsValue){
+	INLINE void setSmsCode(uint8_t _smsCode) { smsCode=_smsCode; smsValue = sigcomp_encoding_sms[_smsCode]; }
+	INLINE uint8_t getSmsCode(){ return smsCode; }
+	INLINE void setSmsValue(uint32_t _smsValue){
 		for(int code=0;code<8;code++){
 			if( _smsValue<=sigcomp_encoding_sms[code]){
 				smsCode = code;
@@ -127,18 +127,18 @@ typedef struct struct_sigcomp_parameters
 		smsValue = _smsValue;
 		assert(smsValue >= SIP_RFC5049_STATE_MEMORY_SIZE && smsValue <= 65536); // FIXME: 65536 --> no sense
 	}
-	inline uint32_t getSmsValue(){ return  smsValue; }
+	INLINE uint32_t getSmsValue(){ return  smsValue; }
 
 	//
 	//	SigComp_version
 	//
-	inline void setSigCompVersion(uint8_t version) { SigComp_version = version; }
-	inline uint8_t getSigCompVersion(){ return SigComp_version; }
+	INLINE void setSigCompVersion(uint8_t version) { SigComp_version = version; }
+	INLINE uint8_t getSigCompVersion(){ return SigComp_version; }
 
 	//
 	//	SigComp parameters (cpb+dms+sms+version)
 	//
-	inline uint16_t getParameters()
+	INLINE uint16_t getParameters()
 	{
 	/*+---+---+---+---+---+---+---+---+
       |  cpb  |    dms    |    sms    |
@@ -149,7 +149,7 @@ typedef struct struct_sigcomp_parameters
 		result <<=8;
 		return (result|SigComp_version);
 	}
-	inline void setParameters(uint16_t sigCompParameters)
+	INLINE void setParameters(uint16_t sigCompParameters)
 	{
 		// See above
 		this->setCpbCode( (sigCompParameters>>14) );
@@ -158,7 +158,7 @@ typedef struct struct_sigcomp_parameters
 		this->setSigCompVersion( (sigCompParameters & 0x00ff) );
 	}
 
-	inline std::list<SigCompBuffer*>* getReturnedStates() { return &returnedStates; }
+	INLINE std::list<SigCompBuffer*>* getReturnedStates() { return &returnedStates; }
 private:
 	uint8_t cpbCode;
 	uint8_t dmsCode;

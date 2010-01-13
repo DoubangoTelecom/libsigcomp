@@ -43,18 +43,18 @@ typedef struct rfc3320_struct_req_feedback
 	rfc3320_struct_req_feedback(){
 		reset();
 	}
-	inline void setQ(uint8_t q){ Q=q; }
-	inline uint8_t getQ(){ return Q; }
+	INLINE void setQ(uint8_t q){ Q=q; }
+	INLINE uint8_t getQ(){ return Q; }
 
-	inline void setS(uint8_t s){ S=s; }
-	inline uint8_t getS(){ return S; }
+	INLINE void setS(uint8_t s){ S=s; }
+	INLINE uint8_t getS(){ return S; }
 
-	inline void setI(uint8_t i){ I=i; }
-	inline uint8_t getI(){ return I; }
+	INLINE void setI(uint8_t i){ I=i; }
+	INLINE uint8_t getI(){ return I; }
 
-	inline SigCompBuffer* getReqFeedItem() { return &req_feed_item; }
+	INLINE SigCompBuffer* getReqFeedItem() { return &req_feed_item; }
 
-	inline void reset(){
+	INLINE void reset(){
 		req_feed_item.freeBuff();
 		req_feed_item.reset();
 		Q=S=I=0;

@@ -55,28 +55,28 @@ public:
 	//
 	//	Compartment management
 	//
-	inline void provideCompartmentId(lpDecompressionResult lpResult);
-	inline void closeCompartment(uint64_t compartmentId);
+	INLINE void provideCompartmentId(lpDecompressionResult lpResult);
+	INLINE void closeCompartment(uint64_t compartmentId);
 
 	//
 	//	SigComp Parameters
 	//
 	//
-	inline void setDecompression_Memory_Size(uint32_t dms) { dms=dms>MAX_DMS?MAX_DMS:dms; this->stateHandler->getSigCompParameters()->setDmsValue(dms); }
-	inline void setState_Memory_Size(uint32_t sms) { sms=sms>MAX_SMS?MAX_SMS:sms; this->stateHandler->getSigCompParameters()->setSmsValue(sms); }
-	inline void setCycles_Per_Bit(uint8_t cpb) { cpb>MAX_CPB?MAX_CPB:cpb; this->stateHandler->getSigCompParameters()->setCpbValue(cpb); }
-	inline void setSigComp_Version(uint8_t version) { this->stateHandler->getSigCompParameters()->setSigCompVersion(version); }
+	INLINE void setDecompression_Memory_Size(uint32_t dms) { dms=dms>MAX_DMS?MAX_DMS:dms; this->stateHandler->getSigCompParameters()->setDmsValue(dms); }
+	INLINE void setState_Memory_Size(uint32_t sms) { sms=sms>MAX_SMS?MAX_SMS:sms; this->stateHandler->getSigCompParameters()->setSmsValue(sms); }
+	INLINE void setCycles_Per_Bit(uint8_t cpb) { cpb>MAX_CPB?MAX_CPB:cpb; this->stateHandler->getSigCompParameters()->setCpbValue(cpb); }
+	INLINE void setSigComp_Version(uint8_t version) { this->stateHandler->getSigCompParameters()->setSigCompVersion(version); }
 
 	//
 	//	Compressors
 	//
-	inline void addCompressor(SigCompCompressor* compressor);
+	INLINE void addCompressor(SigCompCompressor* compressor);
 	
 	//
 	//	Dictionnaries
 	//
-	inline void addSipSdpDictionary();
-	inline void addPresenceDictionary();
+	INLINE void addSipSdpDictionary();
+	INLINE void addPresenceDictionary();
 
 private:
 	SigCompCompressorDisp* dispatcher_compressor;

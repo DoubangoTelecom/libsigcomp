@@ -44,19 +44,19 @@ public:
 	operator uint8_t* () { return this->lpbuffer; }
 	operator void* () { return (void*)this->lpbuffer; }
 	operator size_t () { return this->size; }
-	inline bool operator == (const SigCompBuffer &buffer) const;
-	inline bool startsWith(const SigCompBuffer* buff) const;
+	INLINE bool operator == (const SigCompBuffer &buffer) const;
+	INLINE bool startsWith(const SigCompBuffer* buff) const;
 
-	inline const uint8_t* getReadOnlyBuffer(size_t position=0)const;
-	inline uint8_t* getBuffer(size_t position=0);
-	inline const size_t getSize()const;
-	inline const size_t getRemainingBits()const;
+	INLINE const uint8_t* getReadOnlyBuffer(size_t position=0)const;
+	INLINE uint8_t* getBuffer(size_t position=0);
+	INLINE const size_t getSize()const;
+	INLINE const size_t getRemainingBits()const;
 
-	inline uint8_t* readBytes(size_t size);
+	INLINE uint8_t* readBytes(size_t size);
 	uint16_t readLsbToMsb(size_t length);
 	uint16_t readMsbToLsb(size_t length);
-	inline void discardBits();
-	inline void discardLastBytes(uint16_t count);
+	INLINE void discardBits();
+	INLINE void discardLastBytes(uint16_t count);
 
 	void allocBuff(size_t size);
 	void referenceBuff(uint8_t* externalBuff, size_t size);
@@ -64,10 +64,10 @@ public:
 	bool removeBuff(size_t pos, size_t size);
 	void freeBuff();
 
-	inline size_t& getIndexBytes() { return this->index_bytes; }
-	inline size_t& getIndexBits() { return this->index_bits; }
+	INLINE size_t& getIndexBytes() { return this->index_bytes; }
+	INLINE size_t& getIndexBits() { return this->index_bits; }
 	
-	inline uint8_t& getP_BIT() { return this->P_BIT; }
+	INLINE uint8_t& getP_BIT() { return this->P_BIT; }
 
 	void print(int64_t size=-1);
 

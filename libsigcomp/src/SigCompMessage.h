@@ -42,9 +42,9 @@ public:
 	SigCompMessage(LPCVOID input_ptr, size_t input_size, bool stream);
 	~SigCompMessage();
 
-	inline bool getIsOK() { return this->isOK; }
-	inline bool getIsNack() { return this->isNack; }
-	inline const lpstruct_nack_info getNackInfo() { return &this->nack_info; }
+	INLINE bool getIsOK() { return this->isOK; }
+	INLINE bool getIsNack() { return this->isNack; }
+	INLINE const lpstruct_nack_info getNackInfo() { return &this->nack_info; }
 
 private:
 	void initFeedbackItem(uint8_t* &start_ptr);

@@ -89,21 +89,21 @@ public:
 	~DeflateData();
 
 public: /* OVERRIDE FROM [SigCompCompressorData] */
-	inline void freeGhostState() { SAFE_DELETE_PTR(this->ghostState); this->ghost_copy_offset = 0; }
+	INLINE void freeGhostState() { SAFE_DELETE_PTR(this->ghostState); this->ghost_copy_offset = 0; }
 	void ackGhost(const SigCompBuffer* stateid);
 
 public:
 	void createGhost(uint16_t state_len, lpstruct_sigcomp_parameters params);
 	void updateGhost(const uint8_t* input_ptr, size_t input_size);
-	inline uint32_t &getGhostCopyOffset() { return this->ghost_copy_offset; }
+	INLINE uint32_t &getGhostCopyOffset() { return this->ghost_copy_offset; }
 	
 	bool zReset() { bool ret = initialized?zUnInit():true; ret &= zInit(); return ret; }
 	bool zCompress(const void* in, size_t inLen, void* out, size_t* outLen, bool *stateChanged);
 
-	inline int zGetWindowBits(){ return this->zWindowBits; }
-	inline void zSetWindowBits(int windowSize){ this->zWindowBits = windowSize; }
+	INLINE int zGetWindowBits(){ return this->zWindowBits; }
+	INLINE void zSetWindowBits(int windowSize){ this->zWindowBits = windowSize; }
 
-	inline bool isStateful() { return this->stream_acked.stateful; }
+	INLINE bool isStateful() { return this->stream_acked.stateful; }
 	
 public:
 	static const char* deflate_bytecode;

@@ -78,7 +78,7 @@ SigCompCompartment::~SigCompCompartment()
 
 /**
 */
-inline uint64_t SigCompCompartment::getIdentifier()
+INLINE uint64_t SigCompCompartment::getIdentifier()
 {
 	return this->identifier;
 }

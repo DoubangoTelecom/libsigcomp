@@ -65,7 +65,7 @@ void SigCompBuffer::reset()
 	}
 }
 
-inline bool SigCompBuffer::operator == (const SigCompBuffer &buffer) const
+INLINE bool SigCompBuffer::operator == (const SigCompBuffer &buffer) const
 {
 	if( getSize() == buffer.getSize() )
 	{
@@ -74,7 +74,7 @@ inline bool SigCompBuffer::operator == (const SigCompBuffer &buffer) const
 	return false;
 }
 
-inline bool SigCompBuffer::startsWith(const SigCompBuffer* buff)const
+INLINE bool SigCompBuffer::startsWith(const SigCompBuffer* buff)const
 {
 	if(this->size < buff->getSize()) return false;
 
@@ -87,28 +87,28 @@ inline bool SigCompBuffer::startsWith(const SigCompBuffer* buff)const
 	return true;
 }
 
-/*inline*/ const size_t SigCompBuffer::getSize() const
+/*INLINE*/ const size_t SigCompBuffer::getSize() const
 {
 	return this->size;
 }
 
-inline const size_t SigCompBuffer::getRemainingBits()const
+INLINE const size_t SigCompBuffer::getRemainingBits()const
 {
 	int64_t result = ((this->size*8)-((this->index_bytes*8)+this->index_bits));
 	return (result<0)?0:result;
 }
 
-inline const uint8_t* SigCompBuffer::getReadOnlyBuffer(size_t position/*=0*/)const
+INLINE const uint8_t* SigCompBuffer::getReadOnlyBuffer(size_t position/*=0*/)const
 {
 	return (this->lpbuffer + position);
 }
 
-/*inline*/ uint8_t* SigCompBuffer::getBuffer(size_t position/*=0*/)
+/*INLINE*/ uint8_t* SigCompBuffer::getBuffer(size_t position/*=0*/)
 {
 	return (this->lpbuffer + position);
 }
 
-inline uint8_t* SigCompBuffer::readBytes(size_t length)
+INLINE uint8_t* SigCompBuffer::readBytes(size_t length)
 {
 	if((this->index_bytes+length)>(this->size)) {
 		return NULL;
@@ -172,7 +172,7 @@ uint16_t SigCompBuffer::readLsbToMsb(size_t length)
 	return result_val;
 }
 
-inline void SigCompBuffer::discardBits()
+INLINE void SigCompBuffer::discardBits()
 {
 	if(this->index_bits){
 		this->index_bits=0;
@@ -181,7 +181,7 @@ inline void SigCompBuffer::discardBits()
 }
 
 // FIXME: very bad but ....
-inline void SigCompBuffer::discardLastBytes(uint16_t count)
+INLINE void SigCompBuffer::discardLastBytes(uint16_t count)
 {
 	if(this->size>count){
 		this->size-=count;

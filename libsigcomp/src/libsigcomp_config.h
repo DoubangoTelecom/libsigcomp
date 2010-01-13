@@ -30,11 +30,11 @@
 #	define USE_PTHREAD_TRHREADS // Use pthread
 #endif
 
-/*#ifdef _MSC_VER
-#	ifndef LIBSIGCOMP_EXPORTS
-#	define LIBSIGCOMP_IMPORTS
-#	endif
-#endif*/
+#ifdef _MSC_VER
+#	define INLINE	inline
+#else
+#	define INLINE
+#endif
 
 #if (defined(WIN32) || defined(__SYMBIAN32__)) && defined(LIBSIGCOMP_EXPORTS)
 # 	define LIBSIGCOMP_API __declspec(dllexport)
@@ -67,6 +67,8 @@
 #	pragma warning ( disable : 4275 )
 #	pragma warning ( disable : 4244 )
 #	pragma warning ( disable : 4018 )
+
+#	define	_CRT_SECURE_NO_WARNINGS
 #endif
 
 //

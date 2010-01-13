@@ -37,7 +37,7 @@ int SigCompManager_new(SigCompManager** manager)
 }
 
 /**
-	inline SigCompManager::addSipSdpDictionary()
+	INLINE SigCompManager::addSipSdpDictionary()
 */
 void SigCompManager_addSipSdpDictionary(SigCompManager* manager)
 {
@@ -45,7 +45,7 @@ void SigCompManager_addSipSdpDictionary(SigCompManager* manager)
 }
 
 /**
-	inline SigCompManager::addPresenceDictionary();
+	INLINE SigCompManager::addPresenceDictionary();
 */
 void SigCompManager_addPresenceDictionary(SigCompManager* manager)
 {
@@ -53,7 +53,7 @@ void SigCompManager_addPresenceDictionary(SigCompManager* manager)
 }
 
 /**
-	inline void SigCompManager::setDecompression_Memory_Size(uint32_t dms)
+	INLINE void SigCompManager::setDecompression_Memory_Size(uint32_t dms)
 */
 void SigCompManager_setDecompression_Memory_Size(SigCompManager* manager, uint32_t dms)
 {
@@ -61,7 +61,7 @@ void SigCompManager_setDecompression_Memory_Size(SigCompManager* manager, uint32
 }
 
 /**
-	inline  void setState_Memory_Size(uint32_t sms)
+	INLINE  void setState_Memory_Size(uint32_t sms)
 */
 void SigCompManager_setState_Memory_Size(SigCompManager* manager, uint32_t sms)
 {
@@ -69,7 +69,7 @@ void SigCompManager_setState_Memory_Size(SigCompManager* manager, uint32_t sms)
 }
 
 /**
-	inline void setCycles_Per_Bit(uint8_t cpb)
+	INLINE void setCycles_Per_Bit(uint8_t cpb)
 */
 void SigCompManager_setCycles_Per_Bit(SigCompManager* manager, uint8_t cpb)
 {
@@ -93,7 +93,7 @@ size_t SigCompManager_decompress(SigCompManager* manager, const void* input_ptr,
 }
 
 /**
-	inline void SigCompManager::provideCompartmentId(lpDecompressionResult lpResult)
+	INLINE void SigCompManager::provideCompartmentId(lpDecompressionResult lpResult)
 */
 void SigCompManager_provideCompartmentId(SigCompManager* manager, struct DecompressionResult* lpResult)
 {
@@ -135,7 +135,7 @@ int DecompressionResult_new(DecompressionResult** result)
 }
 
 /**
-	inline void DecompressionResult::setCompartmentId(uint64_t id)
+	INLINE void DecompressionResult::setCompartmentId(uint64_t id)
 */
 void DecompressionResult_setCompartmentId(DecompressionResult* result, uint64_t compartmentId)
 {
@@ -143,7 +143,7 @@ void DecompressionResult_setCompartmentId(DecompressionResult* result, uint64_t 
 }
 
 /**
-	inline uint64_t DecompressionResult::getCompartmentId()
+	INLINE uint64_t DecompressionResult::getCompartmentId()
 */
 uint64_t DecompressionResult_getCompartmentId(DecompressionResult* result)
 {
@@ -151,7 +151,7 @@ uint64_t DecompressionResult_getCompartmentId(DecompressionResult* result)
 }
 
 /**
-	inline void DecompressionResult::setCompartmentId(LPCVOID id, size_t len)
+	INLINE void DecompressionResult::setCompartmentId(LPCVOID id, size_t len)
 */
 void DecompressionResult_setCompartmentId2(DecompressionResult* result, const void* id, size_t len)
 {
@@ -159,14 +159,14 @@ void DecompressionResult_setCompartmentId2(DecompressionResult* result, const vo
 }
 
 /**
-	inline void DecompressionResult::setOutputBuffer(LPVOID output_ptr, size_t output_size, bool stream, uint64_t streamId=0)
+	INLINE void DecompressionResult::setOutputBuffer(LPVOID output_ptr, size_t output_size, bool stream, uint64_t streamId=0)
 */
 void DecompressionResult_setOutputBuffer(DecompressionResult* result, void* output_ptr, size_t output_size, BOOLEAN stream, uint64_t streamId)
 {
 	GET_RESULT(result)->setOutputBuffer(output_ptr, output_size, stream,  streamId);
 }
 /**
-	inline bool getIsNack()
+	INLINE bool getIsNack()
 */
 BOOLEAN DecompressionResult_getIsNack(DecompressionResult* result)
 {
@@ -174,7 +174,7 @@ BOOLEAN DecompressionResult_getIsNack(DecompressionResult* result)
 }
 
 /**
-	inline SigCompBuffer* getNackInfo()
+	INLINE SigCompBuffer* getNackInfo()
 */
 uint8_t* DecompressionResult_getNackInfo(DecompressionResult* result)
 {

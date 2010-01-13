@@ -47,7 +47,7 @@ public:
 	SigCompCompartment(uint64_t id, uint16_t sigCompParameters);
 	~SigCompCompartment();
 	
-	inline uint64_t getIdentifier();
+	INLINE uint64_t getIdentifier();
 	uint16_t getTotalMemorySize();
 	uint16_t getTotalMemoryLeft();
 
@@ -77,8 +77,8 @@ public:
 	//
 	//	Compressor data
 	//
-	inline SigCompCompressorData* getCompressionData() { return  this->compressorData; }
-	inline void setCompressionData(SigCompCompressorData* data){ this->compressorData = data; }
+	INLINE SigCompCompressorData* getCompressionData() { return  this->compressorData; }
+	INLINE void setCompressionData(SigCompCompressorData* data){ this->compressorData = data; }
 
 	//
 	//	Nacks

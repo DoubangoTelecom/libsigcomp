@@ -50,7 +50,7 @@ SigCompState::~SigCompState()
 
 /**
 */
-inline bool SigCompState::operator == (const SigCompState &state) const
+INLINE bool SigCompState::operator == (const SigCompState &state) const
 {
 	return (getStateIdentifier() == state.getStateIdentifier());
 }
@@ -116,7 +116,7 @@ void SigCompState::makeValid()
 
 /**
 */
-inline SigCompBuffer* SigCompState::getStateValue()
+INLINE SigCompBuffer* SigCompState::getStateValue()
 {
 	return &this->state_value;
 }
@@ -124,7 +124,7 @@ inline SigCompBuffer* SigCompState::getStateValue()
 /**
 
 */
-inline const SigCompBuffer* SigCompState::getStateIdentifier()const
+INLINE const SigCompBuffer* SigCompState::getStateIdentifier()const
 {
 	return &this->state_identifier;
 }
