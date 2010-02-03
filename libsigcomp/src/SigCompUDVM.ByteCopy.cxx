@@ -37,7 +37,8 @@ From UDVM to UDVM
 bool SigCompUDVM::bytecopy_self(uint16_t &destination, uint16_t source, uint16_t size_tocopy)
 {
 	//if( ((destination + size_tocopy) > this->memory.getSize()) || ((source + size_tocopy) > this->memory.getSize()) )
-	if (destination == this->memory.getSize() || source == this->memory.getSize())
+	//if (destination == this->memory.getSize() || source == this->memory.getSize())
+	if (destination >= this->memory.getSize() || source >= this->memory.getSize())
 	{
 		// SEGFAULT
 		this->createNackInfo(SEGFAULT);

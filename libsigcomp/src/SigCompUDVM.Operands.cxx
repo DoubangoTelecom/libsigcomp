@@ -103,7 +103,7 @@ uint16_t SigCompUDVM::opget_reference_param()
 
 	case 0x80: // 10nnnnnn nnnnnnnn               memory[2 * N]       0 - 65535
 		{
-			uint8_t N = (BINARY_GET_2BYTES(memory_ptr) & 0x3fff);
+			uint16_t N = (BINARY_GET_2BYTES(memory_ptr) & 0x3fff);
 			result = 2*N;
 			this->executionPointer+=2;
 		}
