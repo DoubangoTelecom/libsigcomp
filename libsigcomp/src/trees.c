@@ -40,6 +40,10 @@
 #  include <ctype.h>
 #endif
 
+#if defined(_MSC_VER)
+#	pragma warning ( disable : 4267 ) // Conversion from size_t to ush.
+#endif
+
 /* ===========================================================================
  * Constants
  */

@@ -1413,7 +1413,7 @@ bool SigCompUDVM::EXEC_INST__STATE_ACCESS(uint16_t partial_identifier_start, uin
 	CONSUME_CYCLES(1+state_length);
 
 	/*Decompression failure occurs if bytes are copied from beyond the end of the state_value.*/
-	if((state_begin+state_length)>lpState->getStateValue()->getSize()){
+	if((size_t)(state_begin+state_length) > lpState->getStateValue()->getSize()){
 		this->createNackInfo(STATE_TOO_SHORT, &partial_id);
 		return false;
 	}

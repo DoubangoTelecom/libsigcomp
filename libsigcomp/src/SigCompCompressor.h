@@ -32,7 +32,7 @@
 
 __NS_DECLARATION_BEGIN__
 
-class SigCompCompressor : public SafeObject
+class LIBSIGCOMP_API SigCompCompressor : public SafeObject
 {
 public:
 	SigCompCompressor();

@@ -167,7 +167,7 @@ uint16_t SigCompUDVM::opget_multitype_param()
 	case 3: // 1000011n                        2 ^ (N + 6)        64 , 128
 		{
 			uint8_t N = (*(memory_ptr) & 0x01);
-			result = pow( (double)2, (N + 6) );
+			result = (uint16_t)pow( (double)2, (N + 6) );
 			this->executionPointer++;
 		}
 		break;

@@ -61,16 +61,14 @@ SigComp compartment destructor
 SigCompCompartment::~SigCompCompartment()
 {
 	// Delete all states
-	list<SigCompState* >::iterator it_states;
-	SAFE_CLEAR_LIST(this->local_states, it_states);
+	SAFE_CLEAR_LIST(this->local_states);
 
 	// Delete feedbacks
 	SAFE_DELETE_PTR(this->lpReqFeedback);
 	SAFE_DELETE_PTR(this->lpRetFeedback);
 
 	// Delete Nacks
-	list<SigCompBuffer* >::iterator it_nacks;
-	SAFE_CLEAR_LIST(this->nacks, it_nacks);
+	SAFE_CLEAR_LIST(this->nacks);
 
 	// Delete Compressor data
 	SAFE_DELETE_PTR(this->compressorData);
@@ -116,8 +114,7 @@ void SigCompCompartment::setRemoteParams(lpstruct_sigcomp_parameters lpParams)
 	// FIXME: not tic tac
 	// FIXME: what about returned feedback?
 	if(lpParams->getReturnedStates()->size()){
-		list<SigCompBuffer* >::iterator it;
-		SAFE_CLEAR_LIST((*this->remote_parameters.getReturnedStates()), it);
+		SAFE_CLEAR_LIST((*this->remote_parameters.getReturnedStates()));
 		this->remote_parameters.getReturnedStates()->swap(*lpParams->getReturnedStates());
 	}
 }
@@ -129,8 +126,7 @@ void SigCompCompartment::clearStates()
 {
 	this->lock();
 
-	list<SigCompState* >::iterator it;
-	SAFE_CLEAR_LIST(this->local_states, it);
+	SAFE_CLEAR_LIST(this->local_states);
 
 	this->total_memory_left = this->total_memory_size;
 

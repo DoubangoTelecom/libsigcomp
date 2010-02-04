@@ -27,7 +27,7 @@
 
 __NS_DECLARATION_BEGIN__
 
-class SafeObject
+class LIBSIGCOMP_API SafeObject
 {
 public:
 	SafeObject();

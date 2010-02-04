@@ -189,7 +189,7 @@ bool DeflateCompressor::compress(SigCompCompartment* lpCompartment, LPCVOID inpu
 
 	//output_buffer.print(2000);
 	this->unlock();
-bail:
+//bail:
 	return result;
 }
 

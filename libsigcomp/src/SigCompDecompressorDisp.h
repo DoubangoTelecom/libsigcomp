@@ -50,7 +50,7 @@ private:
 
 	INLINE bool internalDecompress(LPCVOID input_ptr, const size_t &input_size, lpDecompressionResult *lpResult);
 	bool appendStream(LPCVOID input_ptr, size_t input_size, uint64_t streamId);
-	bool getNextStreamMsg(uint64_t streamId, uint16_t &discard_count, uint64_t &size);
+	bool getNextStreamMsg(uint64_t streamId, uint16_t &discard_count, size_t &size);
 
 private:
 	const SigCompStateHandler* stateHandler;

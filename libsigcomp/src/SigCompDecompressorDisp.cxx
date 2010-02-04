@@ -82,7 +82,7 @@ bool SigCompDecompressorDisp::decompress(LPCVOID input_ptr, size_t input_size, l
 	
 	if(stream)
 	{
-		uint64_t size=0;
+		size_t size=0;
 		uint16_t discard_count=0;
 		SigCompBuffer* lpBuffer = this->streamBuffers[streamId];
 
@@ -113,7 +113,7 @@ bool SigCompDecompressorDisp::decompress(LPCVOID input_ptr, size_t input_size, l
 bool SigCompDecompressorDisp::getNextMessage(lpDecompressionResult lpResult)
 {
 	bool ret = true;
-	uint64_t size=0;
+	size_t size=0;
 	uint16_t discard_count=0;
 	uint64_t streamId = lpResult->getStreamId();
 
@@ -222,7 +222,7 @@ bool SigCompDecompressorDisp::appendStream(LPCVOID input_ptr, size_t input_size,
 
 	@returns;
 */
-bool SigCompDecompressorDisp::getNextStreamMsg(uint64_t streamId, uint16_t &discard_count, uint64_t &size)
+bool SigCompDecompressorDisp::getNextStreamMsg(uint64_t streamId, uint16_t &discard_count, size_t &size)
 {
 	//
 	// RFC 3320 - 4.2.1.  Decompressor Dispatcher Strategies [strategie 1]

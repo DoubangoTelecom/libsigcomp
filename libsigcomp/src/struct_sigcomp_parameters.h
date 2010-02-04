@@ -72,8 +72,7 @@ typedef struct struct_sigcomp_parameters
 		cpbCode = dmsCode = smsCode = SigComp_version = 0;
 		cpbValue = dmsValue = smsValue = 0;
 
-		std::list<SigCompBuffer* >::iterator it;
-		SAFE_CLEAR_LIST(this->returnedStates, it);
+		SAFE_CLEAR_LIST(this->returnedStates);
 	}
 	
 	INLINE bool hasCpbDmsSms(){

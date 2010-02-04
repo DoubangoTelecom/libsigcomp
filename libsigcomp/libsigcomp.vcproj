@@ -50,6 +50,7 @@
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
+				WarnAsError="true"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 			/>
@@ -202,6 +203,7 @@
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
+				WarnAsError="true"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 			/>
@@ -334,10 +336,6 @@
 			>
 			<File
 				RelativePath=".\src\binary_utils.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\c_wrapper.h"
 				>
 			</File>
 			<File
@@ -526,10 +524,6 @@
 			>
 			<File
 				RelativePath=".\src\binary_utils.cxx"
-				>
-			</File>
-			<File
-				RelativePath=".\src\c_wrapper.cxx"
 				>
 			</File>
 			<File

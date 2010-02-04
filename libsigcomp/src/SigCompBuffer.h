@@ -49,8 +49,8 @@ public:
 
 	INLINE const uint8_t* getReadOnlyBuffer(size_t position=0)const;
 	INLINE uint8_t* getBuffer(size_t position=0);
-	INLINE const size_t getSize()const;
-	INLINE const size_t getRemainingBits()const;
+	INLINE size_t getSize()const;
+	INLINE size_t getRemainingBits()const;
 
 	INLINE uint8_t* readBytes(size_t size);
 	uint16_t readLsbToMsb(size_t length);
@@ -69,7 +69,9 @@ public:
 	
 	INLINE uint8_t& getP_BIT() { return this->P_BIT; }
 
+#if defined(_DEBUG) || defined(DEBUG)
 	void print(int64_t size=-1);
+#endif
 
 private:
 	size_t	size;

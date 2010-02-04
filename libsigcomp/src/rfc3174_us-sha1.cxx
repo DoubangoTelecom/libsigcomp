@@ -194,7 +194,7 @@ int32_t SHA1Result( SHA1Context *context,
  */
 int32_t SHA1Input(    SHA1Context    *context,
                   const uint8_t  *message_array,
-                  unsigned       length)
+                  size_t       length)
 {
     if (!length)
     {

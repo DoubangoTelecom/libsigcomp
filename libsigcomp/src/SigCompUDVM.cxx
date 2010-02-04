@@ -56,7 +56,7 @@ SigCompUDVM::SigCompUDVM(const SigCompMessage* _sigCompMessage, const SigCompSta
 	//
 	if(this->sigCompMessage->ret_feedback_buffer.getSize())
 	{
-		uint64_t size = this->sigCompMessage->ret_feedback_buffer.getSize();
+		size_t size = this->sigCompMessage->ret_feedback_buffer.getSize();
 		lpResult->getRetFeedback()->allocBuff(size);
 		::memmove(lpResult->getRetFeedback()->getBuffer(), this->sigCompMessage->ret_feedback_buffer.getBuffer(), size);
 	}
@@ -70,8 +70,8 @@ SigCompUDVM::SigCompUDVM(const SigCompMessage* _sigCompMessage, const SigCompSta
 		SigCompState* lpState = NULL;
 		uint16_t match_count = this->stateHandler->findState(&this->sigCompMessage->stateId, &lpState);
 		if( (!match_count || match_count>1 || !lpState)
-			|| (lpState->getMinimumAccessLength()>this->sigCompMessage->stateId.getSize())
-			|| ((lpState->getStateAddress()+lpState->getStateLength())>this->memory.getSize()) )
+			|| (lpState->getMinimumAccessLength() > this->sigCompMessage->stateId.getSize())
+			|| ((lpState->getStateAddress()+lpState->getStateLength()) > this->memory.getSize()) )
 		{
 			this->createNackInfo(STATE_NOT_FOUND, &this->sigCompMessage->stateId, 0);
 			this->isOK = false;
@@ -102,8 +102,8 @@ SigCompUDVM::SigCompUDVM(const SigCompMessage* _sigCompMessage, const SigCompSta
 		//
 		// Copy bytecodes to UDVM memory
 		//
-		size_t bytecodes_destination = this->sigCompMessage->bytecodes_destination;
-		if( (bytecodes_destination+this->sigCompMessage->uploaded_UDVM_buffer.getSize())>=this->memory.getSize() )
+		uint16_t bytecodes_destination = this->sigCompMessage->bytecodes_destination;
+		if( (bytecodes_destination + this->sigCompMessage->uploaded_UDVM_buffer.getSize())>=this->memory.getSize() )
 		{
 			this->createNackInfo(BYTECODES_TOO_LARGE);
 			this->isOK = false;

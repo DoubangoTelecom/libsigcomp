@@ -45,8 +45,7 @@ SigCompCompressorDisp::SigCompCompressorDisp(const SigCompStateHandler* _stateHa
 SigCompCompressorDisp::~SigCompCompressorDisp()
 {
 	// Clear compressors
-	std::list<SigCompCompressor* >::iterator it_compressors;
-	SAFE_CLEAR_LIST(this->compressors, it_compressors);
+	SAFE_CLEAR_LIST(this->compressors);
 }
 
 /**
@@ -80,11 +79,11 @@ bool SigCompCompressorDisp::compress(uint64_t compartmentId, LPCVOID input_ptr, 
 	if(stream)
 	{
 		size_t escapedBufferSize = (output_size + 2); // 2 = strlen(0xffff)
-		for(register int i=0;i<output_size;i++) escapedBufferSize += ((uint8_t*)output_ptr)[i]==0xff?1:0;
+		for(register size_t i=0;i<output_size;i++) escapedBufferSize += ((uint8_t*)output_ptr)[i]==0xff?1:0;
 		uint8_t* escapedBuffer = (uint8_t*)malloc(escapedBufferSize);
 		assert(escapedBuffer);
 
-		for(register int i=0, j=0; i<output_size; i++, j++)
+		for(register size_t i=0, j=0; i<output_size; i++, j++)
 		{
 			escapedBuffer[j] = ((uint8_t*)output_ptr)[i];
 			if(escapedBuffer[j] == 0xff) 

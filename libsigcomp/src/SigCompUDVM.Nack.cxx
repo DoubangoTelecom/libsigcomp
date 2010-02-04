@@ -92,7 +92,7 @@ void SigCompUDVM::createNackInfo(uint8_t reasonCode, SigCompBuffer* lpDetails, i
 	}
 	else if(reasonCode == BYTECODES_TOO_LARGE)
 	{
-		uint16_t memorySize = this->memory.getSize();
+		size_t memorySize = this->memory.getSize();
 		this->lpResult->getNackInfo()->appendBuff(&memorySize, 2);
 	}
 	else if(reasonCode == CYCLES_EXHAUSTED)

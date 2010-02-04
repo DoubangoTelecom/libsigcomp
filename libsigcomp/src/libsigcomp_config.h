@@ -76,8 +76,9 @@
 #	pragma warning ( disable : 4275 )
 #	pragma warning ( disable : 4244 )
 #	pragma warning ( disable : 4018 )
+#	pragma warning ( disable : 4996 ) /* _CRT_SECURE_NO_WARNINGS */
 
-#	define	_CRT_SECURE_NO_WARNINGS
+//#	define	_CRT_SECURE_NO_WARNINGS
 #endif
 
 //
@@ -120,11 +121,11 @@
 //
 #define SAFE_DELETE_PTR(ptr) {if(ptr){delete ptr; ptr=NULL;}}
 #define SAFE_DELETE_ARRAY(ptr) {if(ptr){delete []ptr; ptr=NULL;}}
-#define SAFE_CLEAR_LIST(list, it)											\
+#define SAFE_CLEAR_LIST(list)												\
+	while(!list.empty())													\
 	{																		\
-		for ( it=list.begin(); it!=list.end(); it++ )						\
-			SAFE_DELETE_PTR(*it);											\
-		list.clear();														\
+		SAFE_DELETE_PTR(list.back());										\
+		list.pop_back();													\
 	}
 
 #define SAFE_CLEAR_MAP(map, it)											\

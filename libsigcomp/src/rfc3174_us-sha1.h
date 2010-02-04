@@ -68,14 +68,8 @@ typedef struct SHA1Context
  */
 
 int32_t SHA1Reset(  SHA1Context *);
-int32_t SHA1Input(  SHA1Context *,
-                const uint8_t *,
-                unsigned int32_t);
-int32_t SHA1Result( SHA1Context *,
-                uint8_t Message_Digest[SHA1HashSize]);
-void SHA1Final(uint8_t *Message_Digest, 
-			   SHA1Context *context);
-
-
+int32_t SHA1Input(  SHA1Context *, const uint8_t *, size_t int32_t);
+int32_t SHA1Result( SHA1Context *, uint8_t Message_Digest[SHA1HashSize]);
+void SHA1Final(uint8_t *Message_Digest, SHA1Context *context);
 
 #endif // _RFC3174_US_SHA1_H_

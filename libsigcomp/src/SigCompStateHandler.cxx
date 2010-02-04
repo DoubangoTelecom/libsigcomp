@@ -216,7 +216,7 @@ void SigCompStateHandler::handleResult(lpDecompressionResult &lpResult)
 				size_t oldSize = lpState->getStateValue()->getSize();
 				size_t newSize = (compartment_total_size-64);
 				lpState->getStateValue()->removeBuff( newSize, (oldSize-newSize) );
-				lpState->setStateLength(newSize);
+				lpState->setStateLength((uint16_t)newSize);
 
 				lpCompartment->addState(lpState);
 			}

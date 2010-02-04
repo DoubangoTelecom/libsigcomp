@@ -87,15 +87,15 @@ INLINE bool SigCompBuffer::startsWith(const SigCompBuffer* buff)const
 	return true;
 }
 
-/*INLINE*/ const size_t SigCompBuffer::getSize() const
+/*INLINE*/ size_t SigCompBuffer::getSize() const
 {
 	return this->size;
 }
 
-INLINE const size_t SigCompBuffer::getRemainingBits()const
+INLINE size_t SigCompBuffer::getRemainingBits()const
 {
-	int64_t result = ((this->size*8)-((this->index_bytes*8)+this->index_bits));
-	return (result<0)?0:result;
+	int64_t result = (int64_t)((this->size*8)-((this->index_bytes*8) + this->index_bits));
+	return (result<0) ? 0 : (size_t)result;
 }
 
 INLINE const uint8_t* SigCompBuffer::getReadOnlyBuffer(size_t position/*=0*/)const
@@ -126,7 +126,7 @@ uint16_t SigCompBuffer::readMsbToLsb(size_t length)
 	// UDV Memory is always MSB first
 	// MSB  --> LSB
 	//
-	int8_t pos = 0;
+	size_t pos = 0;
 	uint16_t result_val = 0;
 	char result_str[16]; memset(result_str, NULL, 16);
 	while(pos < length)
@@ -141,7 +141,7 @@ uint16_t SigCompBuffer::readMsbToLsb(size_t length)
 	}
 	
 	char* end = (result_str+length);
-	result_val = strtol(result_str, &end, 2);
+	result_val = (uint16_t)strtol(result_str, &end, 2);
 	
 	return result_val;
 }
@@ -167,7 +167,7 @@ uint16_t SigCompBuffer::readLsbToMsb(size_t length)
 	}
 	
 	char* end = (result_str+length);
-	result_val = strtol(result_str, &end, 2);
+	result_val = (uint16_t)strtol(result_str, &end, 2);
 
 	return result_val;
 }
@@ -312,16 +312,13 @@ void SigCompBuffer::freeBuff()
 	this->size = this->index_bytes = this->index_bits = NULL;
 }
 
+#if defined(_DEBUG) || defined(DEBUG)
 void SigCompBuffer::print(int64_t size/*=-1*/)
 {
-#if !_DEBUG && !DEBUG
-	assert(0);
-#endif
-
-	size_t size_to_print = (size<0)?this->size:size;
+	size_t size_to_print = (size_t) ((size < 0) ? this->size : size);
 	if( !size_to_print ) return;
 
-	for(int i=0; i<size_to_print; i+=2)
+	for(size_t i=0; i<size_to_print; i+=2)
 	{
 		char s[10]; memset(s, 0, 10);
 		uint16_t value;
@@ -349,6 +346,7 @@ void SigCompBuffer::print(int64_t size/*=-1*/)
 	}
 	std::cout << std::endl << std::endl;
 }
+#endif
 
 __NS_DECLARATION_END__
 
