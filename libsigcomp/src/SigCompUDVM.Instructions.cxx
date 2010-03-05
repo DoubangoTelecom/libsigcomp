@@ -1148,9 +1148,11 @@ bool SigCompUDVM::EXEC_INST__INPUT_BITS(uint16_t length, uint16_t destination, u
 	const uint8_t F_BIT = (input_bit_order & 0x0004)?1:0;
 	const uint8_t P_BIT = (input_bit_order & 0x0001);
 
-	/*Decompression failure occurs if this operand (length) does not lie between 0
-	and 16 inclusive.*/
-	if( length<0 || length>16)
+	/*
+		Decompression failure occurs if this operand (length) does not lie between 0
+		and 16 inclusive.
+	*/
+	if( length>16 )
 	{
 		this->createNackInfo(INVALID_OPERAND);
 		return false;

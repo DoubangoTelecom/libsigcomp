@@ -64,9 +64,11 @@ Lock section
 void Mutex::lock()
 {
 #if defined(USE_WIN32_THREADS)
-	assert(WaitForSingleObject(*((HANDLE*)this->lphandle), INFINITE) != WAIT_FAILED);
+	DWORD ret = WaitForSingleObject(*((HANDLE*)this->lphandle), INFINITE);
+	assert(ret != WAIT_FAILED);
 #elif defined(USE_PTHREAD_TRHREADS)
-	assert(!pthread_mutex_lock((pthread_mutex_t*)this->lphandle));
+	int ret = pthread_mutex_lock((pthread_mutex_t*)this->lphandle);
+	assert(ret == 0);
 #endif
 }
 
@@ -76,9 +78,11 @@ Unlock section
 void Mutex::unlock()
 {
 #if defined(USE_WIN32_THREADS)
-	assert(ReleaseMutex(*((HANDLE*)this->lphandle)));
+	DWORD ret = ReleaseMutex(*((HANDLE*)this->lphandle));
+	assert(ret);
 #elif defined(USE_PTHREAD_TRHREADS)
-	assert(!pthread_mutex_unlock((pthread_mutex_t*)this->lphandle));
+	int ret = pthread_mutex_unlock((pthread_mutex_t*)this->lphandle);
+	assert(ret == 0);
 #endif
 }
 
