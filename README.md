@@ -61,9 +61,9 @@ The goal of this project is to provide a SigComp framework which:<br>
 <h2>MORE INFORMATION</h2>
 </li><li>If you have any problem please look at <a href='Getting_Started.md'>Getting started guide</a>
 </li><li>To have feedbacks or if you are interested for IOTs don’t hesitate to contact me at diopmamadou{at yahoo}dot fr. <br>
-</li><li>libSigComp homepage: <a href='http://code.google.com/p/libsigcomp/'>http://code.google.com/p/libsigcomp/</a><br>
+</li><li>libSigComp homepage: <a href='https://github.com/DoubangoTelecom/libsigcomp/'>https://github.com/DoubangoTelecom/libsigcomp/</a><br>
 <br>
-<b>© 2009-2015 Doubango Telecom</b><br>
+<b>© 2009-2015 [Doubango Telecom](https://doubango.org)</b><br>
 <br>
 <br>
 <a href='http://www.gnu.org/graphics/lgplv3-88x31.png'><img src='http://www.gnu.org/graphics/lgplv3-88x31.png' /></a>
